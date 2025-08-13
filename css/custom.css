@@ -1,0 +1,125 @@
+/* Custom Styles for Chicanos Theme */
+
+#wrapper-navbar {
+  background-color: #FBF5ED; /* brand-beige */
+  border-bottom: 2px solid #000;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+#main-nav .navbar-nav .nav-item .nav-link {
+  color: #000; /* brand-black */
+  font-family: "Proxima Nova Extra Condensed", sans-serif;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+  padding-bottom: 0.5rem;
+}
+
+#main-nav .navbar-nav .nav-item.current-menu-item .nav-link {
+  border-bottom: 4px solid #000; /* brand-black */
+}
+
+#main-nav .navbar-icons .navbar-icon {
+  color: #000; /* brand-black */
+  font-size: 24px;
+  margin-left: 15px;
+}
+
+#main-nav .custom-logo-link img {
+  max-width: 200px;
+  height: auto;
+}
+
+/* --- Footer Styles --- */
+
+#wrapper-footer {
+  background-color: #F9CB38; /* brand-yellow */
+  /* IMPORTANT: You need to add your pattern image to the /img/ folder
+     and replace 'footer-pattern.png' with the real file name. */
+  background-image: url('../img/footer-pattern.png');
+  background-repeat: repeat;
+  padding: 5rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+#wrapper-footer .footer-bird {
+  position: absolute;
+  top: -80px;
+  right: 30px;
+  width: 180px;
+  height: auto;
+  z-index: 1;
+}
+
+#wrapper-footer .container {
+  position: relative;
+  z-index: 2;
+}
+
+#wrapper-footer h2 {
+  font-family: "Proxima Nova Extra Condensed", sans-serif;
+  font-weight: 800;
+  font-size: 52px;
+  line-height: 1;
+  color: #000; /* brand-black */
+  margin-bottom: 2rem;
+}
+
+#wrapper-footer h5 {
+  font-family: "Proxima Nova Extra Condensed", sans-serif;
+  font-weight: 800;
+  font-size: 24px;
+  color: #000; /* brand-black */
+  margin-bottom: 1rem;
+}
+
+#wrapper-footer .footer-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#wrapper-footer .footer-menu li {
+  margin-bottom: 0.5rem;
+}
+
+#wrapper-footer .footer-menu a {
+  font-family: "Proxima Nova Extra Condensed", sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  color: #000; /* brand-black */
+  text-decoration: none;
+}
+
+#wrapper-footer .footer-menu a:hover {
+  text-decoration: underline;
+}
+
+#wrapper-footer .footer-contact-info,
+#wrapper-footer .footer-legal {
+  font-family: "Proxima Nova Extra Condensed", sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  color: #000; /* brand-black */
+}
+
+#wrapper-footer .footer-legal {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid #000; /* brand-black */
+  font-size: 16px;
+}
+
+#wrapper-footer .footer-section {
+  padding-bottom: 2rem;
+}
+
+/* --- Homepage Styles --- */
+.homepage-section {
+    padding: 60px 0;
+    border-bottom: 1px solid #ddd;
+}
+/*# sourceMappingURL=custom.css.map */

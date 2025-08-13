@@ -3,5 +3,19 @@
 // Just copy a variable from src/sass/bootstrap4/_variables.scss, paste it here and edit the value.
 
 
-$purple: #5533ff; // Thats a sample how you could change a BootStrap variable.
+// --- Chicanos Theme Color Palette ---
+
+// Primary & Accent Colors
+$brand-teal:   #00AEA6; // For cards, headers, etc.
+$brand-pink:   #FAD3DB; // For forms, info backgrounds, etc.
+$brand-yellow: #F9CB38; // For the footer background, etc.
+
+// Neutral Colors
+$brand-black:  #000;    // Primary text color
+$brand-beige:  #FBF5ED; // For header background, some text, etc.
+
+
+// --- Understrap Original Variables ---
+// You can keep these for reference or remove them if you don't use them.
+$purple: #000; // Thats a sample how you could change a BootStrap variable.
 $primary: $purple;  // Once we've changed the value, we'll also make it the primary brand color.

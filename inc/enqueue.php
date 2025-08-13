@@ -29,6 +29,20 @@ if ( ! function_exists( 'understrap_scripts' ) ) {
 
 		$css_version = $theme_version . '.' . filemtime( get_template_directory() . $theme_styles );
 		wp_enqueue_style( 'understrap-styles', get_template_directory_uri() . $theme_styles, array(), $css_version );
+		wp_enqueue_style( 'fontawesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css', array(), '5.15.4' );
+				wp_enqueue_style( 'chicanos-custom-styles', get_template_directory_uri() . '/css/custom.css', array('understrap-styles'), $css_version );
+
+		if ( is_page_template( 'page-templates/template-homepage.php' ) ) {
+			wp_enqueue_style( 'chicanos-homepage-styles', get_template_directory_uri() . '/css/homepage.css', array('chicanos-custom-styles'), $css_version );
+		}
+
+		if ( is_page_template( 'page-templates/template-distribution.php' ) ) {
+			wp_enqueue_style( 'chicanos-distribution-styles', get_template_directory_uri() . '/css/distribution.css', array('chicanos-custom-styles'), $css_version );
+		}
+
+		if ( is_page_template( 'page-templates/template-delivery.php' ) ) {
+			wp_enqueue_style( 'chicanos-delivery-styles', get_template_directory_uri() . '/css/delivery.css', array('chicanos-custom-styles'), $css_version );
+		}
 
 		// Fix that the offcanvas close icon is hidden behind the admin bar.
 		if ( 'bootstrap4' !== $bootstrap_version && is_admin_bar_showing() ) {
