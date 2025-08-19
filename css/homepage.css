@@ -1,8 +1,38 @@
 /* Homepage styles */
 #hero {
-  padding: 60px 0;
+  padding: 60px 0 60px 0;
   position: relative;
-  overflow: hidden; /* Prevent overflow */
+  overflow: visible; /* Allow overflow to see the hero-layer */
+  z-index: 10;
+}
+
+/* Remove lines between sections */
+.homepage-section {
+  border: none !important;
+  border-top: none !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+}
+
+.homepage-section + .homepage-section {
+  border-top: none !important;
+  margin-top: 0 !important;
+}
+
+/* Remove any default WordPress/Understrap borders */
+hr, .hr {
+  display: none !important;
+}
+
+.container hr, .row hr {
+  display: none !important;
+}
+
+p {
+    font-family: "Quicksand", sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.0;
 }
 
 .hero-text-container {
@@ -12,13 +42,18 @@
   align-items: center; /* Center horizontally */
   text-align: center;
   width: 100%; /* Ensure it takes full width */
+  position: relative;
+  z-index: 10; /* Asegurar que esté por encima del patrón */
 }
 
 .hero-text-container h1 {
     font-size: 3rem;
-    font-weight: bold;
+    font-weight: 900;
     color: #333;
     margin-top: 20px;
+    position: relative;
+    z-index: 10; /* Asegurar que el texto esté por encima */
+    font-family: "Proxima Nova Extra Condensed", sans-serif;
 }
 
 .hero-images {
@@ -33,20 +68,25 @@
 
 .hero-image-container {
     position: absolute;
-    top: 50%;
-    right: 50px; /* Adjust distance from the right */
+    top: 75%;
+    right: 2.5%;
     transform: translateY(-50%);
-    width: 250px; /* Adjust width as needed */
-    z-index: 1;
+    width: 270px;
+    z-index: 10;
+    pointer-events: none;
 }
 
 .hero-layer {
   width: 100%;
   height: auto;
+  z-index: 10;
+  position: relative;
 }
 
 #home-section-1 {
     padding-top: 50px;
+    position: relative;
+    z-index: 1;
 }
 
 /* Card link styles */
@@ -57,6 +97,10 @@
     text-decoration: none;
     color: #fff;
     transition: transform 0.3s;
+    position: relative;
+    z-index: 10;
+    overflow: hidden;
+    border-radius: 0;
 }
 
 .card-link:hover {
@@ -69,11 +113,13 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-radius: 0;
 }
 
 .card-link h3 {
     margin: 0;
     font-size: 1.5rem;
+    font-family: "Proxima Nova Extra Condensed", sans-serif;
 }
 
 .card-link .arrow {
@@ -82,9 +128,22 @@
 }
 
 .card-link img {
-    width: 100%;
-    height: auto;
+    width: 400px !important;
+    height: 360px !important;
     display: block;
+    transition: transform 0.3s ease;
+    -o-object-fit: cover;
+    object-fit: cover;
+    border-radius: 0;
+}
+
+.card-link:hover img {
+    transform: scale(1.02);
+}
+
+.card-link:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
 }
 
 /* Scrolling banner styles */
@@ -93,6 +152,8 @@
     padding: 20px 0;
     overflow: hidden;
     white-space: nowrap;
+    position: relative;
+    z-index: 1;
 }
 
 #scrolling-banner .scrolling-banner-inner {
@@ -133,9 +194,10 @@
 }
 
 .content-section h2 {
-    font-size: 2.5rem;
-    font-weight: bold;
+    font-size: 2.2rem;
+    font-weight: 800;
     margin-bottom: 20px;
+    font-family: "Proxima Nova Extra Condensed", sans-serif;
 }
 
 .image-frame {
@@ -153,21 +215,45 @@
     height: auto;
 }
 
+#home-section-1 {
+    padding-top: 200px;
+    padding-bottom: 100px;
+    background-color: #FBF5ED;
+    position: relative;
+    z-index: 5;
+}
+
+#home-section-1 .home-section-1-background-pattern {
+    position: absolute;
+    bottom: 80px;
+    left: 0;
+    width: 100%;
+    height: 175px;
+    /* IMPORTANT:
+    /* Need to add the correct background image to the pattern */
+    background-image: url('../img/cross-layer-x-yellow.png');
+    background-repeat: repeat;
+    z-index: 1;
+}
+
+#home-section-2, #home-section-3, #home-section-4, #home-section-5, #home-section-6, #home-section-7, #home-form-section {
+    background-color: #FBF5ED;
+}
+
 #home-section-5 .home-section-5-text {
     padding-left: 2rem;
 }
 
 #home-section-5 .home-section-5-text p {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Quicksand', sans-serif;
     font-size: 1.1rem;
     color: #555;
-    line-height: 1.6;
 }
 
 #home-section-5 .home-section-5-text h2 {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 2.5rem;
-    font-weight: 700;
+    font-family: 'Proxima Nova Extra Condensed', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 800;
     color: #000;
     margin-top: 20px;
 }
@@ -178,24 +264,24 @@
 }
 
 #home-section-6 h2 {
-    font-size: 2.5rem;
-    font-weight: 700;
+    font-size: 2.2rem;
+    font-weight: 800;
     margin-bottom: 20px;
 }
 
 #home-section-6 p {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Quicksand', serif;
     font-size: 1.1rem;
     color: #555;
-    line-height: 1.6;
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
 }
 
 #home-section-7 .ideal-for-title {
-    font-weight: 700;
+    font-weight: 800;
     margin-bottom: 40px;
+    font-style: italic;
 }
 
 #home-section-7 .event-item img {
@@ -204,88 +290,237 @@
 }
 
 #home-section-7 .event-item p {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Quicksand', serif;
     font-size: 1.1rem;
     color: #555;
-    line-height: 1.4;
+    line-height: 0.8 !important;
 }
 
 #home-form-section {
-    padding: 80px 0;
+    padding: 80px 0 300px 0;
     position: relative;
 }
 
 #home-form-section .form-wrapper {
     background-color: #fde8f0;
     border: 2px solid #000;
-    padding: 40px;
+    padding: 0;
     position: relative;
     z-index: 2;
+    overflow: hidden;
 }
 
+#home-form-section .form-text-col {
+    background-color: #fde8f0;
+    padding: 70px 60px;
+    display: block;
+    position: relative;
+}
+
+#home-form-section .form-text-content {
+    width: 100%;
+    max-width: 500px;
+}
+
+/* Mejoras adicionales para el texto */
 #home-form-section .form-text-col h2 {
-    font-weight: 700;
-    font-size: 2.8rem;
-    margin-bottom: 20px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 #home-form-section .form-text-col p {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.2rem;
-    color: #555;
+    opacity: 0.9;
+    margin-top: 5px;
+}
+
+#home-form-section .form-text-col h2 {
+    font-weight: 800;
+    font-size: 2.6rem;
+    margin-bottom: 25px;
+    color: #000;
+    font-family: "Proxima Nova Extra Condensed", sans-serif;
+    line-height: 1.1;
+    text-align: left;
+    letter-spacing: -0.02em;
+}
+
+#home-form-section .form-text-col p {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.4rem;
+    color: #000;
+    line-height: 1.5;
+    margin: 0;
+    text-align: left;
+    font-weight: 500;
+    
+    
 }
 
 #home-form-section .form-fields-col {
     background-color: #e5407d;
-    padding: 40px;
-    color: #fff;
+    padding: 70px 60px;
+    color: #000;
+    position: relative;
+}
+
+/* Divider line between the two sections */
+#home-form-section .form-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%; 
+    height: 100%;
+    width: 2px;
+    background-color: #000;
+    z-index: 3;
+}
+
+/* Additional improvements for the form */
+#home-form-section .form-wrapper {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+#home-form-section .form-text-col {
+    position: relative;
+}
+
+#home-form-section .form-fields-col {
+    position: relative;
+}
+
+/* Styles for the placeholders */
+.form-mockup input::-moz-placeholder, .form-mockup textarea::-moz-placeholder {
+    color: #999;
+    font-style: italic;
+    font-weight: 600 !important;
+}
+.form-mockup input::placeholder,
+.form-mockup textarea::placeholder {
+    color: #999;
+    font-style: italic;
+    font-weight: 600 !important;
+}
+
+/* Styles for the select */
+.form-mockup select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 16px;
+    padding-right: 45px;
 }
 
 .form-mockup .form-group {
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
 }
 
 .form-mockup label {
     display: block;
-    font-size: 0.9rem;
-    margin-bottom: .5rem;
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+    color: #fff;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 600;
 }
 
 .form-mockup input,
 .form-mockup textarea,
 .form-mockup select {
     width: 100%;
-    padding: .5rem;
+    padding: 12px 15px;
     border: 2px solid #000;
     background-color: #fff;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1rem;
+    color: #000;
+    border-radius: 0;
+    transition: all 0.3s ease;
+}
+
+/* Estilos específicos para los inputs de Name y Email - 50% de ancho */
+.form-mockup .form-group:nth-child(1) input,
+.form-mockup .form-group:nth-child(2) input {
+    width: 60%;
+}
+
+/* Mantener el resto de inputs al 100% */
+.form-mockup .form-group:nth-child(3) input,
+.form-mockup .form-group:nth-child(3) select,
+.form-mockup .form-group:nth-child(4) textarea,
+.form-mockup .form-group:nth-child(5) input {
+    width: 100%;
+}
+
+/* Estilos para el texto introductorio del formulario */
+.form-intro-text {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 500;
+    line-height: 0.8 !important;
+    margin-bottom: 1.5rem;
+    color: #333;
+}
+
+.form-mockup input:focus,
+.form-mockup textarea:focus,
+.form-mockup select:focus {
+    outline: none;
+    border-color: #f9d71c;
+    box-shadow: 0 0 0 3px rgba(249, 215, 28, 0.2);
 }
 
 .form-mockup textarea {
-    font-size: 0.9rem;
+    font-size: 1rem;
     color: #777;
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Agregar icono de calendario más grande y estilizado */
+.form-mockup input[type="date"],
+.form-mockup input[type="text"][placeholder*="DD/MM/YYYY"] {
+    padding-right: 45px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="%23000"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 24px;
 }
 
 .form-mockup button {
     background-color: #f9d71c;
     border: 2px solid #000;
     font-weight: bold;
-    padding: 10px 20px;
-    margin-top: 10px;
+    font-family: 'Quicksand', sans-serif;
+    padding: 15px 30px;
+    margin-top: 20px;
+    font-size: 1.1rem;
+    color: #000;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 0;
+}
+
+.form-mockup button:hover {
+    background-color: #f0d000;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 #home-form-section .form-background-pattern {
     position: absolute;
-    bottom: -20px;
+    bottom: 170px;
     left: 0;
     width: 100%;
-    height: 60px;
+    height: 290px;
     background-image: url('../img/cross-layer-x.png');
     background-repeat: repeat;
     z-index: 1;
 }
 
 
-/* Responsive adjustments */
+/* Responsive adjustments for the form */
 @media (max-width: 768px) {
   #hero {
     overflow: visible; /* Allow overflow on mobile to see the image */
@@ -306,5 +541,78 @@
   .content-section .col-md-6 {
       margin-bottom: 30px;
   }
+  
+  /* Form responsive adjustments */
+  #home-form-section .form-wrapper {
+    margin: 0 15px;
+  }
+  
+  #home-form-section .form-text-col,
+  #home-form-section .form-fields-col {
+    padding: 40px 30px;
+  }
+  
+  #home-form-section .form-text-col h2 {
+    font-size: 2.5rem;
+    text-align: left;
+  }
+  
+  #home-form-section .form-text-col p {
+    font-size: 1.2rem;
+    text-align: left;
+  }
+  
+  /* Hide divider line on mobile */
+  #home-form-section .form-wrapper::after {
+    display: none;
+  }
+  
+  /* Stack columns on mobile */
+  #home-form-section .form-text-col,
+  #home-form-section .form-fields-col {
+    width: 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+/* Text alignment utility class */
+.text-right {
+  text-align: right !important;
+}
+
+/* Ensure cards maintain proper structure */
+#home-section-1 .card-link {
+    text-align: center !important;
+    overflow: hidden !important;
+}
+
+/* Mobile responsive styles */
+@media (max-width: 767px) {
+    #home-section-1 .row {
+        flex-direction: column !important;
+    }
+    
+    #home-section-1 .col-md-4 {
+        width: 100% !important;
+        max-width: none !important;
+        margin: 0 auto 20px auto !important;
+        padding: 0 15px !important;
+    }
+    
+    #home-section-1 .card-link {
+        margin: 0 !important;
+        width: 100% !important;
+    }
+    
+    #home-section-1 .card-link + .card-link {
+        margin-left: 0 !important;
+    }
+    
+    #home-section-1 .card-link img {
+        width: 100% !important;
+        max-width: none !important;
+        height: 300px !important;
+    }
 }
 /*# sourceMappingURL=homepage.css.map */

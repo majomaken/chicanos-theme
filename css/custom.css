@@ -15,9 +15,14 @@
   font-weight: 800;
   line-height: normal;
   padding-bottom: 0.5rem;
+  margin-right: 30px; /* Espacio entre elementos del menú */
 }
 
 #main-nav .navbar-nav .nav-item.current-menu-item .nav-link {
+  border-bottom: 4px solid #000; /* brand-black */
+}
+
+#main-nav .navbar-nav .nav-item .nav-link:hover {
   border-bottom: 4px solid #000; /* brand-black */
 }
 
@@ -32,26 +37,53 @@
   height: auto;
 }
 
+#main-nav .navbar-logo {
+  max-height: 60px;
+  width: auto;
+  -o-object-fit: contain;
+  object-fit: contain;
+}
+
+#main-nav .navbar-brand {
+  display: flex;
+  align-items: center;
+  padding: 0;
+}
+
 /* --- Footer Styles --- */
 
 #wrapper-footer {
-  background-color: #F9CB38; /* brand-yellow */
-  /* IMPORTANT: You need to add your pattern image to the /img/ folder
-     and replace 'footer-pattern.png' with the real file name. */
-  background-image: url('../img/footer-pattern.png');
-  background-repeat: repeat;
-  padding: 5rem 0;
+  background-color: #F9CB38; /* brand-yellow normal */
   position: relative;
-  overflow: hidden;
+  overflow: visible;
+}
+
+#wrapper-footer::before {
+  content: '';
+  position: absolute;
+  top: 20px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    url('../img/group2-3(2).png');
+  background-repeat: 
+    repeat,
+    repeat;
+    background-position-x: 8px, 26px, 0px;
+    background-size: 86px 200px; /* 140px + 160px de espacio vertical */
+    opacity: 0.6;
+    z-index: 1;
 }
 
 #wrapper-footer .footer-bird {
   position: absolute;
-  top: -80px;
+  top: -190px; /* Mover aún más arriba */
   right: 30px;
   width: 180px;
   height: auto;
-  z-index: 1;
+  z-index: 10; /* Aumentar z-index para asegurar que esté por encima */
+  transform: scaleX(-1);
 }
 
 #wrapper-footer .container {
@@ -62,18 +94,32 @@
 #wrapper-footer h2 {
   font-family: "Proxima Nova Extra Condensed", sans-serif;
   font-weight: 800;
-  font-size: 52px;
-  line-height: 1;
+  font-size: 40px; 
+  line-height: 60px; 
   color: #000; /* brand-black */
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
+  background-color: #F9CB38;
+  padding: 10px 15px;
+  border-radius: 5px;
+  display: inline-block;
+  /* Sombra sutil sin blur */
+  box-shadow: 0 0 8px rgba(249, 203, 56, 0.4);
+  filter: none;
 }
 
 #wrapper-footer h5 {
-  font-family: "Proxima Nova Extra Condensed", sans-serif;
+  font-family: "Quicksand", sans-serif;
   font-weight: 800;
   font-size: 24px;
   color: #000; /* brand-black */
   margin-bottom: 1rem;
+  background-color: #F9CB38;
+  padding: 12px 12px;
+  border-radius: 5px;
+  display: inline-block;
+  /* Sombra sutil sin blur */
+  box-shadow: 0 0 6px rgba(249, 203, 56, 0.4);
+  filter: none;
 }
 
 #wrapper-footer .footer-menu {
@@ -87,11 +133,19 @@
 }
 
 #wrapper-footer .footer-menu a {
-  font-family: "Proxima Nova Extra Condensed", sans-serif;
+  font-family: "Quicksand", sans-serif;
   font-weight: 400;
   font-size: 20px;
   color: #000; /* brand-black */
   text-decoration: none;
+  background-color: #F9CB38;
+  padding: 12px 12px;
+  border-radius: 5px;
+  display: inline-block;
+  margin-bottom: 5px;
+  /* Sombra sutil sin blur */
+  box-shadow: 0 0 5px rgba(249, 203, 56, 0.3);
+  filter: none;
 }
 
 #wrapper-footer .footer-menu a:hover {
@@ -100,26 +154,641 @@
 
 #wrapper-footer .footer-contact-info,
 #wrapper-footer .footer-legal {
-  font-family: "Proxima Nova Extra Condensed", sans-serif;
+  font-family: "Quicksand", sans-serif;
   font-weight: 400;
   font-size: 18px;
   color: #000; /* brand-black */
+  background-color: #F9CB38;
+  padding: 5px 10px;
+  border-radius: 5px;
+  display: inline-block;
+  margin-bottom: 5px;
+  /* Sombra sutil sin blur */
+  box-shadow: 0 0 4px rgba(249, 203, 56, 0.3);
+  filter: none;
 }
 
 #wrapper-footer .footer-legal {
   margin-top: 3rem;
   padding-top: 1.5rem;
-  border-top: 2px solid #000; /* brand-black */
   font-size: 16px;
+  background-color: #F9CB38;
+  padding: 8px 12px;
+  border-radius: 5px;
+  display: inline-block;
+  /* Sombra sutil sin blur */
+  box-shadow: 0 0 5px rgba(249, 203, 56, 0.3);
+  filter: none;
 }
 
 #wrapper-footer .footer-section {
   padding-bottom: 2rem;
 }
 
+/* Estilos para las ubicaciones */
+#wrapper-footer .footer-location {
+  margin-bottom: 2rem;
+}
+
+#wrapper-footer .footer-location h4 {
+  font-family: "Proxima Nova Extra Condensed", sans-serif;
+  font-weight: 800;
+  font-size: 28px;
+  color: #000;
+  margin-bottom: 1rem;
+  background: #F9CB38;
+  padding: 8px 12px;
+  border-radius: 12px;
+  display: inline-block;
+  position: relative;
+  transition: all 0.3s ease;
+  /* Efecto de sombra muy sutil */
+  box-shadow: 0 0 8px rgba(249, 203, 56, 0.5);
+  /* Sin blur para mantener las letras nítidas */
+  filter: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  /* Sin máscaras ni clip-path que puedan afectar el texto */
+  -webkit-mask-image: none;
+  mask-image: none;
+  -webkit-clip-path: none;
+  clip-path: none;
+  /* Sin mezcla que pueda afectar la legibilidad */
+  mix-blend-mode: normal;
+}
+
+#wrapper-footer .footer-location h4 i {
+  margin-right: 10px;
+  color: #000;
+}
+
+/* Efectos de glow eliminados para mejor legibilidad */
+
+/* Todos los efectos de glow adicionales eliminados para mejor legibilidad */
+
+/* Efectos hover suaves sin movimiento */
+#wrapper-footer .footer-location h4:hover {
+  box-shadow: 
+    0 0 20px rgba(249, 203, 56, 0.9),
+    0 0 40px rgba(249, 203, 56, 0.7);
+}
+
+#wrapper-footer .footer-location p:hover {
+  box-shadow: 
+    0 0 15px rgba(249, 203, 56, 0.9),
+    0 0 30px rgba(249, 203, 56, 0.7);
+}
+
+#wrapper-footer .footer-bottom-row:hover {
+  box-shadow: 
+    0 0 25px rgba(249, 203, 56, 0.9),
+    0 0 50px rgba(249, 203, 56, 0.7);
+}
+
+#wrapper-footer .footer-location p {
+  font-family: "Quicksand", sans-serif;
+  font-weight: 400;
+  font-size: 15px;
+  color: #000;
+  line-height: 1.6;
+  margin: 0;
+  background: #F9CB38;
+  padding: 6px 12px;
+  border-radius: 8px;
+  display: inline-block;
+  margin-bottom: 5px;
+  position: relative;
+  transition: all 0.3s ease;
+  /* Efecto de sombra muy sutil */
+  box-shadow: 0 0 6px rgba(249, 203, 56, 0.4);
+  /* Sin blur para mantener las letras nítidas */
+  filter: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  /* Sin máscaras ni clip-path que puedan afectar el texto */
+  -webkit-mask-image: none;
+  mask-image: none;
+  -webkit-clip-path: none;
+  clip-path: none;
+  /* Sin mezcla que pueda afectar la legibilidad */
+  mix-blend-mode: normal;
+}
+
+/* Estilos para el footer inferior */
+#wrapper-footer .footer-bottom-row {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  color: #000;
+  font-size: 13px;
+  font-weight: 700;
+  border-top: none !important; /* Eliminar la línea horizontal del footer */
+  background-color: #f9cb38; /* Fondo amarillo sólido para mejor legibilidad */
+  width: 100%; /* Ancho completo por defecto */
+  padding: 0.5rem 1rem; /* Ajustar padding horizontal para el fondo */
+  border-radius: 15px; /* Bordes más redondeados para mejor apariencia */
+  margin-left: 0; /* Sin margen en pantallas grandes */
+  margin-right: 0; /* Sin margen en pantallas grandes */
+  position: relative;
+  transition: all 0.3s ease;
+  /* Efecto de sombra muy sutil */
+  box-shadow: 0 0 10px rgba(249, 203, 56, 0.5);
+  /* Sin blur para mantener las letras nítidas */
+  filter: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+#wrapper-footer .footer-bottom-row .footer-legal-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#wrapper-footer .footer-bottom-row .footer-legal-menu li {
+  display: inline-block;
+  margin-right: 1.5rem;
+}
+
+#wrapper-footer .footer-bottom-row .footer-legal-menu li a {
+  color: #000;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+#wrapper-footer .footer-bottom-row .footer-legal-menu li a:hover {
+  text-decoration: underline;
+}
+
+#wrapper-footer .footer-bottom-row .text-right {
+  text-align: right;
+  font-weight: 700;
+}
+
 /* --- Homepage Styles --- */
 .homepage-section {
     padding: 60px 0;
     border-bottom: 1px solid #ddd;
+}
+
+/* --- Mobile Menu Styles --- */
+@media (max-width: 767.98px) {
+	/* Hide desktop navbar on mobile */
+	#main-nav:not(.mobile-navbar) {
+		display: none !important;
+	}
+
+	/* Show mobile navbar on mobile */
+	.mobile-navbar {
+		display: block !important;
+	}
+
+	/* Hide footer bottom border line on mobile */
+	#wrapper-footer .footer-bottom-row {
+		border-top: none;
+		width: 50%; /* Ancho reducido solo en móvil */
+		margin-left: 1.2rem; /* Margen izquierdo para mostrar el patrón */
+		margin-right: 1.2rem; /* Margen derecho para mostrar el patrón */
+	}
+
+	/* Todas las tarjetas tienen el mismo ancho en móvil */
+	@media (max-width: 767.98px) {
+		/* Cambiar el grid de las tarjetas principales para que todas sean iguales */
+		#home-section-1 .row .col-md-4 {
+			flex: 0 0 100% !important;
+			max-width: 100% !important;
+			margin-bottom: 1rem !important;
+			padding: 0 15px !important;
+		}
+
+		/* Eliminar estilos específicos para la tercera tarjeta */
+		#home-section-1 .row .col-md-4:nth-child(3) {
+			flex: 0 0 100% !important;
+			max-width: 100% !important;
+			margin-top: 0 !important;
+		}
+
+		/* Espaciado uniforme para todas las tarjetas */
+		#home-section-1 .row .col-md-4:nth-child(1),
+		#home-section-1 .row .col-md-4:nth-child(2) {
+			padding-right: 15px !important;
+			padding-left: 15px !important;
+		}
+
+		#home-section-1 .row .col-md-4:nth-child(1) {
+			padding-left: 15px !important;
+		}
+
+		#home-section-1 .row .col-md-4:nth-child(2) {
+			padding-right: 15px !important;
+		}
+
+		/* Agrupar imágenes de categorías de dos en dos en móvil */
+		#home-section-7 .row .col-md-3 {
+			flex: 0 0 50% !important;
+			max-width: 50% !important;
+			margin-bottom: 1.5rem;
+		}
+
+		/* Ajustar espaciado entre las imágenes de categorías */
+		#home-section-7 .row .col-md-3:nth-child(odd) {
+			padding-right: 0.5rem;
+		}
+
+		#home-section-7 .row .col-md-3:nth-child(even) {
+			padding-left: 0.5rem;
+		}
+
+		/* Centrar el texto debajo de las imágenes */
+		#home-section-7 .event-item p {
+			text-align: center;
+			margin-top: 0.5rem;
+		}
+
+		/* Ajustar título "Elige una ubicación" para que aparezca en dos líneas en móvil */
+		.location-title {
+			max-width: 200px;
+			margin: 0 auto;
+			word-wrap: break-word;
+			line-height: 1.2;
+		}
+
+		/* Sobrescribir estilos del location-title para que se vea correctamente en móvil */
+		#locations .location-title {
+			max-width: 100% !important;
+			word-wrap: normal !important;
+			white-space: normal !important;
+			overflow: visible !important;
+			font-size: 2rem !important;
+			line-height: 1.2 !important;
+			margin: 30px auto 40px auto !important;
+		}
+		
+		#locations .location-title br {
+			display: block !important;
+		}
+
+		/* Reorganizar estrellas en dos columnas en móvil */
+		.star-grid {
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			gap: 2rem;
+		}
+
+		.star-row {
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
+		}
+
+		.star {
+			display: block;
+			text-align: center;
+		}
+
+		/* Ajustar z-index del hero-layer-green para que aparezca por detrás del texto */
+		#distribution-hero .hero-layer-green-container {
+			z-index: 1 !important;
+		}
+
+		/* Asegurar que el texto esté por encima */
+		#distribution-hero h1.display-4 {
+			position: relative;
+			z-index: 10 !important;
+		}
+	}
+
+	/* Mejorar disposición de elementos del footer en móvil */
+	#wrapper-footer .footer-bottom-row .col-md-4 {
+		text-align: left;
+		margin-bottom: 1rem;
+	}
+
+	#wrapper-footer .footer-bottom-row .footer-legal-menu {
+		display: flex;
+		flex-direction: column;
+		align-items: left;
+		gap: 0.5rem;
+	}
+
+	#wrapper-footer .footer-bottom-row .footer-legal-menu li {
+		display: block;
+		margin-right: 0;
+		margin-bottom: 0.5rem;
+	}
+
+	#wrapper-footer .footer-bottom-row .text-right {
+		text-align: left !important;
+	}
+
+	/* Hide regular navbar on mobile */
+	.mobile-navbar .navbar-nav:not(.mobile-nav) {
+		display: none !important;
+	}
+
+	/* Mobile menu toggle button */
+	.mobile-menu-toggle {
+		display: block !important;
+		border: none;
+		background: transparent;
+		padding: 8px; /* Aumentar padding para área de clic más grande */
+		width: 44px; /* Aumentar ancho para área de clic más grande */
+		height: 44px; /* Aumentar alto para área de clic más grande */
+		position: relative;
+		z-index: 1001;
+		cursor: pointer; /* Agregar cursor pointer */
+		transition: all 0.3s ease; /* Transición suave */
+		/* Área de clic mínima recomendada por accesibilidad */
+		min-width: 44px;
+		min-height: 44px;
+	}
+
+	/* Área de clic extendida para mejor usabilidad */
+	.mobile-menu-toggle::before {
+		content: '';
+		position: absolute;
+		top: -8px;
+		left: -8px;
+		right: -8px;
+		bottom: -8px;
+		z-index: -1;
+	}
+
+	.mobile-menu-toggle:hover {
+		background-color: rgba(0, 0, 0, 0.1); /* Efecto hover sutil */
+		border-radius: 4px; /* Bordes redondeados en hover */
+	}
+
+	.mobile-menu-toggle:active {
+		background-color: rgba(0, 0, 0, 0.2); /* Efecto al hacer clic */
+		transform: scale(0.95); /* Efecto de presión sutil */
+	}
+
+	.mobile-menu-toggle .navbar-toggler-icon {
+		background-image: none;
+		position: relative;
+		width: 28px; /* Aumentar ancho de las líneas */
+		height: 28px; /* Aumentar alto del contenedor */
+		margin: 0 auto; /* Centrar las líneas */
+	}
+
+	.mobile-menu-toggle .navbar-toggler-icon::before,
+	.mobile-menu-toggle .navbar-toggler-icon::after {
+		content: '';
+		position: absolute;
+		width: 110%;
+		height: 3px;
+		background-color: #144C25; /* Cambiar color a verde */
+		transition: all 0.3s ease;
+		left: 0;
+		border-radius: 2px; /* Bordes redondeados en las líneas */
+	}
+
+	/* Solo dos líneas en lugar de tres */
+	.mobile-menu-toggle .navbar-toggler-icon::before {
+		top: 9px; /* Primera línea */
+	}
+
+	.mobile-menu-toggle .navbar-toggler-icon::after {
+		bottom: 9px; /* Segunda línea */
+	}
+
+	/* Remover la línea del medio */
+	.mobile-menu-toggle .navbar-toggler-icon {
+		background-color: transparent; /* Sin línea del medio */
+		top: 60%;
+		transform: translateY(-50%);
+	}
+
+	/* Animated hamburger to X */
+	.mobile-menu-toggle[aria-expanded="true"] .navbar-toggler-icon::before {
+		transform: rotate(45deg);
+		top: 50%;
+	}
+
+	.mobile-menu-toggle[aria-expanded="true"] .navbar-toggler-icon::after {
+		transform: rotate(-45deg);
+		bottom: 50%;
+	}
+
+	.mobile-menu-toggle[aria-expanded="true"] .navbar-toggler-icon {
+		background-color: transparent;
+	}
+
+	/* Mejorar el área de clic cuando está expandido */
+	.mobile-menu-toggle[aria-expanded="true"] {
+		background-color: rgba(255, 255, 255, 0.1); /* Fondo sutil cuando está abierto */
+		border-radius: 4px;
+	}
+
+	/* Indicador visual de que el botón está activo */
+	.mobile-menu-toggle:focus {
+		outline: 2px solid #F9CB38; /* Outline amarillo para accesibilidad */
+		outline-offset: 2px;
+	}
+
+	/* Mobile menu container */
+	.mobile-menu-wrapper {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100vh;
+		z-index: 1000;
+		display: none; /* Oculto por defecto */
+	}
+
+	.mobile-menu-container {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100vh;
+		background-color: rgba(0, 0, 0, 0.9);
+		z-index: 1000;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 2rem;
+		opacity: 0;
+		visibility: hidden;
+		transition: all 0.3s ease;
+	}
+
+	/* Show mobile menu when expanded */
+	#mobileMenu.show .mobile-menu-container {
+		opacity: 1;
+		visibility: visible;
+	}
+
+	/* Mobile navigation */
+	.mobile-nav {
+		width: 100%;
+		text-align: center;
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+
+	.mobile-nav .nav-item {
+		margin: 1.5rem 0;
+		opacity: 0;
+		transform: translateY(20px);
+		transition: all 0.3s ease;
+	}
+
+	/* Animate menu items when menu is shown */
+	#mobileMenu.show .mobile-nav .nav-item {
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+	/* Stagger animation for menu items */
+	#mobileMenu.show .mobile-nav .nav-item:nth-child(1) { transition-delay: 0.1s; }
+	#mobileMenu.show .mobile-nav .nav-item:nth-child(2) { transition-delay: 0.2s; }
+	#mobileMenu.show .mobile-nav .nav-item:nth-child(3) { transition-delay: 0.3s; }
+	#mobileMenu.show .mobile-nav .nav-item:nth-child(4) { transition-delay: 0.4s; }
+
+	.mobile-nav .nav-link {
+		color: #fff !important;
+		font-family: "Proxima Nova Extra Condensed", sans-serif;
+		font-size: 2.5rem !important;
+		font-weight: 800;
+		text-decoration: none;
+		transition: all 0.3s ease;
+		display: block;
+		padding: 1rem 0;
+		border-bottom: 2px solid transparent;
+	}
+
+	.mobile-nav .nav-link:hover,
+	.mobile-nav .nav-item.current-menu-item .nav-link {
+		color: #F9CB38 !important;
+		border-bottom-color: #F9CB38;
+		transform: scale(1.05);
+	}
+
+	/* Ensure navbar icons are visible on mobile */
+	.navbar-icons {
+		z-index: 1002;
+		position: relative;
+	}
+
+	/* Logo positioning on mobile */
+	.navbar-brand-container {
+		z-index: 1002;
+		position: relative;
+	}
+
+	/* Override Bootstrap collapse behavior */
+	.navbar-collapse {
+		position: static !important;
+		height: auto !important;
+		overflow: visible !important;
+	}
+
+	.navbar-collapse.collapse {
+		display: block !important;
+	}
+
+	.navbar-collapse.collapsing {
+		height: auto !important;
+		overflow: visible !important;
+	}
+}
+
+/* Desktop styles */
+@media (min-width: 768px) {
+	/* Hide mobile navbar on desktop */
+	.mobile-navbar {
+		display: none !important;
+	}
+
+	/* Show desktop navbar on desktop */
+	#main-nav:not(.mobile-navbar) {
+		display: block !important;
+	}
+
+	/* Hide mobile menu toggle on desktop */
+	.mobile-menu-toggle {
+		display: none !important;
+	}
+}
+
+/* ===================================
+   WOOCOMMERCE - PRODUCTOS EN TIENDA
+   =================================== */
+
+.combo-card-personalizado {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.combo-card-personalizado:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.combo-header {
+    padding: 15px;
+    text-align: center;
+}
+
+.combo-header h2 {
+    margin: 0 0 10px 0;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.combo-price {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #e74c3c;
+}
+
+.combo-imagen img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.combo-footer {
+    padding: 15px;
+    text-align: center;
+}
+
+/* ===================================
+   WOOCOMMERCE - PRODUCTO INDIVIDUAL
+   =================================== */
+
+.producto-personalizado-wrapper {
+    display: flex;
+    gap: 40px;
+    margin: 30px 0;
+}
+
+.columna-imagen {
+    flex: 1;
+    max-width: 50%;
+}
+
+.columna-opciones {
+    flex: 1;
+    max-width: 50%;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .producto-personalizado-wrapper {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .columna-imagen,
+    .columna-opciones {
+        max-width: 100%;
+    }
 }
 /*# sourceMappingURL=custom.css.map */

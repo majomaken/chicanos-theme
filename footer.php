@@ -19,11 +19,8 @@ $container = get_theme_mod( 'understrap_container_type' );
         <img src="<?php echo get_stylesheet_directory_uri(); ?>/img/pajaro.png" alt="Pájaro decorativo" class="footer-bird">
 		<div class="row">
 
-			<div class="col-md-4 footer-section">
+			<div class="col-md-6 footer-section">
                 <h2>¿Preguntas?<br>¡Contáctanos!</h2>
-            </div>
-
-            <div class="col-md-2 footer-section">
                 <ul class="footer-menu">
                     <li><a href="#">Home</a></li>
                     <li><a href="#">Menú</a></li>

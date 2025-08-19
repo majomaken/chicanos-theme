@@ -1,8 +1,9 @@
 /* Delivery Page Styles */
 #delivery-hero {
-    padding-top: 60px;
+    padding: 60px 0 60px 0;
     position: relative;
     background-color: #f8f9fa; /* A light grey for the checkered background */
+    z-index: 10;
 }
 
 #delivery-hero .pixel-flower {
@@ -11,31 +12,77 @@
 }
 
 #delivery-hero h1 {
-    font-weight: 700;
     margin-bottom: 40px;
+    font-family: "Proxima Nova Extra Condensed", sans-serif;
+    font-weight: 800;
+    font-size: 40px;
+    line-height: 60px;
+    color: #000;
 }
 
 #delivery-hero .hero-layer-pink-container {
     position: absolute;
-    top: 50%;
-    right: 0;
+    top: 75%;
+    right: 2.5%;
     transform: translateY(-50%);
-    width: 200px;
+    width: 270px;
+    z-index: 10;
+}
+
+#delivery-hero .hero-layer-pink {
+    width: 100%;
+    height: auto;
+    z-index: 10;
 }
 
 #locations {
-    padding: 80px 0;
+    padding: 120px 0 250px 0;
     position: relative;
+    z-index: 1;
+    background-color: #FBF5ED;
 }
 
 #locations .location-title {
-    font-weight: 700;
+    font-family: "Proxima Nova Extra Condensed", sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
     margin-bottom: 50px;
+    margin-top: 50px;
+}
+
+/* Ocultar el br en pantallas grandes */
+#locations .location-title br {
+    display: none;
+}
+
+/* Estilos responsive para el location-title en móvil */
+@media (max-width: 768px) {
+    #locations .location-title {
+        font-size: 2rem;
+        line-height: 1.2;
+        max-width: 100%;
+        margin: 30px auto 40px auto;
+        word-wrap: normal;
+        white-space: normal;
+        overflow: visible;
+    }
+    
+    #locations .location-title br {
+        display: block;
+    }
 }
 
 .location-card {
     border: 2px solid #000;
     margin-bottom: 30px;
+    border-radius: 0 !important;
+}
+
+/* Solo ajustar border-radius, mantener los bordes */
+.location-card,
+.location-card .card-header,
+.location-card .card-body {
+    border-radius: 0 !important;
 }
 
 .location-card .card-header {
@@ -48,7 +95,10 @@
 
 .location-card .card-header h3 {
     margin: 0;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
+    font-weight: 700;
+    font-family: "Proxima Nova Extra Condensed", sans-serif;
+    color: #fff;
 }
 
 .location-card .card-header .arrow {
@@ -59,7 +109,10 @@
 
 .location-card img {
     width: 100%;
-    height: auto;
+    height: 300px;
+    -o-object-fit: cover;
+    object-fit: cover;
+    display: block;
 }
 
 .location-card .card-body {
@@ -80,15 +133,19 @@
     color: #fff;
     margin-bottom: 1rem;
     font-size: 0.9rem;
+    font-family: "Quicksand", sans-serif;
+    font-weight: 500;
+    font-style: italic;
 }
 
 #locations .delivery-background-pattern {
     position: absolute;
-    bottom: -20px;
+    bottom: 170px;
     left: 0;
     width: 100%;
-    height: 60px;
+    height: 145px;
     background-image: url('../img/dark-green-cross-layer-x.png');
     background-repeat: repeat;
     z-index: -1;
 }
+/*# sourceMappingURL=delivery.css.map */

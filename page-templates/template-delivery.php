@@ -29,15 +29,15 @@ get_header();
 
 		<section id="locations" class="delivery-section">
 			<div class="container">
-				<h2 class="text-center location-title">Elige una ubicación</h2>
+				<h2 class="text-center location-title">Elige una <br>ubicación</h2>
 				<div class="row justify-content-center">
 					<div class="col-lg-5">
 						<div class="location-card nogal">
 							<div class="card-header">
 								<h3>Sede Nogal</h3>
-								<a href="#" class="arrow">→</a>
+								<a href="/domicilio-nogal" class="arrow">→</a>
 							</div>
-							<img src="https://via.placeholder.com/500x300" alt="Sede Nogal">
+							<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/sede-nogal.jpg" alt="Sede Nogal">
 							<div class="card-body">
 								<p>Desde la carrera 1 con 24<br>hasta la carrera 90 con 20</p>
 								<p>
@@ -53,9 +53,9 @@ get_header();
 						<div class="location-card castellana">
 							<div class="card-header">
 								<h3>Sede Castellana</h3>
-								<a href="#" class="arrow">→</a>
+								<a href="/domicilio-castellana" class="arrow">→</a>
 							</div>
-							<img src="https://via.placeholder.com/500x300" alt="Sede Castellana">
+							<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/sede-castellana.jpg" alt="Sede Castellana">
 							<div class="card-body">
 								<p>Desde la carrera 1 con 24<br>hasta la carrera 90 con 20</p>
 								<p>

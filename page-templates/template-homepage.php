@@ -14,6 +14,70 @@ get_header();
 
 ?>
 
+<style>
+/* Inline CSS to ensure image dimensions are applied - HIGHEST PRIORITY */
+#homepage-wrapper #home-section-1 .card-link img,
+#homepage-wrapper .card-link img,
+.card-link img {
+    width: 400px !important;
+    height: 360px !important;
+    max-width: 400px !important;
+    max-height: 360px !important;
+    min-width: 400px !important;
+    min-height: 360px !important;
+    object-fit: cover !important;
+    flex-shrink: 0 !important;
+    border-radius: 0 !important;
+}
+
+/* Ensure cards maintain proper structure */
+#home-section-1 .card-link {
+    text-align: center !important;
+    overflow: hidden !important;
+    border-radius: 0 !important;
+}
+
+#home-section-1 .card-link .card-header {
+    border-radius: 0 !important;
+}
+
+#home-section-1 .col-md-4 {
+    display: flex !important;
+    justify-content: center !important;
+}
+
+/* Mobile styles - HIGHEST PRIORITY */
+@media (max-width: 767px) {
+    #home-section-1 .row .col-md-4 {
+        flex: 0 0 100% !important;
+        max-width: 400px !important;
+        margin: 0 auto 1rem auto !important;
+        padding: 0 15px !important;
+    }
+    
+    /* Asegurar que TODAS las cards tengan el mismo ancho */
+    #home-section-1 .row .col-md-4:nth-child(1),
+    #home-section-1 .row .col-md-4:nth-child(2),
+    #home-section-1 .row .col-md-4:nth-child(3) {
+        flex: 0 0 100% !important;
+        max-width: 400px !important;
+        margin: 0 auto 1rem auto !important;
+        padding: 0 15px !important;
+    }
+    
+    #home-section-1 .card-link img {
+        width: 100% !important;
+        max-width: 400px !important;
+        min-width: auto !important;
+        height: 300px !important;
+    }
+    
+    #home-section-1 .card-link + .card-link {
+        margin-left: 0 !important;
+    }
+}
+</style>
+
 <div id="homepage-wrapper">
 	<main id="main" class="site-main" role="main">
 
@@ -30,7 +94,7 @@ get_header();
 							<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/bird-left.png" alt="Pájaro Izquierdo" class="bird-left">
 							<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/bird-rigth.png" alt="Pájaro Derecho" class="bird-right">
 						</div>
-						<h1>El auténtico sabor mexicano te espera</h1>
+						<h1>El auténtico sabor<br>mexicano te espera</h1>
 					</div>
 				</div>
 				<div class="hero-image-container">
@@ -45,33 +109,37 @@ get_header();
 			<div class="container">
 				<div class="row">
 					<div class="col-md-4">
-						<div class="card-link">
+						<a href="<?php echo site_url('/domicilio/'); ?>" class="card-link">
 							<div class="card-header">
 								<h3>Domicilios</h3>
 								<span class="arrow">→</span>
 							</div>
-							<img src="https://via.placeholder.com/400x300" alt="Domicilios">
-						</div>
+							<!-- Image path: <?php echo get_stylesheet_directory_uri(); ?>/img/domicilios.png -->
+							<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/domicilios.png" alt="Domicilios Chicanos">
+						</a>
 					</div>
 					<div class="col-md-4">
-						<div class="card-link">
+						<a href="<?php echo site_url('/combos-para-llevar/'); ?>" class="card-link">
 							<div class="card-header">
 								<h3>Menú</h3>
 								<span class="arrow">→</span>
 							</div>
-							<img src="https://via.placeholder.com/400x300" alt="Menú">
-						</div>
+							<!-- Image path: <?php echo get_stylesheet_directory_uri(); ?>/img/menu.png -->
+							<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/menu.png" alt="Menú Chicanos">
+						</a>
 					</div>
 					<div class="col-md-4">
-						<div class="card-link">
+						<a href="<?php echo site_url('/distribution/'); ?>" class="card-link">
 							<div class="card-header">
 								<h3>Distribución</h3>
 								<span class="arrow">→</span>
 							</div>
-							<img src="https://via.placeholder.com/400x300" alt="Distribución">
-						</div>
+							<!-- Image path: <?php echo get_stylesheet_directory_uri(); ?>/img/distribucion.png -->
+							<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/distribucion.png" alt="Distribución Chicanos">
+						</a>
 					</div>
 				</div>
+				<div class="home-section-1-background-pattern"></div>
 			</div>
 		</section>
 
@@ -119,8 +187,8 @@ get_header();
 			<div class="container">
 				<div class="row align-items-center">
 					<div class="col-md-6 order-md-2">
-						<h2>Fueron los primeros, pero están mejor que siempre.</h2>
-						<p>Tras inaugurar la explosión de restaurantes de comida mexicana en Bogotá hace tres décadas, Chicanos se convierte en La Casa que todos conocen y en la que siempre coinciden en volver.</p>
+						<h2 class="text-right">Fueron los primeros, pero están mejor que siempre.</h2>
+						<p class="text-right">Tras inaugurar la explosión de restaurantes de comida mexicana en Bogotá hace tres décadas, Chicanos se convierte en La Casa que todos conocen y en la que siempre coinciden en volver.</p>
 					</div>
 					<div class="col-md-6 order-md-1">
 						<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/flor-layer.png" alt="Flower" class="content-flower">
@@ -151,8 +219,8 @@ get_header();
 						<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/green-flowers.png" alt="Flores Verdes" class="img-fluid">
 					</div>
 					<div class="col-md-6 home-section-5-text">
-						<p>Sus platos llevan los nombres de sus célebres y viejos conocidos de los últimos treinta años. Ellos trajeron la experiencia de la comida mexicana a Colombia, pero siguen innovando. Son los que más saben lo que nos gusta por tradición.</p>
-						<h2>Los primeros,<br>mejor que siempre</h2>
+						<p class="text-right">Sus platos llevan los nombres de sus célebres y viejos conocidos de los últimos treinta años. Ellos trajeron la experiencia de la comida mexicana a Colombia, pero siguen innovando. Son los que más saben lo que nos gusta por tradición.</p>
+						<h2 class="text-right">Los primeros,<br>mejor que siempre</h2>
 					</div>
 				</div>
 			</div>
@@ -162,7 +230,7 @@ get_header();
 				<div class="row justify-content-center">
 					<div class="col-md-8">
 						<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/tacos-cart.png" alt="Carrito de Tacos" class="tacos-cart-img">
-						<h2>Nuestro carrito de tacos para eventos</h2>
+						<h2>Nuestro carrito de <br> tacos para eventos</h2>
 						<p>Lleva la auténtica experiencia Chicanos a donde tú quieras. Contamos con un carrito de tacos diseñado para cualquier tipo de evento. Nuestro equipo se encarga de todo: desde la logística, preparación, y servicio.</p>
 					</div>
 				</div>
@@ -199,11 +267,11 @@ get_header();
             <div class="container">
                 <div class="form-wrapper">
                     <div class="row no-gutters">
-                        <div class="col-lg-5 form-text-col">
+                        <div class="col-lg-6 form-text-col">
                             <h2>¿Quieres tenerlo en<br>tu próximo evento?</h2>
-                            <p>Contáctanos para cotizar y asegurar tu fecha.</p>
+                            <p class="form-intro-text">Contáctanos para <br> cotizar y asegurar tu <br>fecha.</p>
                         </div>
-                        <div class="col-lg-7 form-fields-col">
+                        <div class="col-lg-6 form-fields-col">
                             <?php
                             /*
                              * Para un formulario como este, te recomiendo usar el plugin "Contact Form 7".

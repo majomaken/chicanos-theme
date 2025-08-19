@@ -19,6 +19,8 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link rel="profile" href="http://gmpg.org/xfn/11">
+	<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Proxima+Nova+Extra+Condensed:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 	<?php wp_head(); ?>
 </head>
 
@@ -33,6 +35,10 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
 			<?php esc_html_e( 'Skip to content', 'understrap' ); ?>
 		</a>
 
+		<!-- Mobile Navbar (always loaded, hidden on desktop via CSS) -->
+		<?php get_template_part( 'global-templates/navbar', 'mobile-' . $bootstrap_version ); ?>
+
+		<!-- Desktop Navbar (always loaded, hidden on mobile via CSS) -->
 		<?php get_template_part( 'global-templates/navbar', $navbar_type . '-' . $bootstrap_version ); ?>
 
 	</header><!-- #wrapper-navbar -->

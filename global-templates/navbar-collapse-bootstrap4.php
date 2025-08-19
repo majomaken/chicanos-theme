@@ -20,27 +20,9 @@ $container = get_theme_mod( 'understrap_container_type' );
 
 	<div class="d-flex justify-content-between align-items-center w-100 container">
 		<div class="navbar-brand-container">
-			<?php
-			if ( ! has_custom_logo() ) {
-				if ( is_front_page() && is_home() ) :
-					?>
-					<h1 class="navbar-brand mb-0">
-						<a rel="home" href="<?php echo esc_url( home_url( '/' ) ); ?>" itemprop="url">
-							<?php bloginfo( 'name' ); ?>
-						</a>
-					</h1>
-					<?php
-				else :
-					?>
-					<a class="navbar-brand" rel="home" href="<?php echo esc_url( home_url( '/' ) ); ?>" itemprop="url">
-						<?php bloginfo( 'name' ); ?>
-					</a>
-					<?php
-				endif;
-			} else {
-				the_custom_logo();
-			}
-			?>
+			<a class="navbar-brand" rel="home" href="<?php echo esc_url( home_url( '/' ) ); ?>" itemprop="url">
+				<img src="<?php echo get_template_directory_uri(); ?>/img/Logochicanos%201.png" alt="<?php bloginfo( 'name' ); ?>" class="navbar-logo">
+			</a>
 		</div>
 
 		<?php
