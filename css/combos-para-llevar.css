@@ -115,7 +115,7 @@
 }
 
 .combo-option-card.selected {
-    background-color: #ffd700 !important; /* Bright yellow background for selected */
+    background-color: #F9CB38 !important; /* Custom yellow background for selected */
     border-color: #000;
     transform: none;
     box-shadow: none;
@@ -126,7 +126,7 @@
 }
 
 .combo-option-card .option-title {
-    font-family: "Proxima Nova", sans-serif;
+    font-family: "Quicksand", sans-serif;
     font-size: 1.1rem;
     font-weight: 600;
     color: #000;
@@ -185,6 +185,18 @@
     font-weight: 500;
 }
 
+.summary-item.total-row {
+    background: #e3f2fd;
+    border-left-color: #2196f3;
+    font-weight: 700;
+}
+
+.summary-item.total-row strong,
+.summary-item.total-row span {
+    color: #1976d2;
+    font-size: 1.1rem;
+}
+
 /* Add to Cart Button */
 .combo-actions {
     margin-top: 40px;
@@ -221,6 +233,53 @@
     box-shadow: none;
 }
 
+/* Burritos Template Specific Styles */
+#combos-para-llevar-wrapper .combo-option-card {
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#combos-para-llevar-wrapper .combo-option-card.selected {
+    background-color: #F9CB38 !important;
+}
+
+#combos-para-llevar-wrapper .combo-option-card .option-content {
+    text-align: left;
+    width: 100%;
+}
+
+#combos-para-llevar-wrapper .combo-option-card .option-title {
+    font-size: 1rem;
+    line-height: 1.2;
+    margin-bottom: 8px;
+}
+
+#combos-para-llevar-wrapper .combo-option-card .option-price {
+    font-size: 1rem;
+    font-weight: 700;
+    display: none;
+}
+
+/* Tortillas Note Styling */
+.tortillas-note {
+    background: #f8f9fa;
+    border: 2px solid #dee2e6;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 30px 0;
+}
+
+.tortillas-text {
+    font-size: 1.1rem;
+    color: #495057;
+    margin: 0;
+    font-style: italic;
+}
+
+
+
 /* Success Notification */
 .success-notification {
     position: fixed;
@@ -242,9 +301,7 @@
     gap: 10px;
 }
 
-.notification-content i {
-    font-size: 1.2rem;
-}
+
 
 @keyframes slideInRight {
     from {

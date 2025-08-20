@@ -367,3 +367,40 @@ if ( ! function_exists( 'understrap_account_menu_item_classes' ) ) {
 		return $classes;
 	}
 }
+
+if ( ! function_exists( 'understrap_change_add_to_cart_text' ) ) {
+	/**
+	 * Change the "Add to cart" button text to "Agregar".
+	 *
+	 * @param string $text Button text.
+	 * @return string Modified button text.
+	 */
+	function understrap_change_add_to_cart_text( $text ) {
+		return 'Agregar';
+	}
+}
+
+// Apply the filter to change button text
+add_filter( 'woocommerce_product_add_to_cart_text', 'understrap_change_add_to_cart_text' );
+add_filter( 'woocommerce_product_single_add_to_cart_text', 'understrap_change_add_to_cart_text' );
+
+// Additional filters to ensure button text is changed everywhere
+add_filter( 'woocommerce_loop_add_to_cart_link', function( $html ) {
+    return str_replace( 'Add to cart', 'Agregar', $html );
+} );
+
+add_filter( 'woocommerce_loop_add_to_cart_link', function( $html ) {
+    return str_replace( 'add to cart', 'Agregar', $html );
+} );
+
+add_filter( 'woocommerce_loop_add_to_cart_link', function( $html ) {
+    return str_replace( 'ADD TO CART', 'Agregar', $html );
+} );
+
+// Filter for variable products
+add_filter( 'woocommerce_product_add_to_cart_text', function( $text, $product ) {
+    if ( $product->is_type( 'variable' ) ) {
+        return 'Agregar';
+    }
+    return $text;
+}, 10, 2 );

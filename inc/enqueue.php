@@ -31,6 +31,7 @@ if ( ! function_exists( 'understrap_scripts' ) ) {
 		wp_enqueue_style( 'understrap-styles', get_template_directory_uri() . $theme_styles, array(), $css_version );
 		wp_enqueue_style( 'fontawesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css', array(), '5.15.4' );
 				wp_enqueue_style( 'chicanos-custom-styles', get_template_directory_uri() . '/css/custom.css', array('understrap-styles'), $css_version );
+		wp_enqueue_style( 'chicanos-image-fixes', get_template_directory_uri() . '/css/image-fixes.css', array('chicanos-custom-styles'), $css_version );
 
 		if ( is_page_template( 'page-templates/template-homepage.php' ) ) {
 			$homepage_css_version = $css_version . '.' . time();
@@ -61,6 +62,14 @@ if ( ! function_exists( 'understrap_scripts' ) ) {
 			wp_enqueue_style( 'chicanos-combos-para-llevar-styles', get_template_directory_uri() . '/css/combos-para-llevar.css', array('chicanos-custom-styles'), $css_version );
 		}
 
+		if ( is_page_template( 'page-templates/template-burritos.php' ) ) {
+			wp_enqueue_style( 'chicanos-combos-para-llevar-styles', get_template_directory_uri() . '/css/combos-para-llevar.css', array('chicanos-custom-styles'), $css_version );
+		}
+
+		if ( is_page_template( 'page-templates/template-ensaladas.php' ) ) {
+			wp_enqueue_style( 'chicanos-combos-para-llevar-styles', get_template_directory_uri() . '/css/combos-para-llevar.css', array('chicanos-custom-styles'), $css_version );
+		}
+
 		// Fix that the offcanvas close icon is hidden behind the admin bar.
 		if ( 'bootstrap4' !== $bootstrap_version && is_admin_bar_showing() ) {
 			understrap_offcanvas_admin_bar_inline_styles();
@@ -86,6 +95,16 @@ if ( ! function_exists( 'understrap_scripts' ) ) {
 		
 		// Enqueue combos para llevar script for specific template
 		if ( is_page_template( 'page-templates/template-combos-para-llevar.php' ) ) {
+			wp_enqueue_script( 'chicanos-combos-para-llevar', get_template_directory_uri() . '/js/combos-para-llevar.js', array('jquery'), $theme_version, true );
+		}
+		
+		// Enqueue burritos script for specific template
+		if ( is_page_template( 'page-templates/template-burritos.php' ) ) {
+			wp_enqueue_script( 'chicanos-combos-para-llevar', get_template_directory_uri() . '/js/combos-para-llevar.js', array('jquery'), $theme_version, true );
+		}
+		
+		// Enqueue ensaladas script for specific template
+		if ( is_page_template( 'page-templates/template-ensaladas.php' ) ) {
 			wp_enqueue_script( 'chicanos-combos-para-llevar', get_template_directory_uri() . '/js/combos-para-llevar.js', array('jquery'), $theme_version, true );
 		}
 		

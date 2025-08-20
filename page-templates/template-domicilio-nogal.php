@@ -14,6 +14,136 @@ get_header();
 
 ?>
 
+<style>
+/* CSS personalizado para eliminar el espacio en blanco en las tarjetas de tacos */
+.products-section .products-grid .combo-card-personalizado {
+  height: auto !important;
+  min-height: auto !important;
+  max-height: none !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+
+.woocommerce ul.products li.product {
+  height: auto !important;
+  min-height: auto !important;
+  max-height: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.combo-header {
+  flex-shrink: 0 !important;
+  height: 80px !important;
+  min-height: 80px !important;
+  max-height: 80px !important;
+  margin: 0 !important;
+  padding: 8px 15px !important;
+  border-bottom: 1px solid #000 !important;
+  background-color: #FAD3DB !important;
+}
+
+.combo-imagen {
+  height: 160px !important;
+  min-height: 160px !important;
+  max-height: 160px !important;
+  flex-shrink: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 0 !important;
+  font-size: 0 !important;
+  background-color: #FBF5ED !important;
+  overflow: hidden !important;
+}
+
+.combo-footer {
+  height: 50px !important;
+  min-height: 50px !important;
+  max-height: 50px !important;
+  flex-shrink: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-top: none !important;
+  background-color: #FBF5ED !important;
+}
+
+.combo-card-personalizado .combo-header + .combo-imagen {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+.combo-card-personalizado .combo-imagen + .combo-footer {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  border-top: none !important;
+}
+
+.combo-imagen img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  border-radius: 0 !important;
+}
+
+.combo-footer .button,
+.combo-footer button,
+.combo-footer input[type="submit"] {
+  height: 50px !important;
+  min-height: 50px !important;
+  max-height: 50px !important;
+  padding: 8px 0 !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+  background-color: #F9CB38 !important;
+  color: #000 !important;
+  border: 1px solid #000 !important;
+  border-bottom: none !important;
+  font-weight: 700 !important;
+  font-size: 0.9rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  width: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.products-section .products-grid {
+  gap: 25px !important;
+}
+
+.products-section .products-grid li {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.woocommerce ul.products li.product .combo-card-personalizado {
+  height: auto !important;
+  min-height: auto !important;
+  max-height: none !important;
+}
+
+.products-section {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+@media (max-width: 768px) {
+  .products-section .products-grid {
+    gap: 20px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .products-section .products-grid {
+    gap: 15px !important;
+  }
+}
+</style>
+
 <div id="domicilio-nogal-wrapper">
     <main id="main" class="site-main" role="main">
 
@@ -61,15 +191,18 @@ get_header();
                 <h2 class="section-title">Combos para Llevar</h2>
                 <div class="products-grid">
                     <?php
-                    // Query for combo products
+                    // Query for combo products with specific ordering
                     $combo_args = array(
                         'post_type' => 'product',
                         'posts_per_page' => 3,
+                        'orderby' => 'title',
+                        'order' => 'ASC',
                         'tax_query' => array(
                             array(
                                 'taxonomy' => 'product_cat',
                                 'field'    => 'slug',
-                                'terms'    => 'combos', // You may need to adjust this category slug
+                                'terms'    => array('combos', 'combo', 'combo-para-llevar'), // Multiple possible category slugs
+                                'operator' => 'IN',
                             ),
                         ),
                     );
@@ -82,21 +215,26 @@ get_header();
                         endwhile;
                         wp_reset_postdata();
                     else :
-                        // Fallback products if no combos found
-                        for ($i = 0; $i < 3; $i++) {
-                            echo '<div class="combo-card-personalizado">';
-                            echo '<div class="combo-header">';
-                            echo '<h2 class="woocommerce-loop-product__title">Combo ' . ($i + 1) . '</h2>';
-                            echo '<div class="combo-price">$00XXXX</div>';
+                        // Fallback: show any products if no combos found
+                        $fallback_args = array(
+                            'post_type' => 'product',
+                            'posts_per_page' => 3,
+                            'orderby' => 'title',
+                            'order' => 'ASC',
+                        );
+                        
+                        $fallback_products = new WP_Query($fallback_args);
+                        
+                        if ($fallback_products->have_posts()) :
+                            while ($fallback_products->have_posts()) : $fallback_products->the_post();
+                                wc_get_template_part('content', 'product');
+                            endwhile;
+                            wp_reset_postdata();
+                        else :
+                            echo '<div class="no-products-message">';
+                            echo '<p>No hay productos disponibles en este momento. Por favor, revisa más tarde.</p>';
                             echo '</div>';
-                            echo '<div class="combo-imagen">';
-                            echo '<img src="https://via.placeholder.com/300x200" alt="Combo placeholder">';
-                            echo '</div>';
-                            echo '<div class="combo-footer">';
-                            echo '<button class="btn btn-primary">AGREGAR</button>';
-                            echo '</div>';
-                            echo '</div>';
-                        }
+                        endif;
                     endif;
                     ?>
                 </div>
@@ -117,7 +255,8 @@ get_header();
                             array(
                                 'taxonomy' => 'product_cat',
                                 'field'    => 'slug',
-                                'terms'    => 'tacos', // You may need to adjust this category slug
+                                'terms'    => array('tacos', 'taco'), // Multiple possible category slugs
+                                'operator' => 'IN',
                             ),
                         ),
                     );
@@ -130,24 +269,26 @@ get_header();
                         endwhile;
                         wp_reset_postdata();
                     else :
-                        // Fallback taco products
-                        $taco_names = ['Tacos al Pastor', 'Cochinita Pibil', 'Taco Michoacan', 'Taco Todos Santos', 'Taco Chiapas', 'Taco Tulum'];
-                        $taco_prices = ['$5.500', '$6.000', '$5.500', '$7.500', '$5.500', '$6.000'];
+                        // Fallback: show any products if no tacos found
+                        $fallback_args = array(
+                            'post_type' => 'product',
+                            'posts_per_page' => 6,
+                            'orderby' => 'title',
+                            'order' => 'ASC',
+                        );
                         
-                        for ($i = 0; $i < 6; $i++) {
-                            echo '<div class="combo-card-personalizado">';
-                            echo '<div class="combo-header">';
-                            echo '<h2 class="woocommerce-loop-product__title">' . $taco_names[$i] . '</h2>';
-                            echo '<div class="combo-price">' . $taco_prices[$i] . '</div>';
+                        $fallback_products = new WP_Query($fallback_args);
+                        
+                        if ($fallback_products->have_posts()) :
+                            while ($fallback_products->have_posts()) : $fallback_products->the_post();
+                                wc_get_template_part('content', 'product');
+                            endwhile;
+                            wp_reset_postdata();
+                        else :
+                            echo '<div class="no-products-message">';
+                            echo '<p>No hay productos disponibles en este momento. Por favor, revisa más tarde.</p>';
                             echo '</div>';
-                            echo '<div class="combo-imagen">';
-                            echo '<img src="https://via.placeholder.com/300x200" alt="Taco placeholder">';
-                            echo '</div>';
-                            echo '<div class="combo-footer">';
-                            echo '<button class="btn btn-primary">AGREGAR</button>';
-                            echo '</div>';
-                            echo '</div>';
-                        }
+                        endif;
                     endif;
                     ?>
                 </div>
@@ -160,53 +301,47 @@ get_header();
                 <h2 class="section-title">Ensalada/Burrito</h2>
                 <div class="products-grid">
                     <?php
-                    // Query for create-your-own products
-                    $create_your_own_args = array(
+                    // Query for ensalada-burrito products
+                    $ensalada_args = array(
                         'post_type' => 'product',
                         'posts_per_page' => 10,
                         'tax_query' => array(
                             array(
                                 'taxonomy' => 'product_cat',
                                 'field'    => 'slug',
-                                'terms'    => 'create-your-own',
+                                'terms'    => 'Ensalada-Burrito', // Exact category slug as specified
                             ),
                         ),
                     );
                     
-                    $create_your_own_products = new WP_Query($create_your_own_args);
+                    $ensalada_products = new WP_Query($ensalada_args);
                     
-                    if ($create_your_own_products->have_posts()) :
-                        while ($create_your_own_products->have_posts()) : $create_your_own_products->the_post();
+                    if ($ensalada_products->have_posts()) :
+                        while ($ensalada_products->have_posts()) : $ensalada_products->the_post();
                             wc_get_template_part('content', 'product');
                         endwhile;
                         wp_reset_postdata();
                     else :
-                        // Fallback create-your-own products if no products found
-                        echo '<div class="combo-card-personalizado">';
-                        echo '<div class="combo-header">';
-                        echo '<h2 class="woocommerce-loop-product__title">Ensalada</h2>';
-                        echo '<div class="combo-price">$00000</div>';
-                        echo '</div>';
-                        echo '<div class="combo-imagen">';
-                        echo '<img src="https://via.placeholder.com/300x200" alt="Ensalada placeholder">';
-                        echo '</div>';
-                        echo '<div class="combo-footer">';
-                        echo '<button class="btn btn-primary">AGREGAR</button>';
-                        echo '</div>';
-                        echo '</div>';
+                        // Fallback: show any products if no ensalada-burrito found
+                        $fallback_args = array(
+                            'post_type' => 'product',
+                            'posts_per_page' => 10,
+                            'orderby' => 'title',
+                            'order' => 'ASC',
+                        );
                         
-                        echo '<div class="combo-card-personalizado">';
-                        echo '<div class="combo-header">';
-                        echo '<h2 class="woocommerce-loop-product__title">Burrito</h2>';
-                        echo '<div class="combo-price">$00000</div>';
-                        echo '</div>';
-                        echo '<div class="combo-imagen">';
-                        echo '<img src="https://via.placeholder.com/300x200" alt="Burrito placeholder">';
-                        echo '</div>';
-                        echo '<div class="combo-footer">';
-                        echo '<button class="btn btn-primary">AGREGAR</button>';
-                        echo '</div>';
-                        echo '</div>';
+                        $fallback_products = new WP_Query($fallback_args);
+                        
+                        if ($fallback_products->have_posts()) :
+                            while ($fallback_products->have_posts()) : $fallback_products->the_post();
+                                wc_get_template_part('content', 'product');
+                            endwhile;
+                            wp_reset_postdata();
+                        else :
+                            echo '<div class="no-products-message">';
+                            echo '<p>No hay productos disponibles en este momento. Por favor, revisa más tarde.</p>';
+                            echo '</div>';
+                        endif;
                     endif;
                     ?>
                 </div>
@@ -239,20 +374,6 @@ get_header();
                             wc_get_template_part('content', 'product');
                         endwhile;
                         wp_reset_postdata();
-                    else :
-                        // Fallback adiciones products if no products found
-                        echo '<div class="combo-card-personalizado">';
-                        echo '<div class="combo-header">';
-                        echo '<h2 class="woocommerce-loop-product__title">Todo para Llevar</h2>';
-                        echo '<div class="combo-price">$00000</div>';
-                        echo '</div>';
-                        echo '<div class="combo-imagen">';
-                        echo '<img src="https://via.placeholder.com/300x200" alt="Todo para Llevar placeholder">';
-                        echo '</div>';
-                        echo '<div class="combo-footer">';
-                        echo '<button class="btn btn-primary">AGREGAR</button>';
-                        echo '</div>';
-                        echo '</div>';
                     endif;
                     ?>
                 </div>
@@ -285,20 +406,6 @@ get_header();
                             wc_get_template_part('content', 'product');
                         endwhile;
                         wp_reset_postdata();
-                    else :
-                        // Fallback sopas products if no products found
-                        echo '<div class="combo-card-personalizado">';
-                        echo '<div class="combo-header">';
-                        echo '<h2 class="woocommerce-loop-product__title">Tortilla Vargas</h2>';
-                        echo '<div class="combo-price">$2000</div>';
-                        echo '</div>';
-                        echo '<div class="combo-imagen">';
-                        echo '<img src="https://via.placeholder.com/300x200" alt="Tortilla Vargas placeholder">';
-                        echo '</div>';
-                        echo '<div class="combo-footer">';
-                        echo '<button class="btn btn-primary">AGREGAR</button>';
-                        echo '</div>';
-                        echo '</div>';
                     endif;
                     ?>
                 </div>
@@ -331,32 +438,6 @@ get_header();
                             wc_get_template_part('content', 'product');
                         endwhile;
                         wp_reset_postdata();
-                    else :
-                        // Fallback botanas products if no products found
-                        $botanas_products_fallback = [
-                            ['name' => 'Bienvenida de Botanas', 'price' => '$9.500'],
-                            ['name' => 'Nachos Chicanos', 'price' => '$9.900'],
-                            ['name' => 'Serenata de Mini-Flautas', 'price' => '$3.000'],
-                            ['name' => 'Salude de Quesadilla', 'price' => '$2.900'],
-                            ['name' => 'Fiesta de la Tinga', 'price' => '$9.000'],
-                            ['name' => 'Festin de Totopos', 'price' => '$7.200'],
-                            ['name' => 'Chicharrón de Queso', 'price' => '$1.000']
-                        ];
-                        
-                        foreach ($botanas_products_fallback as $product) {
-                            echo '<div class="combo-card-personalizado">';
-                            echo '<div class="combo-header">';
-                            echo '<h2 class="woocommerce-loop-product__title">' . $product['name'] . '</h2>';
-                            echo '<div class="combo-price">' . $product['price'] . '</div>';
-                            echo '</div>';
-                            echo '<div class="combo-imagen">';
-                            echo '<img src="https://via.placeholder.com/300x200" alt="' . $product['name'] . ' placeholder">';
-                            echo '</div>';
-                            echo '<div class="combo-footer">';
-                            echo '<button class="btn btn-primary">AGREGAR</button>';
-                            echo '</div>';
-                            echo '</div>';
-                        }
                     endif;
                     ?>
                 </div>
@@ -389,40 +470,6 @@ get_header();
                             wc_get_template_part('content', 'product');
                         endwhile;
                         wp_reset_postdata();
-                    else :
-                        // Fallback fuertes products if no products found
-                        $fuertes_products_fallback = [
-                            ['name' => 'Steak Chicanos', 'price' => '$28.000'],
-                            ['name' => 'La Tampiqueña', 'price' => '$31.500'],
-                            ['name' => 'Tabla Padilla Parra', 'price' => '$46.000', 'note' => 'para dos personas'],
-                            ['name' => 'Flautas al Mole', 'price' => '$19.000'],
-                            ['name' => 'López Chilorio', 'price' => '$35.000'],
-                            ['name' => 'Licenciado Zapata', 'price' => '$25.800'],
-                            ['name' => 'Benito Sanchez', 'price' => '$22.500'],
-                            ['name' => 'Pollo Ramón Valdes', 'price' => '$25.500'],
-                            ['name' => 'Pedro Cuitlachoche', 'price' => '$26.000'],
-                            ['name' => 'Pollo González', 'price' => '$23.500'],
-                            ['name' => 'Pollo Negrete', 'price' => '$26.900'],
-                            ['name' => 'Chilaquiles Maria Martinez', 'price' => '$25.500']
-                        ];
-                        
-                        foreach ($fuertes_products_fallback as $product) {
-                            echo '<div class="combo-card-personalizado">';
-                            echo '<div class="combo-header">';
-                            echo '<h2 class="woocommerce-loop-product__title">' . $product['name'] . '</h2>';
-                            echo '<div class="combo-price">' . $product['price'] . '</div>';
-                            if (isset($product['note'])) {
-                                echo '<div class="product-note">' . $product['note'] . '</div>';
-                            }
-                            echo '</div>';
-                            echo '<div class="combo-imagen">';
-                            echo '<img src="https://via.placeholder.com/300x200" alt="' . $product['name'] . ' placeholder">';
-                            echo '</div>';
-                            echo '<div class="combo-footer">';
-                            echo '<button class="btn btn-primary">AGREGAR</button>';
-                            echo '</div>';
-                            echo '</div>';
-                        }
                     endif;
                     ?>
                 </div>
@@ -455,28 +502,6 @@ get_header();
                             wc_get_template_part('content', 'product');
                         endwhile;
                         wp_reset_postdata();
-                    else :
-                        // Fallback burritos products if no products found
-                        $burritos_products_fallback = [
-                            ['name' => 'Lupe Hidalgo', 'price' => '$34.500'],
-                            ['name' => 'Pepe Barragán', 'price' => '$36.500'],
-                            ['name' => 'Burrito Ramirez', 'price' => '$25.800']
-                        ];
-                        
-                        foreach ($burritos_products_fallback as $product) {
-                            echo '<div class="combo-card-personalizado">';
-                            echo '<div class="combo-header">';
-                            echo '<h2 class="woocommerce-loop-product__title">' . $product['name'] . '</h2>';
-                            echo '<div class="combo-price">' . $product['price'] . '</div>';
-                            echo '</div>';
-                            echo '<div class="combo-imagen">';
-                            echo '<img src="https://via.placeholder.com/300x200" alt="' . $product['name'] . ' placeholder">';
-                            echo '</div>';
-                            echo '<div class="combo-footer">';
-                            echo '<button class="btn btn-primary">AGREGAR</button>';
-                            echo '</div>';
-                            echo '</div>';
-                        }
                     endif;
                     ?>
                 </div>
@@ -509,29 +534,6 @@ get_header();
                             wc_get_template_part('content', 'product');
                         endwhile;
                         wp_reset_postdata();
-                    else :
-                        // Fallback fajitas products if no products found
-                        $fajitas_products_fallback = [
-                            ['name' => 'Gómez Farias', 'price' => '$25.500'],
-                            ['name' => 'Márquez', 'price' => '$15.000'],
-                            ['name' => 'Jiménez Cruz', 'price' => '$25.500'],
-                            ['name' => 'Flores y Escalante', 'price' => '$34.500']
-                        ];
-                        
-                        foreach ($fajitas_products_fallback as $product) {
-                            echo '<div class="combo-card-personalizado">';
-                            echo '<div class="combo-header">';
-                            echo '<h2 class="woocommerce-loop-product__title">' . $product['name'] . '</h2>';
-                            echo '<div class="combo-price">' . $product['price'] . '</div>';
-                            echo '</div>';
-                            echo '<div class="combo-imagen">';
-                            echo '<img src="https://via.placeholder.com/300x200" alt="' . $product['name'] . ' placeholder">';
-                            echo '</div>';
-                            echo '<div class="combo-footer">';
-                            echo '<button class="btn btn-primary">AGREGAR</button>';
-                            echo '</div>';
-                            echo '</div>';
-                        }
                     endif;
                     ?>
                 </div>
@@ -564,28 +566,6 @@ get_header();
                             wc_get_template_part('content', 'product');
                         endwhile;
                         wp_reset_postdata();
-                    else :
-                        // Fallback enchiladas products if no products found
-                        $enchiladas_products_fallback = [
-                            ['name' => 'Carmelita Salinas', 'price' => '$25.500'],
-                            ['name' => 'Salma Verduzco', 'price' => '$25.500'],
-                            ['name' => 'Javiera Suarez', 'price' => '$25.000']
-                        ];
-                        
-                        foreach ($enchiladas_products_fallback as $product) {
-                            echo '<div class="combo-card-personalizado">';
-                            echo '<div class="combo-header">';
-                            echo '<h2 class="woocommerce-loop-product__title">' . $product['name'] . '</h2>';
-                            echo '<div class="combo-price">' . $product['price'] . '</div>';
-                            echo '</div>';
-                            echo '<div class="combo-imagen">';
-                            echo '<img src="https://via.placeholder.com/300x200" alt="' . $product['name'] . ' placeholder">';
-                            echo '</div>';
-                            echo '<div class="combo-footer">';
-                            echo '<button class="btn btn-primary">AGREGAR</button>';
-                            echo '</div>';
-                            echo '</div>';
-                        }
                     endif;
                     ?>
                 </div>
@@ -618,28 +598,6 @@ get_header();
                             wc_get_template_part('content', 'product');
                         endwhile;
                         wp_reset_postdata();
-                    else :
-                        // Fallback postres products if no products found
-                        $postres_products_fallback = [
-                            ['name' => 'Cajeta de Chavela', 'price' => '$8.800'],
-                            ['name' => 'Tres Marias', 'price' => '$8.800'],
-                            ['name' => 'Vicentico', 'price' => '$9.000']
-                        ];
-                        
-                        foreach ($postres_products_fallback as $product) {
-                            echo '<div class="combo-card-personalizado">';
-                            echo '<div class="combo-header">';
-                            echo '<h2 class="woocommerce-loop-product__title">' . $product['name'] . '</h2>';
-                            echo '<div class="combo-price">' . $product['price'] . '</div>';
-                            echo '</div>';
-                            echo '<div class="combo-imagen">';
-                            echo '<img src="https://via.placeholder.com/300x200" alt="' . $product['name'] . ' placeholder">';
-                            echo '</div>';
-                            echo '<div class="combo-footer">';
-                            echo '<button class="btn btn-primary">AGREGAR</button>';
-                            echo '</div>';
-                            echo '</div>';
-                        }
                     endif;
                     ?>
                 </div>
@@ -672,31 +630,6 @@ get_header();
                             wc_get_template_part('content', 'product');
                         endwhile;
                         wp_reset_postdata();
-                    else :
-                        // Fallback bebidas products if no products found
-                        $bebidas_products_fallback = [
-                            ['name' => 'Lorem Ipsum', 'price' => '$00000'],
-                            ['name' => 'Lorem Ipsum', 'price' => '$00000'],
-                            ['name' => 'Lorem Ipsum', 'price' => '$00000'],
-                            ['name' => 'Lorem Ipsum', 'price' => '$0000x'],
-                            ['name' => 'Lorem Ipsum', 'price' => '$00000'],
-                            ['name' => 'Lorem Ipsum', 'price' => '$00000']
-                        ];
-                        
-                        foreach ($bebidas_products_fallback as $product) {
-                            echo '<div class="combo-card-personalizado">';
-                            echo '<div class="combo-header">';
-                            echo '<h2 class="woocommerce-loop-product__title">' . $product['name'] . '</h2>';
-                            echo '<div class="combo-price">' . $product['price'] . '</div>';
-                            echo '</div>';
-                            echo '<div class="combo-imagen">';
-                            echo '<img src="https://via.placeholder.com/300x200" alt="' . $product['name'] . ' placeholder">';
-                            echo '</div>';
-                            echo '<div class="combo-footer">';
-                            echo '<button class="btn btn-primary">AGREGAR</button>';
-                            echo '</div>';
-                            echo '</div>';
-                        }
                     endif;
                     ?>
                 </div>

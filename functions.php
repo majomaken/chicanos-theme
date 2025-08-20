@@ -43,3 +43,40 @@ if ( class_exists( 'Jetpack' ) ) {
 foreach ( $understrap_includes as $file ) {
 	require_once get_theme_file_path( $understrap_inc_dir . $file );
 }
+
+// Add AJAX handler for burritos
+add_action('wp_ajax_add_burrito_to_cart', 'add_burrito_to_cart_handler');
+add_action('wp_ajax_nopriv_add_burrito_to_cart', 'add_burrito_to_cart_handler');
+
+function add_burrito_to_cart_handler() {
+    // Verify nonce
+    if (!wp_verify_nonce($_POST['nonce'], 'woocommerce-add-to-cart')) {
+        wp_send_json_error('Security check failed');
+        return;
+    }
+    
+    $product_id = intval($_POST['product_id']);
+    $quantity = intval($_POST['quantity']);
+    $options = $_POST['options'];
+    
+    // Validate product
+    $product = wc_get_product($product_id);
+    if (!$product) {
+        wp_send_json_error('Product not found');
+        return;
+    }
+    
+    // Add to cart with custom options
+    $cart_item_data = array(
+        'custom_options' => $options,
+        'custom_product_type' => 'burrito'
+    );
+    
+    $cart_item_key = WC()->cart->add_to_cart($product_id, $quantity, 0, array(), $cart_item_data);
+    
+    if ($cart_item_key) {
+        wp_send_json_success('Burrito added to cart successfully');
+    } else {
+        wp_send_json_error('Failed to add to cart');
+    }
+}

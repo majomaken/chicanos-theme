@@ -27,7 +27,28 @@ get_header(); ?>
                     <h1 class="combo-main-title">Combos para Llevar</h1>
                     <p class="combo-description">
                         Select your protein, salsas, and tortillas and we'll package it up for you. Easy peasy. 
-                        <span class="serving-size">Serves 1-3</span>
+                        <span class="serving-size" id="dynamic-serving-size">
+                            <?php
+                            // Detectar automáticamente el tamaño del combo basado en parámetros de URL o contexto
+                            $combo_size = '1-3 personas'; // Default
+                            
+                            // Opción 1: Detectar desde parámetro de URL
+                            if (isset($_GET['combo_size'])) {
+                                $combo_size = sanitize_text_field($_GET['combo_size']);
+                            }
+                            // Opción 2: Detectar desde referer (si viene de domicilio-nogal)
+                            elseif (isset($_SERVER['HTTP_REFERER'])) {
+                                $referer = $_SERVER['HTTP_REFERER'];
+                                if (strpos($referer, 'domicilio-nogal') !== false) {
+                                    // Si viene de domicilio-nogal, determinar el combo basado en el contexto
+                                    // Esto se puede ajustar según cómo sepas qué combo específico eligió
+                                    $combo_size = '1-3 personas'; // Ajustar según lógica de negocio
+                                }
+                            }
+                            
+                            echo esc_html($combo_size);
+                            ?>
+                        </span>
                     </p>
                 </div>
             </div>
@@ -38,208 +59,348 @@ get_header(); ?>
             <!-- Combo Builder Form -->
             <form id="combo-builder-form" class="combo-builder">
                 
-                <!-- Protein Selection Section -->
-                <section class="combo-section mb-5">
-                <div class="row">
-                    <div class="col-12">
-                        <h2 class="section-title">
-                            Escoge tu Proteína 
-                            <span class="selection-limit">(choose 1)</span>
-                        </h2>
-                    </div>
-                </div>
+                <?php
+                // Obtener el ID del producto de combo desde la URL o contexto
+                $combo_product_id = null;
                 
-                <div class="products-grid" id="protein-grid">
-                    <!-- Placeholder protein options based on design -->
-                    <div class="combo-option-card protein-option selected" data-type="protein" data-value="Pollo con Cebolla y Pimentón">
-                        <div class="option-content">
-                            <h3 class="option-title">Pollo con Cebolla y Pimentón</h3>
-                            <div class="option-price">$0.00</div>
-                        </div>
-                    </div>
-                    
-                    <div class="combo-option-card protein-option" data-type="protein" data-value="Pollo Rosarita">
-                        <div class="option-content">
-                            <h3 class="option-title">Pollo Rosarita</h3>
-                            <div class="option-price">$0.00</div>
-                        </div>
-                    </div>
-                    
-                    <div class="combo-option-card protein-option" data-type="protein" data-value="Pollo en Salsa Roja">
-                        <div class="option-content">
-                            <h3 class="option-title">Pollo en Salsa Roja</h3>
-                            <div class="option-price">$0.00</div>
-                        </div>
-                    </div>
-                    
-                    <div class="combo-option-card protein-option" data-type="protein" data-value="Pollo Todo Santos">
-                        <div class="option-content">
-                            <h3 class="option-title">Pollo Todo Santos</h3>
-                            <div class="option-price">$0.00</div>
-                        </div>
-                    </div>
-                    
-                    <div class="combo-option-card protein-option" data-type="protein" data-value="Carne en Salsa Roja">
-                        <div class="option-content">
-                            <h3 class="option-title">Carne en Salsa Roja</h3>
-                            <div class="option-price">$0.00</div>
-                        </div>
-                    </div>
-                    
-                    <div class="combo-option-card protein-option" data-type="protein" data-value="Carne Al Pastor">
-                        <div class="option-content">
-                            <h3 class="option-title">Carne Al Pastor</h3>
-                            <div class="option-price">$0.00</div>
-                        </div>
-                    </div>
-                    
-                    <div class="combo-option-card protein-option" data-type="protein" data-value="Lomo en Juliana en Salsa Roja">
-                        <div class="option-content">
-                            <h3 class="option-title">Lomo en Juliana en Salsa Roja</h3>
-                            <div class="option-price">$0.00</div>
-                        </div>
-                    </div>
-                    
-                    <div class="combo-option-card protein-option" data-type="protein" data-value="Lomo con Cebolla y Pimentón">
-                        <div class="option-content">
-                            <h3 class="option-title">Lomo con Cebolla y Pimentón</h3>
-                            <div class="option-price">$0.00</div>
-                        </div>
-                    </div>
-                    
-                    <div class="combo-option-card protein-option" data-type="protein" data-value="Cochinita Pibil">
-                        <div class="option-content">
-                            <h3 class="option-title">Cochinita Pibil</h3>
-                            <div class="option-price">$0.00</div>
-                        </div>
-                    </div>
-                    
-                    <div class="combo-option-card protein-option" data-type="protein" data-value="Camarones en Salsa Chipotle">
-                        <div class="option-content">
-                            <h3 class="option-title">Camarones en Salsa Chipotle</h3>
-                            <div class="option-price">$0.00</div>
-                        </div>
-                    </div>
-                    
-                    <div class="combo-option-card protein-option" data-type="protein" data-value="Cerdo a la Naranja">
-                        <div class="option-content">
-                            <h3 class="option-title">Cerdo a la Naranja</h3>
-                            <div class="option-price">$0.00</div>
-                        </div>
-                    </div>
-                    
-                    <div class="combo-option-card protein-option" data-type="protein" data-value="Birria">
-                        <div class="option-content">
-                            <h3 class="option-title">Birria</h3>
-                            <div class="option-price">$0.00</div>
-                        </div>
-                    </div>
-                    
-                    <div class="combo-option-card protein-option" data-type="protein" data-value="Champiñones">
-                        <div class="option-content">
-                            <h3 class="option-title">Champiñones</h3>
-                            <div class="option-price">$0.00</div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Sauces and Extras Section -->
-            <section class="combo-section mb-5">
-                <div class="row">
-                    <div class="col-12">
-                        <h2 class="section-title">
-                            Salsas y Más 
-                            <span class="selection-limit">(choose 2)</span>
-                        </h2>
-                    </div>
-                </div>
+                // Debug: mostrar todos los parámetros de URL
+                echo '<!-- DEBUG: Parámetros de URL: ' . print_r($_GET, true) . ' -->';
                 
-                <div class="products-grid" id="sauce-grid">
-                    <!-- Placeholder sauce options -->
-                    <div class="combo-option-card sauce-option" data-type="sauce" data-value="Mayonesa Chipotle">
-                        <div class="option-content">
-                            <h3 class="option-title">Mayonesa Chipotle</h3>
-                            <div class="option-price">$0.00</div>
-                        </div>
-                    </div>
+                // Opción 1: Detectar desde parámetro de URL
+                if (isset($_GET['combo_id'])) {
+                    $combo_product_id = intval($_GET['combo_id']);
+                    echo '<!-- DEBUG: Combo ID encontrado: ' . $combo_product_id . ' -->';
+                }
+                // Opción 2: Detectar desde parámetro de combo_size (fallback)
+                elseif (isset($_GET['combo_size'])) {
+                    echo '<!-- DEBUG: Usando combo_size como fallback: ' . $_GET['combo_size'] . ' -->';
+                    // Buscar el producto de combo que coincida con el tamaño
+                    $combo_args = array(
+                        'post_type' => 'product',
+                        'posts_per_page' => 1,
+                        'tax_query' => array(
+                            array(
+                                'taxonomy' => 'product_cat',
+                                'field'    => 'slug',
+                                'terms'    => 'combos',
+                            ),
+                        ),
+                        'meta_query' => array(
+                            array(
+                                'key' => '_combo_size',
+                                'value' => sanitize_text_field($_GET['combo_size']),
+                                'compare' => 'LIKE'
+                            )
+                        )
+                    );
                     
-                    <div class="combo-option-card sauce-option" data-type="sauce" data-value="Salsa Roja">
-                        <div class="option-content">
-                            <h3 class="option-title">Salsa Roja</h3>
-                            <div class="option-price">$0.00</div>
-                        </div>
-                    </div>
-                    
-                    <div class="combo-option-card sauce-option" data-type="sauce" data-value="Sour Cream">
-                        <div class="option-content">
-                            <h3 class="option-title">Sour Cream</h3>
-                            <div class="option-price">$0.00</div>
-                        </div>
-                    </div>
-                    
-                    <div class="combo-option-card sauce-option" data-type="sauce" data-value="Frijol Refrito">
-                        <div class="option-content">
-                            <h3 class="option-title">Frijol Refrito</h3>
-                            <div class="option-price">$0.00</div>
-                        </div>
-                    </div>
-                    
-                    <div class="combo-option-card sauce-option" data-type="sauce" data-value="Guacamole">
-                        <div class="option-content">
-                            <h3 class="option-title">Guacamole</h3>
-                            <div class="option-price">$0.00</div>
-                        </div>
-                    </div>
-                    
-                    <div class="combo-option-card sauce-option" data-type="sauce" data-value="Queso Cheddar">
-                        <div class="option-content">
-                            <h3 class="option-title">Queso Cheddar</h3>
-                            <div class="option-price">$0.00</div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Tortilla Selection Section -->
-            <section class="combo-section mb-5">
-                <div class="row">
-                    <div class="col-12">
-                        <h2 class="section-title">
-                            Tortillas 
-                            <span class="selection-limit">(choose 1)</span>
-                        </h2>
-                    </div>
-                </div>
+                    $combo_query = new WP_Query($combo_args);
+                    if ($combo_query->have_posts()) {
+                        $combo_query->the_post();
+                        $combo_product_id = get_the_ID();
+                        echo '<!-- DEBUG: Combo ID encontrado por tamaño: ' . $combo_product_id . ' -->';
+                        wp_reset_postdata();
+                    } else {
+                        echo '<!-- DEBUG: No se encontró combo por tamaño -->';
+                    }
+                } else {
+                    echo '<!-- DEBUG: No hay parámetros de combo -->';
+                }
                 
-                <div class="products-grid" id="tortilla-grid">
-                    <!-- Placeholder tortilla options -->
-                    <div class="combo-option-card tortilla-option" data-type="tortilla" data-value="Tortillas de Maíz">
-                        <div class="option-content">
-                            <h3 class="option-title">Tortillas de Maíz</h3>
-                            <div class="option-price">$0.00</div>
-                        </div>
-                    </div>
+                if ($combo_product_id) {
+                    echo '<!-- DEBUG: Procesando combo ID: ' . $combo_product_id . ' -->';
+                    $combo_product = wc_get_product($combo_product_id);
                     
-                    <div class="combo-option-card tortilla-option" data-type="tortilla" data-value="Tortillas de Harina">
-                        <div class="option-content">
-                            <h3 class="option-title">Tortillas de Harina</h3>
-                            <div class="option-price">$0.00</div>
-                        </div>
-                    </div>
-                    
-                    <div class="combo-option-card tortilla-option" data-type="tortilla" data-value="Tortillas de Nopal">
-                        <div class="option-content">
-                            <h3 class="option-title">Tortillas de Nopal</h3>
-                            <div class="option-price">$0.00</div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+                    if ($combo_product) {
+                        echo '<!-- DEBUG: Producto cargado correctamente -->';
+                        
+                        // Extraer opciones desde el meta field _wapf_fieldgroup
+                        $wapf_data = get_post_meta($combo_product_id, '_wapf_fieldgroup', true);
+                        
+                        // Inicializar arrays para las opciones
+                        $protein_options = array();
+                        $sauce_options_1 = array(); // Primera selección de salsas
+                        $sauce_options_2 = array(); // Segunda selección de salsas
+                        $tortilla_options_1 = array(); // Primera selección de tortillas
+                        $tortilla_options_2 = array(); // Segunda selección de tortillas
+                        $extra_guacamole = array();
+                        
+                        if (!empty($wapf_data) && isset($wapf_data['fields'])) {
+                            echo '<!-- DEBUG: WAPF data encontrada -->';
+                            
+                            foreach ($wapf_data['fields'] as $field) {
+                                if (isset($field['id']) && isset($field['options']['choices'])) {
+                                    $choices = $field['options']['choices'];
+                                    $labels = array();
+                                    
+                                    // Extraer las etiquetas de las opciones
+                                    foreach ($choices as $choice) {
+                                        if (isset($choice['label'])) {
+                                            $labels[] = $choice['label'];
+                                        }
+                                    }
+                                    
+                                    // Asignar a la categoría correcta según el ID del campo
+                                    switch ($field['id']) {
+                                        case '68a50e0cee780': // Selecciona tu Proteína
+                                            $protein_options = $labels;
+                                            echo '<!-- DEBUG: Proteínas extraídas: ' . print_r($protein_options, true) . ' -->';
+                                            break;
+                                            
+                                        case '68a50e6ba4b20': // Salsas y Más (primera selección)
+                                            $sauce_options_1 = $labels;
+                                            echo '<!-- DEBUG: Salsas 1 extraídas: ' . print_r($labels, true) . ' -->';
+                                            break;
+                                            
+                                        case '68a51006d47d3': // Salsas y Más (segunda selección)
+                                            $sauce_options_2 = $labels;
+                                            echo '<!-- DEBUG: Salsas 2 extraídas: ' . print_r($labels, true) . ' -->';
+                                            break;
+                                            
+                                        case '68a510162a582': // Tortillas (primera selección)
+                                            $tortilla_options_1 = $labels;
+                                            echo '<!-- DEBUG: Tortillas 1 extraídas: ' . print_r($labels, true) . ' -->';
+                                            break;
+                                            
+                                        case '68a5104d583c2': // Tortillas (segunda selección)
+                                            $tortilla_options_2 = $labels;
+                                            echo '<!-- DEBUG: Tortillas 2 extraídas: ' . print_r($labels, true) . ' -->';
+                                            break;
+                                            
+                                        case '68a5104a7b121': // ¿Quieres más guacamole?
+                                            $extra_guacamole = $labels;
+                                            echo '<!-- DEBUG: Extra guacamole extraído: ' . print_r($extra_guacamole, true) . ' -->';
+                                            break;
+                                    }
+                                }
+                            }
+                        } else {
+                            echo '<!-- DEBUG: No se encontró WAPF data -->';
+                        }
+                        
+                        // Si no hay custom fields, usar valores por defecto
+                        if (empty($protein_options)) {
+                            echo '<!-- DEBUG: Usando proteínas por defecto -->';
+                            $protein_options = ['Pollo con Cebolla y Pimentón', 'Pollo Rosarita', 'Carne en Salsa Roja'];
+                        }
+                        if (empty($sauce_options_1)) {
+                            echo '<!-- DEBUG: Usando salsas por defecto -->';
+                            $sauce_options_1 = ['Mayonesa Chipotle', 'Salsa Roja', 'Sour Cream', 'Guacamole'];
+                        }
+                        if (empty($tortilla_options_1)) {
+                            echo '<!-- DEBUG: Usando tortillas por defecto -->';
+                            $tortilla_options_1 = ['Tortillas de Maíz', 'Tortillas de Harina', 'Tortillas de Nopal'];
+                        }
+                        
+                        // Protein Selection Section
+                        ?>
+                        <section class="combo-section mb-5">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h2 class="section-title">
+                                        Escoge tu Proteína 
+                                        <span class="selection-limit">(choose 1)</span>
+                                    </h2>
+                                </div>
+                            </div>
+                            
+                            <div class="products-grid" id="protein-grid">
+                                <?php
+                                $first = true;
+                                foreach ($protein_options as $protein) {
+                                    $selected_class = $first ? 'selected' : '';
+                                    $first = false;
+                                    ?>
+                                    <div class="combo-option-card protein-option <?php echo $selected_class; ?>" 
+                                         data-type="protein" 
+                                         data-value="<?php echo esc_attr(trim($protein)); ?>"
+                                         data-price="0.00">
+                                        <div class="option-content">
+                                            <h3 class="option-title"><?php echo esc_html(trim($protein)); ?></h3>
+                                            <div class="option-price">$0.00</div>
+                                        </div>
+                                    </div>
+                                    <?php
+                                }
+                                ?>
+                            </div>
+                        </section>
 
+                        <!-- First Sauces and Extras Section -->
+                        <section class="combo-section mb-5">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h2 class="section-title">
+                                        Salsas y Más (1) 
+                                        <span class="selection-limit">(choose 1)</span>
+                                    </h2>
+                                </div>
+                            </div>
+                            
+                            <div class="products-grid" id="sauce-grid-1">
+                                <?php
+                                foreach ($sauce_options_1 as $sauce) {
+                                    ?>
+                                    <div class="combo-option-card sauce-option" 
+                                         data-type="sauce" 
+                                         data-value="<?php echo esc_attr(trim($sauce)); ?>"
+                                         data-price="0.00">
+                                        <div class="option-content">
+                                            <h3 class="option-title"><?php echo esc_html(trim($sauce)); ?></h3>
+                                            <div class="option-price">$0.00</div>
+                                        </div>
+                                    </div>
+                                    <?php
+                                }
+                                ?>
+                            </div>
+                        </section>
 
+                        <!-- Second Sauces and Extras Section -->
+                        <?php if (!empty($sauce_options_2)) : ?>
+                        <section class="combo-section mb-5">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h2 class="section-title">
+                                        Salsas y Más (2) 
+                                        <span class="selection-limit">(choose 1)</span>
+                                    </h2>
+                                </div>
+                            </div>
+                            
+                            <div class="products-grid" id="sauce-grid-2">
+                                <?php
+                                foreach ($sauce_options_2 as $sauce) {
+                                    ?>
+                                    <div class="combo-option-card sauce-option" 
+                                         data-type="sauce" 
+                                         data-value="<?php echo esc_attr(trim($sauce)); ?>"
+                                         data-price="0.00">
+                                        <div class="option-content">
+                                            <h3 class="option-title"><?php echo esc_html(trim($sauce)); ?></h3>
+                                            <div class="option-price">$0.00</div>
+                                        </div>
+                                    </div>
+                                    <?php
+                                }
+                                ?>
+                            </div>
+                        </section>
+                        <?php endif; ?>
 
-        </form>
+                        <!-- First Tortilla Selection Section -->
+                        <section class="combo-section mb-5">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h2 class="section-title">
+                                        Tortillas (1) 
+                                        <span class="selection-limit">(choose 1)</span>
+                                    </h2>
+                                </div>
+                            </div>
+                            
+                            <div class="products-grid" id="tortilla-grid-1">
+                                <?php
+                                $first = true;
+                                foreach ($tortilla_options_1 as $tortilla) {
+                                    $selected_class = $first ? 'selected' : '';
+                                    $first = false;
+                                    ?>
+                                    <div class="combo-option-card tortilla-option <?php echo $selected_class; ?>" 
+                                         data-type="tortilla" 
+                                         data-value="<?php echo esc_attr(trim($tortilla)); ?>"
+                                         data-price="0.00">
+                                        <div class="option-content">
+                                            <h3 class="option-title"><?php echo esc_html(trim($tortilla)); ?></h3>
+                                            <div class="option-price">$0.00</div>
+                                        </div>
+                                    </div>
+                                    <?php
+                                }
+                                ?>
+                            </div>
+                        </section>
+
+                        <!-- Second Tortilla Selection Section -->
+                        <?php if (!empty($tortilla_options_2)) : ?>
+                        <section class="combo-section mb-5">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h2 class="section-title">
+                                        Tortillas (2) 
+                                        <span class="selection-limit">(choose 1)</span>
+                                    </h2>
+                                </div>
+                            </div>
+                            
+                            <div class="products-grid" id="tortilla-grid-2">
+                                <?php
+                                $first = true;
+                                foreach ($tortilla_options_2 as $tortilla) {
+                                    $selected_class = $first ? 'selected' : '';
+                                    $first = false;
+                                    ?>
+                                    <div class="combo-option-card tortilla-option <?php echo $selected_class; ?>" 
+                                         data-type="tortilla" 
+                                         data-value="<?php echo esc_attr(trim($tortilla)); ?>"
+                                         data-price="0.00">
+                                        <div class="option-content">
+                                            <h3 class="option-title"><?php echo esc_html(trim($tortilla)); ?></h3>
+                                            <div class="option-price">$0.00</div>
+                                        </div>
+                                    </div>
+                                    <?php
+                                }
+                                ?>
+                            </div>
+                        </section>
+                        <?php endif; ?>
+                        
+                        <!-- Extra Guacamole Section (si está configurado) -->
+                        <?php if (!empty($extra_guacamole)) : ?>
+                        <section class="combo-section mb-5">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h2 class="section-title">
+                                        ¿Quieres más guacamole?
+                                        <span class="selection-limit">(opcional)</span>
+                                    </h2>
+                                </div>
+                            </div>
+                            
+                            <div class="products-grid" id="extra-guacamole-grid">
+                                <?php
+                                foreach ($extra_guacamole as $option) {
+                                    ?>
+                                    <div class="combo-option-card extra-option" 
+                                         data-type="extra" 
+                                         data-value="<?php echo esc_attr(trim($option)); ?>"
+                                         data-price="0.00">
+                                        <div class="option-content">
+                                            <h3 class="option-title"><?php echo esc_html(trim($option)); ?></h3>
+                                            <div class="option-price">$0.00</div>
+                                        </div>
+                                    </div>
+                                    <?php
+                                }
+                                ?>
+                            </div>
+                        </section>
+                        <?php endif; ?>
+                        
+                        <!-- Hidden input para el ID del combo -->
+                        <input type="hidden" name="combo_product_id" value="<?php echo esc_attr($combo_product_id); ?>">
+                        
+                        <?php
+                    } else {
+                        echo '<p>Error: No se pudo cargar el producto de combo.</p>';
+                    }
+                } else {
+                    echo '<p>Error: No se especificó un combo para personalizar.</p>';
+                }
+                ?>
+
+            </form>
         </div> <!-- Cierre de combo-content-main -->
 
     </div>
@@ -272,18 +433,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const selectedSauces = document.querySelectorAll('.sauce-option.selected');
         const selectedTortillas = document.querySelectorAll('.tortilla-option.selected');
         
-        document.getElementById('selected-protein').textContent = 
-            selectedProtein ? selectedProtein.dataset.value : 'Ninguna seleccionada';
-        
-        document.getElementById('selected-sauces').textContent = 
-            selectedSauces.length > 0 ? 
-            Array.from(selectedSauces).map(s => s.dataset.value).join(', ') : 
-            'Ninguna seleccionada';
-        
-        document.getElementById('selected-tortillas').textContent = 
-            selectedTortillas.length > 0 ? 
-            Array.from(selectedTortillas).map(t => t.dataset.value).join(', ') : 
-            'Ninguna seleccionada';
+        // Aquí puedes agregar lógica para mostrar el resumen si es necesario
+        // Por ahora solo manejamos la selección
     }
     
     // Handle form submission
