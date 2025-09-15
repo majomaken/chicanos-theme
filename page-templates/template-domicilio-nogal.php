@@ -14,151 +14,38 @@ get_header();
 
 ?>
 
-<style>
-/* CSS personalizado para eliminar el espacio en blanco en las tarjetas de tacos */
-.products-section .products-grid .combo-card-personalizado {
-  height: auto !important;
-  min-height: auto !important;
-  max-height: none !important;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: stretch !important;
-  box-sizing: border-box !important;
-  overflow: hidden !important;
-}
-
-.woocommerce ul.products li.product {
-  height: auto !important;
-  min-height: auto !important;
-  max-height: none !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-.combo-header {
-  flex-shrink: 0 !important;
-  height: 80px !important;
-  min-height: 80px !important;
-  max-height: 80px !important;
-  margin: 0 !important;
-  padding: 8px 15px !important;
-  border-bottom: 1px solid #000 !important;
-  background-color: #FAD3DB !important;
-}
-
-.combo-imagen {
-  height: 160px !important;
-  min-height: 160px !important;
-  max-height: 160px !important;
-  flex-shrink: 0 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  line-height: 0 !important;
-  font-size: 0 !important;
-  background-color: #FBF5ED !important;
-  overflow: hidden !important;
-}
-
-.combo-footer {
-  height: 50px !important;
-  min-height: 50px !important;
-  max-height: 50px !important;
-  flex-shrink: 0 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  border-top: none !important;
-  background-color: #FBF5ED !important;
-}
-
-.combo-card-personalizado .combo-header + .combo-imagen {
-  margin-top: 0 !important;
-  padding-top: 0 !important;
-}
-
-.combo-card-personalizado .combo-imagen + .combo-footer {
-  margin-top: 0 !important;
-  padding-top: 0 !important;
-  border-top: none !important;
-}
-
-.combo-imagen img {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-  border-radius: 0 !important;
-}
-
-.combo-footer .button,
-.combo-footer button,
-.combo-footer input[type="submit"] {
-  height: 50px !important;
-  min-height: 50px !important;
-  max-height: 50px !important;
-  padding: 8px 0 !important;
-  margin: 0 !important;
-  border-radius: 0 !important;
-  background-color: #F9CB38 !important;
-  color: #000 !important;
-  border: 1px solid #000 !important;
-  border-bottom: none !important;
-  font-weight: 700 !important;
-  font-size: 0.9rem !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.5px !important;
-  width: 100% !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-}
-
-.products-section .products-grid {
-  gap: 25px !important;
-}
-
-.products-section .products-grid li {
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-.woocommerce ul.products li.product .combo-card-personalizado {
-  height: auto !important;
-  min-height: auto !important;
-  max-height: none !important;
-}
-
-.products-section {
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-@media (max-width: 768px) {
-  .products-section .products-grid {
-    gap: 20px !important;
-  }
-}
-
-@media (max-width: 480px) {
-  .products-section .products-grid {
-    gap: 15px !important;
-  }
-}
-</style>
 
 <div id="domicilio-nogal-wrapper">
     <main id="main" class="site-main" role="main">
 
         <!-- Hero Section -->
         <section id="domicilio-hero" class="hero-section">
-            <div class="hero-image-container">
-                <div class="sede-image-background">
-                    <img src="<?php echo get_stylesheet_directory_uri(); ?>/img/banner.jpg" alt="Sede Nogal" class="sede-background-image">
-                </div>
-                <div class="hero-overlay">
-                    <img src="<?php echo get_stylesheet_directory_uri(); ?>/img/pixel-flower-red.png" alt="Flor Roja Pixelada" class="pixel-flower">
-                    <h1 class="hero-title">Sede Nogal</h1>
-                </div>
-                <div class="hero-pattern">
-                    <img src="<?php echo get_stylesheet_directory_uri(); ?>/img/hero-layer.png" alt="Capa Rosa" class="hero-layer-pink">
+            <div class="container">
+                <div class="row align-items-center">
+                    <!-- Left Column - Text Content -->
+                    <div class="col-lg-6">
+                        <div class="hero-content">
+                            <img src="<?php echo get_stylesheet_directory_uri(); ?>/img/pixel-flower-red.png" alt="Flor Roja Pixelada" class="hero-decoration">
+                            <h1 class="hero-title">Sede Nogal</h1>
+                            <div class="hero-info">
+                                <p class="delivery-range">Desde la carrera 1 con 24</p>
+                                <p class="delivery-range">hasta la carrera 90 con 20</p>
+                                <p class="address">Carrera 11 #78-70</p>
+                                <p class="contact-info">WhatsApp: +57 322 2112325</p>
+                                <p class="contact-info">Teléfono: (601) 312 9887 o (601) 300 2326</p>
+                                <p class="contact-info">Correo: contacto@chicano.com.co</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Right Column - Image -->
+                    <div class="col-lg-6">
+                        <div class="hero-image-container">
+                            <img src="<?php echo get_stylesheet_directory_uri(); ?>/img/sede-nogal-banner.jpg" alt="Sede Nogal" class="hero-image">
+                            <div class="hero-pattern">
+                                <img src="<?php echo get_stylesheet_directory_uri(); ?>/img/hero-layer.png" alt="Capa Rosa" class="hero-layer-pink">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -168,10 +55,11 @@ get_header();
             <div class="container">
                 <div class="categories-nav">
                     <ul class="categories-list">
-                        <li><a href="#combos-para-llevar" class="category-link">Combos</a></li>
+                        <li><a href="<?php echo home_url('/combos-para-llevar/'); ?>" class="category-link">Combos</a></li>
                         <li><a href="#tacos" class="category-link">Tacos</a></li>
-                        <li><a href="#create-your-own" class="category-link">Ensalada/Burrito</a></li>
-                        <li><a href="#adiciones" class="category-link">Adiciones</a></li>
+                        <li><a href="#mini-taquitos" class="category-link">Mini Taquitos</a></li>
+                        <li><a href="<?php echo home_url('/ensaladas/'); ?>" class="category-link">Ensalada/Burrito</a></li>
+                        <li><a href="#todo-para-llevar" class="category-link">Todo Para Llevar</a></li>
                         <li><a href="#sopas" class="category-link">Sopas</a></li>
                         <li><a href="#botanas" class="category-link">Botanas</a></li>
                         <li><a href="#fuertes" class="category-link">Fuertes</a></li>
@@ -241,6 +129,38 @@ get_header();
             </div>
         </section>
 
+        <!-- Todo Para Llevar Section -->
+        <section id="todo-para-llevar" class="products-section">
+            <div class="container">
+                <h2 class="section-title">Todo Para Llevar</h2>
+                <div class="products-grid">
+                    <?php
+                    // Query for adiciones products
+                    $adiciones_args = array(
+                        'post_type' => 'product',
+                        'posts_per_page' => 10,
+                        'tax_query' => array(
+                            array(
+                                'taxonomy' => 'product_cat',
+                                'field'    => 'slug',
+                                'terms'    => 'adiciones',
+                            ),
+                        ),
+                    );
+                    
+                    $adiciones_products = new WP_Query($adiciones_args);
+                    
+                    if ($adiciones_products->have_posts()) :
+                        while ($adiciones_products->have_posts()) : $adiciones_products->the_post();
+                            wc_get_template_part('content', 'product');
+                        endwhile;
+                        wp_reset_postdata();
+                    endif;
+                    ?>
+                </div>
+            </div>
+        </section>
+
         <!-- Tacos Section -->
         <section id="tacos" class="products-section">
             <div class="container">
@@ -250,7 +170,7 @@ get_header();
                     // Query for taco products
                     $taco_args = array(
                         'post_type' => 'product',
-                        'posts_per_page' => 6,
+                        'posts_per_page' => 15, // Increased to show all tacos
                         'tax_query' => array(
                             array(
                                 'taxonomy' => 'product_cat',
@@ -272,7 +192,61 @@ get_header();
                         // Fallback: show any products if no tacos found
                         $fallback_args = array(
                             'post_type' => 'product',
-                            'posts_per_page' => 6,
+                            'posts_per_page' => 15, // Increased to match main query
+                            'orderby' => 'title',
+                            'order' => 'ASC',
+                        );
+                        
+                        $fallback_products = new WP_Query($fallback_args);
+                        
+                        if ($fallback_products->have_posts()) :
+                            while ($fallback_products->have_posts()) : $fallback_products->the_post();
+                                wc_get_template_part('content', 'product');
+                            endwhile;
+                            wp_reset_postdata();
+                        else :
+                            echo '<div class="no-products-message">';
+                            echo '<p>No hay productos disponibles en este momento. Por favor, revisa más tarde.</p>';
+                            echo '</div>';
+                        endif;
+                    endif;
+                    ?>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mini Taquitos Section -->
+        <section id="mini-taquitos" class="products-section">
+            <div class="container">
+                <h2 class="section-title">Mini Taquitos</h2>
+                <div class="products-grid">
+                    <?php
+                    // Query for mini taquitos products
+                    $mini_taquitos_args = array(
+                        'post_type' => 'product',
+                        'posts_per_page' => 10,
+                        'tax_query' => array(
+                            array(
+                                'taxonomy' => 'product_cat',
+                                'field'    => 'slug',
+                                'terms'    => array('mini-taquitos', 'mini-taquito'), // Multiple possible category slugs
+                                'operator' => 'IN',
+                            ),
+                        ),
+                    );
+                    
+                    $mini_taquitos_products = new WP_Query($mini_taquitos_args);
+                    
+                    if ($mini_taquitos_products->have_posts()) :
+                        while ($mini_taquitos_products->have_posts()) : $mini_taquitos_products->the_post();
+                            wc_get_template_part('content', 'product');
+                        endwhile;
+                        wp_reset_postdata();
+                    else :
+                        // Fallback: show any products if no mini taquitos found
+                        $fallback_args = array(
+                            'post_type' => 'product',
+                            'posts_per_page' => 10,
                             'orderby' => 'title',
                             'order' => 'ASC',
                         );
@@ -348,37 +322,6 @@ get_header();
             </div>
         </section>
 
-        <!-- Adiciones Section -->
-        <section id="adiciones" class="products-section">
-            <div class="container">
-                <h2 class="section-title">Adiciones</h2>
-                <div class="products-grid">
-                    <?php
-                    // Query for adiciones products
-                    $adiciones_args = array(
-                        'post_type' => 'product',
-                        'posts_per_page' => 10,
-                        'tax_query' => array(
-                            array(
-                                'taxonomy' => 'product_cat',
-                                'field'    => 'slug',
-                                'terms'    => 'adiciones',
-                            ),
-                        ),
-                    );
-                    
-                    $adiciones_products = new WP_Query($adiciones_args);
-                    
-                    if ($adiciones_products->have_posts()) :
-                        while ($adiciones_products->have_posts()) : $adiciones_products->the_post();
-                            wc_get_template_part('content', 'product');
-                        endwhile;
-                        wp_reset_postdata();
-                    endif;
-                    ?>
-                </div>
-            </div>
-        </section>
 
         <!-- Sopas Section -->
         <section id="sopas" class="products-section">
@@ -633,6 +576,13 @@ get_header();
                     endif;
                     ?>
                 </div>
+            </div>
+        </section>
+
+        <!-- Spacing Section -->
+        <section id="spacing-section" class="spacing-section">
+            <div class="container">
+                <!-- Empty section for spacing before footer -->
             </div>
         </section>
 

@@ -4,7 +4,7 @@
  */
 
 /* Background - usar el color de página existente con green flowers repetidas verticalmente */
-#combos-para-llevar-wrapper {
+#combos-para-llevar-7-10-wrapper {
     background-color: #f5f5dc; /* Light beige background */
     min-height: 100vh;
     padding: 40px 0;
@@ -419,30 +419,30 @@
     box-shadow: none;
 }
 
-/* Burritos Template Specific Styles */
-#combos-para-llevar-wrapper .combo-option-card {
+/* Combos 7-10 Template Specific Styles */
+#combos-para-llevar-7-10-wrapper .combo-option-card {
     min-height: 100px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-#combos-para-llevar-wrapper .combo-option-card.selected {
+#combos-para-llevar-7-10-wrapper .combo-option-card.selected {
     background-color: #F9CB38 !important;
 }
 
-#combos-para-llevar-wrapper .combo-option-card .option-content {
+#combos-para-llevar-7-10-wrapper .combo-option-card .option-content {
     text-align: left;
     width: 100%;
 }
 
-#combos-para-llevar-wrapper .combo-option-card .option-title {
+#combos-para-llevar-7-10-wrapper .combo-option-card .option-title {
     font-size: 1rem;
     line-height: 1.2;
     margin-bottom: 8px;
 }
 
-#combos-para-llevar-wrapper .combo-option-card .option-price {
+#combos-para-llevar-7-10-wrapper .combo-option-card .option-price {
     font-size: 1rem;
     font-weight: 700;
     display: none;
@@ -462,6 +462,34 @@
     color: #495057;
     margin: 0;
     font-style: italic;
+}
+
+/* Salsas Details Styling */
+.salsas-details {
+    margin: 20px 0;
+}
+
+.salsas-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.salsas-list li {
+    font-family: "Quicksand", sans-serif;
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 8px;
+    position: relative;
+    padding-left: 20px;
+}
+
+.salsas-list li:before {
+    content: "•";
+    color: #007bff;
+    font-weight: bold;
+    position: absolute;
+    left: 0;
 }
 
 
@@ -577,11 +605,6 @@
         font-size: 1.1rem;
     }
     
-    .add-to-cart-button {
-        padding: 12px 18px;
-        font-size: 1rem;
-    }
-    
     .success-notification {
         right: 10px;
         left: 10px;
@@ -651,15 +674,6 @@
     .combo-option-card .option-price {
         font-size: 1rem;
     }
-    
-    .add-to-cart-button {
-        padding: 10px 15px;
-        font-size: 0.9rem;
-    }
-    
-    .add-to-cart-description {
-        font-size: 0.9rem;
-    }
 }
 
 /* Animation for option selection */
@@ -720,394 +734,6 @@
 @keyframes spin {
     0% { transform: translate(-50%, -50%) rotate(0deg); }
     100% { transform: translate(-50%, -50%) rotate(360deg); }
-}
-
-/* Adiciones Button Styles - Igual que los demás botones */
-.adiciones-link {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-    width: 100%;
-    height: 100%;
-}
-
-.adiciones-link:hover {
-    text-decoration: none;
-    color: inherit;
-}
-
-/* Add to Cart Button Styles - Igual que los demás botones AGREGAR */
-.add-to-cart-button {
-    background: #F9CB38; /* Amarillo dorado igual que los demás botones */
-    border: 1px solid #000; /* Borde negro */
-    border-radius: 0; /* Sin bordes redondeados */
-    padding: 15px 20px; /* Mismo padding que los demás botones */
-    font-size: 1.1rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: #000; /* Texto negro */
-    transition: all 0.3s ease;
-    min-width: auto; /* Tamaño automático como los demás */
-    cursor: pointer;
-    font-family: "Quicksand", sans-serif;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-}
-
-.add-to-cart-button:hover {
-    background: #f0c030; /* Amarillo un poco más oscuro al hover */
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.add-to-cart-button:active {
-    transform: translateY(0);
-}
-
-.add-to-cart-button:focus {
-    outline: 3px solid #007bff;
-    outline-offset: 2px;
-}
-
-.add-to-cart-button i {
-    font-size: 1rem;
-}
-
-/* Estilos específicos para cuando el botón es un enlace */
-a.add-to-cart-button {
-    text-decoration: none;
-    color: #000;
-}
-
-a.add-to-cart-button:hover {
-    text-decoration: none;
-    color: #000;
-}
-
-.add-to-cart-description {
-    font-family: "Quicksand", sans-serif;
-    font-size: 1rem;
-    color: #666;
-    font-style: italic;
-    margin-top: 15px;
-    margin-bottom: 0;
-}
-
-/* Loading state for add to cart button */
-.add-to-cart-button.loading {
-    position: relative;
-    color: transparent;
-}
-
-.add-to-cart-button.loading::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 20px;
-    height: 20px;
-    border: 2px solid transparent;
-    border-top: 2px solid #000;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-}
-
-/* Modal Styles */
-.combo-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.modal-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(5px);
-}
-
-.modal-content {
-    position: relative;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    max-width: 500px;
-    width: 90%;
-    max-height: 80vh;
-    overflow-y: auto;
-    animation: modalSlideIn 0.3s ease-out;
-}
-
-@keyframes modalSlideIn {
-    from {
-        opacity: 0;
-        transform: translateY(-50px) scale(0.9);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-.modal-header {
-    padding: 25px 30px 20px;
-    border-bottom: 1px solid #eee;
-    text-align: center;
-}
-
-.modal-header h3 {
-    font-family: "Quicksand", sans-serif;
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: #28a745;
-    margin: 0;
-}
-
-.modal-body {
-    padding: 25px 30px;
-}
-
-.combo-summary h4 {
-    font-family: "Quicksand", sans-serif;
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: #333;
-    margin: 0 0 20px 0;
-    text-align: center;
-}
-
-.summary-item {
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 15px;
-    padding: 12px;
-    background: #f8f9fa;
-    border-radius: 8px;
-    border-left: 4px solid #007bff;
-}
-
-.summary-icon {
-    font-size: 1.2rem;
-    margin-right: 10px;
-    flex-shrink: 0;
-}
-
-.summary-label {
-    font-family: "Quicksand", sans-serif;
-    font-weight: 600;
-    color: #333;
-    margin-right: 10px;
-    flex-shrink: 0;
-    min-width: 120px;
-}
-
-.summary-value {
-    font-family: "Quicksand", sans-serif;
-    color: #666;
-    flex: 1;
-}
-
-.summary-list {
-    flex: 1;
-}
-
-.summary-list-item {
-    font-family: "Quicksand", sans-serif;
-    color: #666;
-    margin-bottom: 4px;
-    font-size: 0.9rem;
-}
-
-.modal-footer {
-    padding: 20px 30px 25px;
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    border-top: 1px solid #eee;
-}
-
-.modal-footer .btn {
-    padding: 12px 25px;
-    border-radius: 6px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    transition: all 0.3s ease;
-    min-width: 100px;
-}
-
-.modal-footer .btn-secondary {
-    background: #6c757d;
-    border: 1px solid #6c757d;
-    color: white;
-}
-
-.modal-footer .btn-secondary:hover {
-    background: #5a6268;
-    border-color: #5a6268;
-    transform: translateY(-2px);
-}
-
-.modal-footer .btn-primary {
-    background: #28a745;
-    border: 1px solid #28a745;
-    color: white;
-}
-
-.modal-footer .btn-primary:hover {
-    background: #218838;
-    border-color: #218838;
-    transform: translateY(-2px);
-}
-
-/* Responsive Modal */
-@media (max-width: 768px) {
-    .modal-content {
-        width: 95%;
-        max-height: 85vh;
-    }
-    
-    .modal-header {
-        padding: 20px 20px 15px;
-    }
-    
-    .modal-header h3 {
-        font-size: 1.2rem;
-    }
-    
-    .modal-body {
-        padding: 20px;
-    }
-    
-    .modal-footer {
-        padding: 15px 20px 20px;
-        flex-direction: column;
-    }
-    
-    .modal-footer .btn {
-        width: 100%;
-    }
-    
-    .summary-item {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    
-    .summary-label {
-        min-width: auto;
-        margin-bottom: 5px;
-    }
-}
-
-@media (max-width: 576px) {
-    .modal-content {
-        width: 98%;
-        margin: 10px;
-    }
-    
-    .modal-header h3 {
-        font-size: 1.1rem;
-    }
-    
-    .combo-summary h4 {
-        font-size: 1.1rem;
-    }
-    
-    .summary-item {
-        padding: 10px;
-    }
-    
-    .summary-icon {
-        font-size: 1.1rem;
-    }
-}
-
-/* Combo Cart Details Styles */
-.combo-cart-details {
-    margin-top: 10px !important;
-    padding: 12px !important;
-    background: #f8f9fa !important;
-    border-left: 4px solid #007bff !important;
-    border-radius: 6px !important;
-    font-family: "Quicksand", sans-serif !important;
-}
-
-.combo-cart-details > div:first-child {
-    font-weight: 700 !important;
-    margin-bottom: 8px !important;
-    color: #333 !important;
-    font-size: 0.95rem !important;
-}
-
-.combo-cart-details > div:last-child {
-    font-size: 0.85rem !important;
-    line-height: 1.5 !important;
-    color: #555 !important;
-}
-
-.combo-cart-details strong {
-    color: #007bff !important;
-    font-weight: 600 !important;
-}
-
-/* Combo Order Details Styles (for emails and order pages) */
-.combo-order-details {
-    margin-top: 10px !important;
-    padding: 12px !important;
-    background: #f8f9fa !important;
-    border-left: 4px solid #007bff !important;
-    border-radius: 6px !important;
-    font-family: "Quicksand", sans-serif !important;
-}
-
-.combo-order-details > div:first-child {
-    font-weight: 700 !important;
-    margin-bottom: 8px !important;
-    color: #333 !important;
-    font-size: 0.95rem !important;
-}
-
-.combo-order-details > div:last-child {
-    font-size: 0.85rem !important;
-    line-height: 1.5 !important;
-    color: #555 !important;
-}
-
-.combo-order-details strong {
-    color: #007bff !important;
-    font-weight: 600 !important;
-}
-
-/* Responsive styles for cart details */
-@media (max-width: 768px) {
-    .combo-cart-details,
-    .combo-order-details {
-        padding: 10px !important;
-        margin-top: 8px !important;
-    }
-    
-    .combo-cart-details > div:first-child,
-    .combo-order-details > div:first-child {
-        font-size: 0.9rem !important;
-    }
-    
-    .combo-cart-details > div:last-child,
-    .combo-order-details > div:last-child {
-        font-size: 0.8rem !important;
-    }
 }
 
 /* ===== MODAL DE VALIDACIÓN DE SELECCIÓN INCOMPLETA ===== */

@@ -1,21 +1,18 @@
 <?php
 /**
- * Template Name: Combos para Llevar
+ * Template Name: Combos para Llevar 4-6 Personas
  * 
- * Template para combos que se puede usar para diferentes tamaños:
- * - 1-3 personas
- * - 4-5 personas  
- * - 7-10 personas
+ * Template específico para combos de 4-6 personas
  *
  * @package Chicanos_Theme
  */
 
 get_header(); ?>
 
-<!-- Cargar estilos específicos para combos para llevar -->
-<link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/css/combos-para-llevar.css">
+<!-- Cargar estilos específicos para combos para llevar 4-6 personas -->
+<link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/css/combos-para-llevar-4-6.css">
 
-<div id="combos-para-llevar-wrapper" class="wrapper">
+<div id="combos-para-llevar-4-6-wrapper" class="wrapper">
     <div class="container">
         
         <!-- Banner Section -->
@@ -32,7 +29,7 @@ get_header(); ?>
                                 <span class="serving-size" id="dynamic-serving-size">
                                     <?php
                                     // Detectar automáticamente el tamaño del combo basado en parámetros de URL o contexto
-                                    $combo_size = 'Combo 1-3 personas'; // Default
+                                    $combo_size = 'Combo 4-6 personas'; // Default
                                     
                                     // Opción 1: Detectar desde parámetro de URL
                                     if (isset($_GET['combo_size'])) {
@@ -44,7 +41,7 @@ get_header(); ?>
                                         if (strpos($referer, 'domicilio-nogal') !== false) {
                                             // Si viene de domicilio-nogal, determinar el combo basado en el contexto
                                             // Esto se puede ajustar según cómo sepas qué combo específico eligió
-                                            $combo_size = 'Combo 1-3 personas'; // Ajustar según lógica de negocio
+                                            $combo_size = 'Combo 4-6 personas'; // Ajustar según lógica de negocio
                                         }
                                     }
                                     
@@ -55,14 +52,14 @@ get_header(); ?>
                             <div class="combo-includes">
                                 <p class="includes-title">Incluye:</p>
                                 <ul class="includes-list">
-                                    <li>1 bolsa de totopos crujientes</li>
-                                    <li>1 paquete de tortillas frescas</li>
-                                    <li>750 g de proteína a elección</li>
-                                    <li>1.500 g de salsa</li>
+                                    <li>2 bolsas de totopos crujientes</li>
+                                    <li>2 paquetes de tortillas frescas</li>
+                                    <li>2.000 g de proteína a elección</li>
+                                    <li>3.500 g de salsa</li>
                                 </ul>
                             </div>
                             <div class="combo-price">
-                                <span class="price-amount">$134,800</span>
+                                <span class="price-amount">$198,900</span>
                             </div>
                         </div>
                         <div class="portion-sizes">
@@ -76,7 +73,7 @@ get_header(); ?>
                             </div>
                             <div class="portion-size-item active">
                                 <div class="portion-bowl large"></div>
-                                <div class="portion-dimensions">1000</div>
+                                <div class="portion-dimensions">2000</div>
                                 <span class="portion-label">Gramos</span>
                             </div>
                         </div>
@@ -93,7 +90,7 @@ get_header(); ?>
         <!-- Contenido principal con imagen de fondo -->
         <div class="combo-content-main">
             <!-- Combo Builder Form -->
-            <form id="combo-builder-form" class="combo-builder">
+            <form id="combo-builder-form-4-6" class="combo-builder">
                 
                 <?php
                 // Obtener el ID del producto de combo desde la URL o contexto
@@ -140,31 +137,48 @@ get_header(); ?>
                         echo '<!-- DEBUG: No se encontró combo por tamaño -->';
                     }
                 } else {
-                    echo '<!-- DEBUG: No hay parámetros de combo, buscando combo por defecto -->';
-                    // Opción 3: Si no hay parámetros, buscar el primer combo disponible
-                    $default_combo_args = array(
+                    echo '<!-- DEBUG: No hay parámetros de combo, buscando combo 4-6 específico -->';
+                    // Opción 3: Si no hay parámetros, buscar específicamente el combo 4-6 personas por slug
+                    $combo_4_6_args = array(
                         'post_type' => 'product',
                         'posts_per_page' => 1,
-                        'orderby' => 'title',
-                        'order' => 'ASC',
-                        'tax_query' => array(
-                            array(
-                                'taxonomy' => 'product_cat',
-                                'field'    => 'slug',
-                                'terms'    => array('combos', 'combo', 'combo-para-llevar'),
-                                'operator' => 'IN',
-                            ),
-                        ),
+                        'name' => 'combo-para-llevar-4-a-6-personas'
                     );
                     
-                    $default_combo_query = new WP_Query($default_combo_args);
-                    if ($default_combo_query->have_posts()) {
-                        $default_combo_query->the_post();
+                    $combo_4_6_query = new WP_Query($combo_4_6_args);
+                    if ($combo_4_6_query->have_posts()) {
+                        $combo_4_6_query->the_post();
                         $combo_product_id = get_the_ID();
-                        echo '<!-- DEBUG: Combo por defecto encontrado: ' . $combo_product_id . ' -->';
+                        echo '<!-- DEBUG: Combo 4-6 específico encontrado por slug: ' . $combo_product_id . ' -->';
                         wp_reset_postdata();
                     } else {
-                        echo '<!-- DEBUG: No se encontró ningún combo -->';
+                        echo '<!-- DEBUG: No se encontró combo 4-6 por slug, buscando por título -->';
+                        // Fallback: buscar por título que contenga "4-6" o "4 a 6"
+                        $combo_title_args = array(
+                            'post_type' => 'product',
+                            'posts_per_page' => 1,
+                            'orderby' => 'title',
+                            'order' => 'ASC',
+                            'tax_query' => array(
+                                array(
+                                    'taxonomy' => 'product_cat',
+                                    'field'    => 'slug',
+                                    'terms'    => array('combos', 'combo', 'combo-para-llevar'),
+                                    'operator' => 'IN',
+                                ),
+                            ),
+                            's' => '4-6'
+                        );
+                        
+                        $combo_title_query = new WP_Query($combo_title_args);
+                        if ($combo_title_query->have_posts()) {
+                            $combo_title_query->the_post();
+                            $combo_product_id = get_the_ID();
+                            echo '<!-- DEBUG: Combo 4-6 encontrado por título: ' . $combo_product_id . ' -->';
+                            wp_reset_postdata();
+                        } else {
+                            echo '<!-- DEBUG: No se encontró ningún combo 4-6 -->';
+                        }
                     }
                 }
                 
@@ -310,18 +324,14 @@ get_header(); ?>
                                 <div class="col-12">
                                     <h2 class="section-title">
                                         Tortillas 
-                                        <span class="selection-limit">(escoge 1)</span>
+                                        <span class="selection-limit">(escoge 2)</span>
                                     </h2>
                                 </div>
                             </div>
                             
                             <div class="products-grid" id="tortilla-grid">
                                 <?php
-                                $first = true;
                                 foreach ($tortilla_options_1 as $tortilla) {
-                                    $selected_class = $first ? 'selected' : '';
-                                    $first = false;
-                                    
                                     // Separar el texto principal de las especificaciones
                                     $tortilla_text = trim($tortilla);
                                     $main_text = $tortilla_text;
@@ -333,11 +343,17 @@ get_header(); ?>
                                         $spec_text = '(' . trim($matches[2]) . ')';
                                     }
                                     ?>
-                                    <div class="combo-option-card tortilla-option <?php echo $selected_class; ?>" 
+                                    <div class="combo-option-card tortilla-option" 
                                          data-type="tortilla" 
                                          data-value="<?php echo esc_attr($tortilla_text); ?>"
-                                         data-price="0.00">
+                                         data-price="0.00"
+                                         data-count="0">
+                                        <input type="hidden" 
+                                               name="tortilla[]" 
+                                               value="<?php echo esc_attr($tortilla_text); ?>"
+                                               class="tortilla-input">
                                         <div class="option-content">
+                                            <div class="quantity-indicator" style="display: none;">x2</div>
                                             <h3 class="option-title"><?php echo esc_html($main_text); ?></h3>
                                             <?php if ($spec_text): ?>
                                                 <div class="option-spec"><?php echo esc_html($spec_text); ?></div>
@@ -357,7 +373,7 @@ get_header(); ?>
                                 <div class="col-12">
                                     <h2 class="section-title">
                                         Escoge tu Proteína 
-                                        <span class="selection-limit">(Escoge 3 proteinas (cada una de 250Gr) = 750gr)</span>
+                                        <span class="selection-limit">(Escoge 3 de 500GR = 1,500GR)</span>
                                     </h2>
                                 </div>
                             </div>
@@ -406,8 +422,18 @@ get_header(); ?>
                                 <div class="col-12">
                                     <h2 class="section-title">
                                         Salsas y Más 
-                                        <span class="selection-limit">(6 salsas de 250GR)</span>
+                                        <span class="selection-limit">(escoge 6)</span>
                                     </h2>
+                                    <div class="salsas-details">
+                                        <ul class="salsas-list">
+                                            <li>6 salsas (3500gr) 1000gr de guacamole,</li>
+                                            <li>1000 gr de pico de gallo predeterminadas</li>
+                                            <li>500 gramos de frijol</li>
+                                            <li>500 gramos de queso</li>
+                                            <li>250 gramos de lo que quieran</li>
+                                            <li>250 gramos de lo que quieran</li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                             
@@ -521,56 +547,50 @@ get_header(); ?>
                             </div>
                             
                             <div class="products-grid" id="extra-guacamole-grid">
-                                <?php
-                                foreach ($extra_guacamole as $option) {
-                                    ?>
-                                    <div class="combo-option-card extra-option" 
-                                         data-type="extra" 
-                                         data-value="<?php echo esc_attr(trim($option)); ?>"
-                                         data-price="0.00">
-                                        <a href="<?php 
-                                            // Buscar la página de adiciones
-                                            $adiciones_page = get_posts(array(
-                                                'name' => 'adiciones-extra',
+                                <div class="combo-option-card extra-option" 
+                                     data-type="extra" 
+                                     data-value="adiciones"
+                                     data-price="0.00">
+                                    <a href="<?php
+                                        // Buscar la página de adiciones
+                                        $adiciones_page = get_posts(array(
+                                            'name' => 'adiciones-extra',
+                                            'post_type' => 'page',
+                                            'post_status' => 'publish',
+                                            'numberposts' => 1
+                                        ));
+                                        
+                                        if (!empty($adiciones_page)) {
+                                            echo get_permalink($adiciones_page[0]->ID);
+                                        } else {
+                                            // Si no existe la página, buscar cualquier página que use el template de adiciones
+                                            $adiciones_template_page = get_posts(array(
                                                 'post_type' => 'page',
                                                 'post_status' => 'publish',
+                                                'meta_query' => array(
+                                                    array(
+                                                        'key' => '_wp_page_template',
+                                                        'value' => 'page-templates/template-adiciones.php',
+                                                        'compare' => '='
+                                                    )
+                                                ),
                                                 'numberposts' => 1
                                             ));
                                             
-                                            if (!empty($adiciones_page)) {
-                                                echo get_permalink($adiciones_page[0]->ID);
+                                            if (!empty($adiciones_template_page)) {
+                                                echo get_permalink($adiciones_template_page[0]->ID);
                                             } else {
-                                                // Si no existe la página, buscar cualquier página que use el template de adiciones
-                                                $adiciones_template_page = get_posts(array(
-                                                    'post_type' => 'page',
-                                                    'post_status' => 'publish',
-                                                    'meta_query' => array(
-                                                        array(
-                                                            'key' => '_wp_page_template',
-                                                            'value' => 'page-templates/template-adiciones.php',
-                                                            'compare' => '='
-                                                        )
-                                                    ),
-                                                    'numberposts' => 1
-                                                ));
-                                                
-                                                if (!empty($adiciones_template_page)) {
-                                                    echo get_permalink($adiciones_template_page[0]->ID);
-                                                } else {
-                                                    // Fallback: usar home_url con el slug esperado
-                                                    echo home_url('/adiciones-extra/');
-                                                }
+                                                // Fallback: usar home_url con el slug esperado
+                                                echo home_url('/adiciones-extra/');
                                             }
-                                        ?>" class="adiciones-link" id="adiciones-link">
-                                            <div class="option-content">
-                                                <h3 class="option-title">Adiciones</h3>
-                                                <div class="option-price">$0.00</div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <?php
-                                }
-                                ?>
+                                        }
+                                    ?>" class="adiciones-link" id="adiciones-link">
+                                        <div class="option-content">
+                                            <h3 class="option-title">Adiciones</h3>
+                                            <div class="option-price">$0.00</div>
+                                        </div>
+                                    </a>
+                                </div>
                             </div>
                         </section>
                         
@@ -643,7 +663,7 @@ get_header(); ?>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // PROTEINAS LOGIC (3 selecciones)
+    // Handle clicks on protein cards
     const proteinCards = document.querySelectorAll('.protein-option');
     proteinCards.forEach(card => {
         card.addEventListener('click', function() {
@@ -651,6 +671,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const totalSelected = getTotalProteinSelections();
             
             if (currentCount === 0) {
+                // Si no está seleccionado, seleccionarlo
                 if (totalSelected >= 3) {
                     showLimitMessage('Solo puedes seleccionar máximo 3 proteínas');
                     return;
@@ -658,30 +679,65 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.dataset.count = '1';
                 this.classList.add('selected');
             } else if (currentCount === 1) {
+                // Si está seleccionado una vez, verificar si puede seleccionarse otra vez
                 if (totalSelected >= 3) {
+                    // Si ya hay 3 selecciones, deseleccionar esta
                     this.dataset.count = '0';
                     this.classList.remove('selected');
                 } else {
+                    // Si hay menos de 3 selecciones, seleccionarlo una segunda vez
                     this.dataset.count = '2';
                 }
             } else if (currentCount === 2) {
+                // Si está seleccionado dos veces, verificar si puede seleccionarse una tercera vez
                 if (totalSelected >= 3) {
+                    // Si ya hay 3 selecciones, deseleccionar esta
                     this.dataset.count = '0';
                     this.classList.remove('selected');
                 } else {
+                    // Si hay menos de 3 selecciones, seleccionarlo una tercera vez
                     this.dataset.count = '3';
                 }
             } else if (currentCount === 3) {
+                // Si está seleccionado tres veces, deseleccionarlo completamente
                 this.dataset.count = '0';
                 this.classList.remove('selected');
             }
             
+            // Actualizar indicadores de cantidad
             updateProteinQuantityIndicators();
+            
             updateSummary();
         });
     });
-
-    // SALSAS LOGIC (6 selecciones)
+    
+    // Función para obtener el total de selecciones de proteínas
+    function getTotalProteinSelections() {
+        let total = 0;
+        document.querySelectorAll('.protein-option').forEach(card => {
+            total += parseInt(card.dataset.count);
+        });
+        return total;
+    }
+    
+    // Función para actualizar los indicadores de cantidad en proteínas
+    function updateProteinQuantityIndicators() {
+        document.querySelectorAll('.protein-option').forEach(card => {
+            const count = parseInt(card.dataset.count);
+            const indicator = card.querySelector('.quantity-indicator');
+            
+            if (count >= 2) {
+                // Si está seleccionado 2 o más veces, mostrar el indicador
+                indicator.textContent = `x${count}`;
+                indicator.style.display = 'block';
+            } else {
+                // Si no está seleccionado 2 o más veces, ocultar el indicador
+                indicator.style.display = 'none';
+            }
+        });
+    }
+    
+    // Handle clicks on sauce cards
     const sauceCards = document.querySelectorAll('.sauce-option');
     sauceCards.forEach(card => {
         card.addEventListener('click', function() {
@@ -689,6 +745,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const totalSelected = getTotalSauceSelections();
             
             if (currentCount === 0) {
+                // Si no está seleccionado, seleccionarlo
                 if (totalSelected >= 6) {
                     showLimitMessage('Solo puedes seleccionar máximo 6 salsas');
                     return;
@@ -696,52 +753,167 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.dataset.count = '1';
                 this.classList.add('selected');
             } else if (currentCount === 1) {
+                // Si está seleccionado una vez, verificar si puede seleccionarse otra vez
                 if (totalSelected >= 6) {
+                    // Si ya hay 6 selecciones, deseleccionar esta
                     this.dataset.count = '0';
                     this.classList.remove('selected');
                 } else {
+                    // Si hay menos de 6 selecciones, seleccionarlo una segunda vez
                     this.dataset.count = '2';
                 }
             } else if (currentCount === 2) {
+                // Si está seleccionado dos veces, verificar si puede seleccionarse una tercera vez
                 if (totalSelected >= 6) {
+                    // Si ya hay 6 selecciones, deseleccionar esta
                     this.dataset.count = '0';
                     this.classList.remove('selected');
                 } else {
+                    // Si hay menos de 6 selecciones, seleccionarlo una tercera vez
                     this.dataset.count = '3';
                 }
             } else if (currentCount === 3) {
+                // Si está seleccionado tres veces, verificar si puede seleccionarse una cuarta vez
                 if (totalSelected >= 6) {
+                    // Si ya hay 6 selecciones, deseleccionar esta
                     this.dataset.count = '0';
                     this.classList.remove('selected');
                 } else {
+                    // Si hay menos de 6 selecciones, seleccionarlo una cuarta vez
                     this.dataset.count = '4';
                 }
             } else if (currentCount === 4) {
+                // Si está seleccionado cuatro veces, verificar si puede seleccionarse una quinta vez
                 if (totalSelected >= 6) {
+                    // Si ya hay 6 selecciones, deseleccionar esta
                     this.dataset.count = '0';
                     this.classList.remove('selected');
                 } else {
+                    // Si hay menos de 6 selecciones, seleccionarlo una quinta vez
                     this.dataset.count = '5';
                 }
             } else if (currentCount === 5) {
+                // Si está seleccionado cinco veces, verificar si puede seleccionarse una sexta vez
                 if (totalSelected >= 6) {
+                    // Si ya hay 6 selecciones, deseleccionar esta
                     this.dataset.count = '0';
                     this.classList.remove('selected');
                 } else {
+                    // Si hay menos de 6 selecciones, seleccionarlo una sexta vez
                     this.dataset.count = '6';
                 }
             } else if (currentCount === 6) {
+                // Si está seleccionado seis veces, deseleccionarlo completamente
                 this.dataset.count = '0';
                 this.classList.remove('selected');
             }
             
+            // Actualizar indicadores de cantidad
             updateSauceQuantityIndicators();
+            
             updateSummary();
         });
     });
     
-    // Handle option selection for other categories (totopos, tortillas)
-    const otherOptionCards = document.querySelectorAll('.totopo-option, .tortilla-option');
+    // Función para obtener el total de selecciones de salsas
+    function getTotalSauceSelections() {
+        let total = 0;
+        document.querySelectorAll('.sauce-option').forEach(card => {
+            total += parseInt(card.dataset.count);
+        });
+        return total;
+    }
+
+    function getTotalTortillaSelections() {
+        let total = 0;
+        document.querySelectorAll('.tortilla-option').forEach(card => {
+            total += parseInt(card.dataset.count);
+        });
+        return total;
+    }
+    
+    // Función para actualizar los indicadores de cantidad en salsas
+    function updateSauceQuantityIndicators() {
+        document.querySelectorAll('.sauce-option').forEach(card => {
+            const count = parseInt(card.dataset.count);
+            const indicator = card.querySelector('.quantity-indicator');
+            
+            if (count >= 2) {
+                // Si está seleccionado 2 o más veces, mostrar el indicador
+                indicator.textContent = `x${count}`;
+                indicator.style.display = 'block';
+            } else {
+                // Si no está seleccionado 2 o más veces, ocultar el indicador
+                indicator.style.display = 'none';
+            }
+        });
+    }
+    
+    // Handle clicks on tortilla cards
+    const tortillaCards = document.querySelectorAll('.tortilla-option');
+    tortillaCards.forEach(card => {
+        card.addEventListener('click', function() {
+            const currentCount = parseInt(this.dataset.count);
+            const totalSelected = getTotalTortillaSelections();
+            
+            if (currentCount === 0) {
+                // Si no está seleccionado, seleccionarlo
+                if (totalSelected >= 2) {
+                    showLimitMessage('Solo puedes seleccionar máximo 2 tortillas');
+                    return;
+                }
+                this.dataset.count = '1';
+                this.classList.add('selected');
+            } else if (currentCount === 1) {
+                // Si está seleccionado una vez, verificar si puede seleccionarse otra vez
+                if (totalSelected >= 2) {
+                    // Si ya hay 2 selecciones, deseleccionar esta
+                    this.dataset.count = '0';
+                    this.classList.remove('selected');
+                } else {
+                    // Si hay menos de 2 selecciones, seleccionarlo una segunda vez
+                    this.dataset.count = '2';
+                }
+            } else if (currentCount === 2) {
+                // Si está seleccionado dos veces, deseleccionarlo completamente
+                this.dataset.count = '0';
+                this.classList.remove('selected');
+            }
+            
+            // Actualizar indicadores de cantidad
+            updateTortillaQuantityIndicators();
+            
+            updateSummary();
+        });
+    });
+    
+    // Función para obtener el total de selecciones de tortillas
+    function getTotalTortillaSelections() {
+        let total = 0;
+        document.querySelectorAll('.tortilla-option').forEach(card => {
+            total += parseInt(card.dataset.count);
+        });
+        return total;
+    }
+    
+    // Función para actualizar los indicadores de cantidad en tortillas
+    function updateTortillaQuantityIndicators() {
+        document.querySelectorAll('.tortilla-option').forEach(card => {
+            const count = parseInt(card.dataset.count);
+            const indicator = card.querySelector('.quantity-indicator');
+            
+            if (count === 2) {
+                // Si está seleccionado 2 veces, mostrar x2
+                indicator.style.display = 'block';
+            } else {
+                // Si no está seleccionado 2 veces, ocultar el indicador
+                indicator.style.display = 'none';
+            }
+        });
+    }
+    
+    // Handle option selection for other categories (totopos)
+    const otherOptionCards = document.querySelectorAll('.totopo-option');
     otherOptionCards.forEach(card => {
         card.addEventListener('click', function() {
             const type = this.dataset.type;
@@ -754,56 +926,11 @@ document.addEventListener('DOMContentLoaded', function() {
             updateSummary();
         });
     });
-
-    // FUNCTIONS
-    function getTotalProteinSelections() {
-        let total = 0;
-        document.querySelectorAll('.protein-option').forEach(card => {
-            total += parseInt(card.dataset.count);
-        });
-        return total;
-    }
-
-    function getTotalSauceSelections() {
-        let total = 0;
-        document.querySelectorAll('.sauce-option').forEach(card => {
-            total += parseInt(card.dataset.count);
-        });
-        return total;
-    }
-
-    function updateProteinQuantityIndicators() {
-        document.querySelectorAll('.protein-option').forEach(card => {
-            const count = parseInt(card.dataset.count);
-            const indicator = card.querySelector('.quantity-indicator');
-            
-            if (count >= 2) {
-                indicator.textContent = `x${count}`;
-                indicator.style.display = 'block';
-            } else {
-                indicator.style.display = 'none';
-            }
-        });
-    }
-
-    function updateSauceQuantityIndicators() {
-        document.querySelectorAll('.sauce-option').forEach(card => {
-            const count = parseInt(card.dataset.count);
-            const indicator = card.querySelector('.quantity-indicator');
-            
-            if (count >= 2) {
-                indicator.textContent = `x${count}`;
-                indicator.style.display = 'block';
-            } else {
-                indicator.style.display = 'none';
-            }
-        });
-    }
     
     // Update summary display
     function updateSummary() {
         const selectedTotopos = document.querySelector('.totopo-option.selected');
-        const selectedTortillas = document.querySelector('.tortilla-option.selected');
+        const totalTortillaSelections = getTotalTortillaSelections();
         const totalProteinSelections = getTotalProteinSelections();
         const totalSauceSelections = getTotalSauceSelections();
         
@@ -823,10 +950,14 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 2000);
     }
     
-    // Handle add to cart button
-    document.getElementById('add-to-cart-btn').addEventListener('click', function() {
+    // Handle form submission
+    document.getElementById('combo-builder-form-4-6').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
         const selectedTotopos = document.querySelector('.totopo-option.selected');
-        const selectedTortillas = document.querySelector('.tortilla-option.selected');
+        
+        // Verificar todas las selecciones usando el nuevo sistema
+        const totalTortillaSelections = getTotalTortillaSelections();
         const totalProteinSelections = getTotalProteinSelections();
         const totalSauceSelections = getTotalSauceSelections();
         
@@ -838,9 +969,11 @@ document.addEventListener('DOMContentLoaded', function() {
             validationErrors.push('• Selecciona 1 tipo de totopos');
         }
         
-        // Validar Tortillas (1 selección requerida)
-        if (!selectedTortillas) {
-            validationErrors.push('• Selecciona 1 tipo de tortillas');
+        // Validar Tortillas (exactamente 2 selecciones requeridas)
+        if (totalTortillaSelections === 0) {
+            validationErrors.push('• Selecciona 2 tortillas (cada una de 250gr = 500gr total)');
+        } else if (totalTortillaSelections !== 2) {
+            validationErrors.push(`• Selecciona exactamente 2 tortillas (actualmente tienes ${totalTortillaSelections})`);
         }
         
         // Validar Proteínas (exactamente 3 selecciones requeridas)
@@ -863,13 +996,81 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
+        // Here you would typically add the combo to cart
+        // For now, just show a success message
+        alert('¡Combo agregado al carrito exitosamente!');
+    });
+
+    // Handle add to cart button
+    document.getElementById('add-to-cart-btn').addEventListener('click', function() {
+        const selectedTotopos = document.querySelector('.totopo-option.selected');
+        const selectedTortillas = document.querySelector('.tortilla-option.selected');
+        const totalProteinSelections = getTotalProteinSelections();
+        const totalSauceSelections = getTotalSauceSelections();
+        
+        // Validación específica y detallada
+        let validationErrors = [];
+        
+        // Validar Totopos (1 selección requerida para combo 4-6)
+        if (!selectedTotopos) {
+            validationErrors.push('• Selecciona 1 tipo de totopos');
+        }
+        
+        // Validar Tortillas (2 selecciones requeridas para combo 4-6)
+        const totalTortillaSelections = getTotalTortillaSelections();
+        if (totalTortillaSelections === 0) {
+            validationErrors.push('• Selecciona 2 tipos de tortillas');
+        } else if (totalTortillaSelections !== 2) {
+            validationErrors.push(`• Selecciona exactamente 2 tortillas (actualmente tienes ${totalTortillaSelections})`);
+        }
+        
+        // Validar Proteínas (exactamente 3 selecciones requeridas para combo 4-6)
+        if (totalProteinSelections === 0) {
+            validationErrors.push('• Selecciona 3 proteínas (cada una de 250gr = 750gr total)');
+        } else if (totalProteinSelections !== 3) {
+            validationErrors.push(`• Selecciona exactamente 3 proteínas (actualmente tienes ${totalProteinSelections})`);
+        }
+        
+        // Validar Salsas (exactamente 6 selecciones requeridas para combo 4-6)
+        if (totalSauceSelections === 0) {
+            validationErrors.push('• Selecciona 6 salsas de 250gr cada una');
+        } else if (totalSauceSelections !== 6) {
+            validationErrors.push(`• Selecciona exactamente 6 salsas (actualmente tienes ${totalSauceSelections})`);
+        }
+        
+        // Si hay errores de validación, mostrarlos
+        if (validationErrors.length > 0) {
+            showValidationModal(validationErrors);
+            return;
+        }
+        
         // Recopilar todas las selecciones
         const comboData = {
-            totopos: selectedTotopos.dataset.value,
-            tortillas: selectedTortillas.dataset.value,
+            totopos: [],
+            tortillas: [],
             proteins: [],
             sauces: []
         };
+        
+        // Recopilar totopos seleccionados
+        document.querySelectorAll('.totopo-option').forEach(card => {
+            const count = parseInt(card.dataset.count);
+            if (count > 0) {
+                for (let i = 0; i < count; i++) {
+                    comboData.totopos.push(card.dataset.value);
+                }
+            }
+        });
+        
+        // Recopilar tortillas seleccionadas
+        document.querySelectorAll('.tortilla-option').forEach(card => {
+            const count = parseInt(card.dataset.count);
+            if (count > 0) {
+                for (let i = 0; i < count; i++) {
+                    comboData.tortillas.push(card.dataset.value);
+                }
+            }
+        });
         
         // Recopilar proteínas seleccionadas
         document.querySelectorAll('.protein-option').forEach(card => {
@@ -895,8 +1096,8 @@ document.addEventListener('DOMContentLoaded', function() {
         showComboConfirmationModal(comboData);
     });
 
-    // Handle form submission (mantener para compatibilidad)
-    document.getElementById('combo-builder-form').addEventListener('submit', function(e) {
+    // Handle adiciones link click
+    document.getElementById('adiciones-link').addEventListener('click', function(e) {
         e.preventDefault();
         
         const selectedTotopos = document.querySelector('.totopo-option.selected');
@@ -904,62 +1105,75 @@ document.addEventListener('DOMContentLoaded', function() {
         const totalProteinSelections = getTotalProteinSelections();
         const totalSauceSelections = getTotalSauceSelections();
         
-        if (!selectedTotopos || !selectedTortillas || totalProteinSelections === 0 || totalSauceSelections === 0) {
-            alert('Por favor selecciona todas las opciones requeridas para tu combo.');
+        // Validar que hay al menos una selección antes de ir a adiciones
+        if (!selectedTotopos && !selectedTortillas && totalProteinSelections === 0 && totalSauceSelections === 0) {
+            alert('Por favor selecciona al menos una opción antes de agregar adiciones.');
             return;
         }
         
-        if (totalProteinSelections !== 3) {
-            alert('Por favor selecciona exactamente 3 proteínas para tu combo.');
-            return;
-        }
+        // Recopilar todas las selecciones actuales
+        const comboData = {
+            totopos: [],
+            tortillas: [],
+            proteins: [],
+            sauces: []
+        };
         
-        if (totalSauceSelections !== 6) {
-            alert('Por favor selecciona exactamente 6 salsas para tu combo.');
-            return;
-        }
+        // Recopilar totopos seleccionados
+        document.querySelectorAll('.totopo-option').forEach(card => {
+            const count = parseInt(card.dataset.count);
+            if (count > 0) {
+                for (let i = 0; i < count; i++) {
+                    comboData.totopos.push(card.dataset.value);
+                }
+            }
+        });
         
-        // Here you would typically add the combo to cart
-        // For now, just show a success message
-        alert('¡Combo agregado al carrito exitosamente!');
+        // Recopilar tortillas seleccionadas
+        document.querySelectorAll('.tortilla-option').forEach(card => {
+            const count = parseInt(card.dataset.count);
+            if (count > 0) {
+                for (let i = 0; i < count; i++) {
+                    comboData.tortillas.push(card.dataset.value);
+                }
+            }
+        });
+        
+        // Recopilar proteínas seleccionadas
+        document.querySelectorAll('.protein-option').forEach(card => {
+            const count = parseInt(card.dataset.count);
+            if (count > 0) {
+                for (let i = 0; i < count; i++) {
+                    comboData.proteins.push(card.dataset.value);
+                }
+            }
+        });
+        
+        // Recopilar salsas seleccionadas
+        document.querySelectorAll('.sauce-option').forEach(card => {
+            const count = parseInt(card.dataset.count);
+            if (count > 0) {
+                for (let i = 0; i < count; i++) {
+                    comboData.sauces.push(card.dataset.value);
+                }
+            }
+        });
+        
+        // Obtener el ID del combo
+        const comboIdInput = document.querySelector('input[name="combo_product_id"]');
+        const comboId = comboIdInput ? comboIdInput.value : null;
+        
+        // Guardar la selección actual y el ID del combo en sessionStorage
+        const comboDataWithId = {
+            ...comboData,
+            combo_id: comboId
+        };
+        sessionStorage.setItem('combo_selection', JSON.stringify(comboDataWithId));
+        
+        // Redireccionar a la página de adiciones
+        window.location.href = this.getAttribute('href');
     });
     
-    // Modal de validación
-    function showValidationModal(errors) {
-        const modal = document.getElementById('validation-modal');
-        const messageContainer = document.getElementById('validation-message');
-        
-        // Crear el mensaje HTML
-        let messageHTML = '<p class="validation-intro">Por favor completa tu selección antes de agregar al carrito:</p><ul class="validation-list">';
-        errors.forEach(error => {
-            messageHTML += `<li>${error}</li>`;
-        });
-        messageHTML += '</ul>';
-        
-        messageContainer.innerHTML = messageHTML;
-        
-        // Mostrar el modal
-        modal.style.display = 'flex';
-        
-        // Agregar event listeners si no existen
-        const closeBtn = document.getElementById('validation-modal-close');
-        const acceptBtn = document.getElementById('validation-modal-accept-btn');
-        
-        const closeModal = () => {
-            modal.style.display = 'none';
-        };
-        
-        closeBtn.onclick = closeModal;
-        acceptBtn.onclick = closeModal;
-        
-        // Cerrar al hacer clic en el overlay
-        modal.onclick = (e) => {
-            if (e.target === modal) {
-                closeModal();
-            }
-        };
-    }
-
     // Modal functionality
     function showComboConfirmationModal(comboData) {
         const modal = document.getElementById('combo-confirmation-modal');
@@ -1161,63 +1375,41 @@ document.addEventListener('DOMContentLoaded', function() {
         if (firstTortilla) firstTortilla.classList.add('selected');
     }
 
-    // Handle adiciones link click
-    document.getElementById('adiciones-link').addEventListener('click', function(e) {
-        e.preventDefault();
+    // Modal de validación
+    function showValidationModal(errors) {
+        const modal = document.getElementById('validation-modal');
+        const messageContainer = document.getElementById('validation-message');
         
-        const selectedTotopos = document.querySelector('.totopo-option.selected');
-        const selectedTortillas = document.querySelector('.tortilla-option.selected');
-        const totalProteinSelections = getTotalProteinSelections();
-        const totalSauceSelections = getTotalSauceSelections();
+        // Crear el mensaje HTML
+        let messageHTML = '<p class="validation-intro">Por favor completa tu selección antes de agregar al carrito:</p><ul class="validation-list">';
+        errors.forEach(error => {
+            messageHTML += `<li>${error}</li>`;
+        });
+        messageHTML += '</ul>';
         
-        // Validar que hay al menos una selección antes de ir a adiciones
-        if (!selectedTotopos && !selectedTortillas && totalProteinSelections === 0 && totalSauceSelections === 0) {
-            alert('Por favor selecciona al menos una opción antes de agregar adiciones.');
-            return;
-        }
+        messageContainer.innerHTML = messageHTML;
         
-        // Recopilar todas las selecciones actuales
-        const comboData = {
-            totopos: selectedTotopos ? selectedTotopos.dataset.value : null,
-            tortillas: selectedTortillas ? selectedTortillas.dataset.value : null,
-            proteins: [],
-            sauces: []
+        // Mostrar el modal
+        modal.style.display = 'flex';
+        
+        // Agregar event listeners si no existen
+        const closeBtn = document.getElementById('validation-modal-close');
+        const acceptBtn = document.getElementById('validation-modal-accept-btn');
+        
+        const closeModal = () => {
+            modal.style.display = 'none';
         };
         
-        // Recopilar proteínas seleccionadas
-        document.querySelectorAll('.protein-option').forEach(card => {
-            const count = parseInt(card.dataset.count);
-            if (count > 0) {
-                for (let i = 0; i < count; i++) {
-                    comboData.proteins.push(card.dataset.value);
-                }
+        closeBtn.onclick = closeModal;
+        acceptBtn.onclick = closeModal;
+        
+        // Cerrar al hacer clic en el overlay
+        modal.onclick = (e) => {
+            if (e.target === modal) {
+                closeModal();
             }
-        });
-        
-        // Recopilar salsas seleccionadas
-        document.querySelectorAll('.sauce-option').forEach(card => {
-            const count = parseInt(card.dataset.count);
-            if (count > 0) {
-                for (let i = 0; i < count; i++) {
-                    comboData.sauces.push(card.dataset.value);
-                }
-            }
-        });
-        
-        // Obtener el ID del combo
-        const comboIdInput = document.querySelector('input[name="combo_product_id"]');
-        const comboId = comboIdInput ? comboIdInput.value : null;
-        
-        // Guardar la selección actual y el ID del combo en sessionStorage
-        const comboDataWithId = {
-            ...comboData,
-            combo_id: comboId
         };
-        sessionStorage.setItem('combo_selection', JSON.stringify(comboDataWithId));
-        
-        // Redireccionar a la página de adiciones
-        window.location.href = this.getAttribute('href');
-    });
+    }
 });
 </script>
 

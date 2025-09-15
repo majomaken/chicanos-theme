@@ -94,10 +94,60 @@ do_action( 'woocommerce_before_cart' ); ?>
 							 *
 							 * @since 2.1.0
 							 */
-							echo wp_kses_post( apply_filters( 'woocommerce_cart_item_name', sprintf( '<a href="%s">%s</a>', esc_url( $product_permalink ), $_product->get_name() ), $cart_item, $cart_item_key ) );
+							$linked_product_name = sprintf( '<a href="%s">%s</a>', esc_url( $product_permalink ), $_product->get_name() );
+							echo wp_kses_post( apply_filters( 'woocommerce_cart_item_name', $linked_product_name, $cart_item, $cart_item_key ) );
 						}
 
 						do_action( 'woocommerce_after_cart_item_name', $cart_item, $cart_item_key );
+
+						// Debug: Ver qué datos tiene el cart_item
+						error_log('=== CART ITEM DEBUG ===');
+						error_log('Product: ' . $_product->get_name());
+						error_log('Cart item data: ' . print_r($cart_item, true));
+						error_log('Has combo_custom_data: ' . (isset($cart_item['combo_custom_data']) ? 'YES' : 'NO'));
+						
+						// Debug visual temporal
+						echo '<div style="background: yellow; padding: 10px; margin: 10px 0; border: 2px solid red;">';
+						echo '<strong>DEBUG:</strong> Producto: ' . $_product->get_name() . '<br>';
+						echo 'Tiene combo_custom_data: ' . (isset($cart_item['combo_custom_data']) ? 'SÍ' : 'NO') . '<br>';
+						echo 'Datos del cart_item: ' . print_r($cart_item, true);
+						echo '</div>';
+						
+						// Mostrar detalles del combo si existen
+						if (isset($cart_item['combo_custom_data']) && $cart_item['combo_custom_data']) {
+							$combo_details = array();
+							
+							// Agregar totopos
+							if (isset($cart_item['combo_totopos'])) {
+								$combo_details[] = '<strong>🥨 Totopos:</strong> ' . $cart_item['combo_totopos'];
+							}
+							
+							// Agregar tortillas
+							if (isset($cart_item['combo_tortillas'])) {
+								$combo_details[] = '<strong>🌮 Tortillas:</strong> ' . $cart_item['combo_tortillas'];
+							}
+							
+							// Agregar proteínas
+							if (isset($cart_item['combo_proteins']) && is_array($cart_item['combo_proteins'])) {
+								$proteins_text = implode(', ', $cart_item['combo_proteins']);
+								$combo_details[] = '<strong>🍖 Proteínas (3x250gr):</strong> ' . $proteins_text;
+							}
+							
+							// Agregar salsas
+							if (isset($cart_item['combo_sauces']) && is_array($cart_item['combo_sauces'])) {
+								$sauces_text = implode(', ', $cart_item['combo_sauces']);
+								$combo_details[] = '<strong>🌶️ Salsas (6x250gr):</strong> ' . $sauces_text;
+							}
+							
+							if (!empty($combo_details)) {
+								echo '<div class="combo-cart-details" style="margin-top: 10px; padding: 12px 15px; background: #f8f9fa; border-radius: 8px;">';
+								echo '<div style="font-weight: bold; margin-bottom: 8px; color: #333;">📋 Detalles del Combo:</div>';
+								echo '<div style="font-size: 0.9em; line-height: 1.4;">';
+								echo implode('<br>', $combo_details);
+								echo '</div>';
+								echo '</div>';
+							}
+						}
 
 						// Meta data.
 						echo wc_get_formatted_cart_item_data( $cart_item ); // PHPCS: XSS ok.

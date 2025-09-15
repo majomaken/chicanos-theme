@@ -53,7 +53,7 @@ p {
     margin-top: 20px;
     position: relative;
     z-index: 10; /* Asegurar que el texto esté por encima */
-    font-family: "Proxima Nova Extra Condensed", sans-serif;
+    font-family: "Inter", sans-serif;
 }
 
 .hero-images {
@@ -119,7 +119,7 @@ p {
 .card-link h3 {
     margin: 0;
     font-size: 1.5rem;
-    font-family: "Proxima Nova Extra Condensed", sans-serif;
+    font-family: "Inter", sans-serif;
 }
 
 .card-link .arrow {
@@ -197,7 +197,7 @@ p {
     font-size: 2.2rem;
     font-weight: 800;
     margin-bottom: 20px;
-    font-family: "Proxima Nova Extra Condensed", sans-serif;
+    font-family: "Inter", sans-serif;
 }
 
 .image-frame {
@@ -337,7 +337,7 @@ p {
     font-size: 2.6rem;
     margin-bottom: 25px;
     color: #000;
-    font-family: "Proxima Nova Extra Condensed", sans-serif;
+    font-family: "Inter", sans-serif;
     line-height: 1.1;
     text-align: left;
     letter-spacing: -0.02em;

@@ -10,19 +10,20 @@
         
         // Category navigation functionality
         $('.category-link').on('click', function(e) {
-            e.preventDefault();
-            
-            // Remove active class from all links
-            $('.category-link').removeClass('active');
-            
-            // Add active class to clicked link
-            $(this).addClass('active');
-            
             // Get the target section
             var target = $(this).attr('href');
             
-            // Smooth scroll to target section
+            // Only prevent default for internal links (starting with #)
             if (target.startsWith('#')) {
+                e.preventDefault();
+                
+                // Remove active class from all links
+                $('.category-link').removeClass('active');
+                
+                // Add active class to clicked link
+                $(this).addClass('active');
+                
+                // Smooth scroll to target section
                 var targetSection = $(target);
                 if (targetSection.length) {
                     $('html, body').animate({
