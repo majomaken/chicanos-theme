@@ -2,13 +2,31 @@
 #delivery-hero {
     padding: 60px 0 60px 0;
     position: relative;
-    background-color: #f8f9fa; /* A light grey for the checkered background */
+    background-image: url('../img/banner-domicilio.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 500px;
     z-index: 10;
+}
+
+/* Dark overlay for better text readability */
+#delivery-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1;
 }
 
 #delivery-hero .pixel-flower {
     max-width: 80px;
     margin-bottom: 20px;
+    position: relative;
+    z-index: 20;
 }
 
 #delivery-hero h1 {
@@ -17,7 +35,10 @@
     font-weight: 800;
     font-size: 40px;
     line-height: 60px;
-    color: #000;
+    color: #fff;
+    position: relative;
+    z-index: 20;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 #delivery-hero .hero-layer-pink-container {
@@ -26,13 +47,13 @@
     right: 2.5%;
     transform: translateY(-50%);
     width: 270px;
-    z-index: 10;
+    z-index: 20;
 }
 
 #delivery-hero .hero-layer-pink {
     width: 100%;
     height: auto;
-    z-index: 10;
+    z-index: 20;
 }
 
 #locations {

@@ -63,14 +63,17 @@ get_header();
 
 		<section id="distribution-section-4" class="distribution-section professional-clients">
 			<div class="container text-center">
-				<div class="quote-icon">J</div>
 				<p class="clients-text">Trabajamos con restaurantes, hoteles y cocinas profesionales que valoran un producto fresco, hecho a la medida y con todo el sabor de México.</p>
-				<div class="star-grid">
-					<div class="star-row">
-						<span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+				<div class="restaurant-logos-grid">
+					<div class="logo-row">
+						<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/1-crepes-waffles-seeklogo.png" alt="Crepes & Waffles" class="restaurant-logo">
+						<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/2-Club el nogal logo.png" alt="Club El Nogal" class="restaurant-logo">
+						<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/3-logo_DLK.png" alt="DLK" class="restaurant-logo">
 					</div>
-					<div class="star-row">
-						<span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+					<div class="logo-row">
+						<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/4-gun_club_logo.png" alt="Gun Club" class="restaurant-logo">
+						<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/7-Logo club los lagartos.png" alt="Club Los Lagartos" class="restaurant-logo">
+						<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/6-la-taqueria logo.png" alt="La Taquería" class="restaurant-logo">
 					</div>
 				</div>
 			</div>

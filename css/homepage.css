@@ -4,6 +4,23 @@
   position: relative;
   overflow: visible; /* Allow overflow to see the hero-layer */
   z-index: 10;
+  background-image: url('../img/banner-home.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 500px;
+}
+
+/* Dark overlay for better text readability */
+#hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1;
 }
 
 /* Remove lines between sections */
@@ -43,17 +60,18 @@ p {
   text-align: center;
   width: 100%; /* Ensure it takes full width */
   position: relative;
-  z-index: 10; /* Asegurar que esté por encima del patrón */
+  z-index: 20; /* Asegurar que esté por encima del overlay */
 }
 
 .hero-text-container h1 {
     font-size: 3rem;
     font-weight: 900;
-    color: #333;
+    color: #fff;
     margin-top: 20px;
     position: relative;
-    z-index: 10; /* Asegurar que el texto esté por encima */
+    z-index: 20; /* Asegurar que el texto esté por encima del overlay */
     font-family: "Inter", sans-serif;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .hero-images {
@@ -72,14 +90,14 @@ p {
     right: 2.5%;
     transform: translateY(-50%);
     width: 270px;
-    z-index: 10;
+    z-index: 20;
     pointer-events: none;
 }
 
 .hero-layer {
   width: 100%;
   height: auto;
-  z-index: 10;
+  z-index: 20;
   position: relative;
 }
 

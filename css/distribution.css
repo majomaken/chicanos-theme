@@ -3,18 +3,40 @@
     padding-top: 60px;
     padding-bottom: 60px;
     position: relative;
-    background-color: #f8f9fa; /* A light grey for the checkered background */
+    background-image: url('../img/banner-distribucion.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 500px;
+}
+
+/* Dark overlay for better text readability */
+#distribution-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1;
 }
 
 #distribution-hero .yellow-flower {
     max-width: 80px;
     margin-bottom: 20px;
+    position: relative;
+    z-index: 20;
 }
 
 #distribution-hero h1 {
     font-weight: 800;
     /* margin-bottom: 40px; */
     font-family: 'Proxima Nova Extra Condensed', sans-serif;
+    color: #fff;
+    position: relative;
+    z-index: 20;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 #distribution-hero .hero-layer-green-container {
@@ -23,13 +45,13 @@
     right: 2.5%;
     transform: translateY(-50%);
     width: 270px;
-    z-index: 10;
+    z-index: 20;
 }
 
 #distribution-hero .hero-layer-green {
     width: 100%;
     height: auto;
-    z-index: 10;
+    z-index: 20;
 }
 
 .content-section {
@@ -98,9 +120,63 @@
     font-size: 1.1rem;
 }
 
-.star-grid .star {
-    font-size: 2rem;
-    margin: 0 10px;
+.restaurant-logos-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.logo-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.restaurant-logo {
+    height: 80px;
+    width: auto;
+    max-width: 150px;
+    object-fit: contain;
+    filter: brightness(0) invert(1); /* Convert logos to white */
+    transition: transform 0.3s ease;
+}
+
+/* Special filter for logos with dark backgrounds (Gun Club and Los Lagartos) */
+.restaurant-logo[alt="Gun Club"],
+.restaurant-logo[alt="Club Los Lagartos"] {
+    filter: grayscale(1); /* Convert to black and white */
+    opacity: 0.8; /* Slightly reduce opacity for better integration */
+}
+
+.restaurant-logo:hover {
+    transform: scale(1.1);
+}
+
+/* Responsive styles for restaurant logos */
+@media (max-width: 768px) {
+    .logo-row {
+        gap: 20px;
+    }
+    
+    .restaurant-logo {
+        height: 65px;
+        max-width: 130px;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo-row {
+        gap: 15px;
+        flex-direction: column;
+    }
+    
+    .restaurant-logo {
+        height: 60px;
+        max-width: 120px;
+    }
 }
 
 .cta-section {
