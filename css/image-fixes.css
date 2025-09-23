@@ -15,6 +15,7 @@ img {
 .woocommerce ul.products li.product .woocommerce-loop-product__image img:hover {
   width: 100% !important;
   height: 200px !important;
+  -o-object-fit: cover !important;
   object-fit: cover !important;
   border-radius: 0;
   transition: transform 0.3s ease;
@@ -26,6 +27,7 @@ img {
   width: 100% !important;
   height: 200px !important;
   display: block !important;
+  -o-object-fit: cover !important;
   object-fit: cover !important;
   border-radius: 0;
 }
@@ -36,6 +38,7 @@ img {
   height: 360px !important;
   display: block !important;
   transition: transform 0.3s ease;
+  -o-object-fit: cover !important;
   object-fit: cover !important;
   border-radius: 0 !important;
 }
@@ -48,6 +51,7 @@ img {
 .location-card img {
   width: 100% !important;
   height: 300px !important;
+  -o-object-fit: cover !important;
   object-fit: cover !important;
   display: block !important;
 }
@@ -70,6 +74,7 @@ img {
 #home-section-7 .event-item img {
   width: 100% !important;
   height: auto !important;
+  -o-object-fit: cover;
   object-fit: cover;
 }
 
@@ -77,6 +82,7 @@ img {
 #scrolling-banner img {
   width: 100% !important;
   height: auto !important;
+  -o-object-fit: cover;
   object-fit: cover;
 }
 
@@ -84,6 +90,7 @@ img {
 .image-frame img {
   width: 100% !important;
   height: auto !important;
+  -o-object-fit: cover;
   object-fit: cover;
 }
 
@@ -91,6 +98,7 @@ img {
 #home-section-6 .tacos-cart-img {
   width: 100% !important;
   height: auto !important;
+  -o-object-fit: cover;
   object-fit: cover;
 }
 
@@ -100,6 +108,7 @@ img {
   height: 360px !important;
   display: block !important;
   transition: transform 0.3s ease;
+  -o-object-fit: cover !important;
   object-fit: cover !important;
   border-radius: 0 !important;
 }
@@ -108,6 +117,7 @@ img {
 .combo-image-placeholder img {
   width: 100% !important;
   height: auto !important;
+  -o-object-fit: cover;
   object-fit: cover;
 }
 
@@ -336,6 +346,7 @@ img.maintain-ratio {
   height: 200px !important;
   min-height: 200px !important;
   max-height: 200px !important;
+  -o-object-fit: cover !important;
   object-fit: cover !important;
   display: block !important;
   margin: 0 !important;
@@ -409,3 +420,5 @@ img.maintain-ratio {
 .combo-card-personalizado * {
   box-sizing: border-box !important;
 }
+
+/*# sourceMappingURL=image-fixes.css.map */

@@ -27,6 +27,7 @@
 .combo-image-placeholder img {
     max-width: 100%;
     height: 600px;
+    -o-object-fit: cover;
     object-fit: cover;
 }
 
@@ -134,7 +135,7 @@
 }
 
 .combo-option-card .option-title {
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     font-size: 1.1rem;
     font-weight: 600;
     color: #000;
@@ -348,3 +349,5 @@
     outline: 3px solid #007bff;
     outline-offset: 2px;
 }
+
+/*# sourceMappingURL=burritos.css.map */

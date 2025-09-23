@@ -135,23 +135,23 @@ get_header();
                 <h2 class="section-title">Todo Para Llevar</h2>
                 <div class="products-grid">
                     <?php
-                    // Query for adiciones products
-                    $adiciones_args = array(
+                    // Query for todo-para-llevar products
+                    $todo_para_llevar_args = array(
                         'post_type' => 'product',
                         'posts_per_page' => 10,
                         'tax_query' => array(
                             array(
                                 'taxonomy' => 'product_cat',
                                 'field'    => 'slug',
-                                'terms'    => 'adiciones',
+                                'terms'    => 'todo-para-llevar',
                             ),
                         ),
                     );
                     
-                    $adiciones_products = new WP_Query($adiciones_args);
+                    $todo_para_llevar_products = new WP_Query($todo_para_llevar_args);
                     
-                    if ($adiciones_products->have_posts()) :
-                        while ($adiciones_products->have_posts()) : $adiciones_products->the_post();
+                    if ($todo_para_llevar_products->have_posts()) :
+                        while ($todo_para_llevar_products->have_posts()) : $todo_para_llevar_products->the_post();
                             wc_get_template_part('content', 'product');
                         endwhile;
                         wp_reset_postdata();
@@ -269,58 +269,6 @@ get_header();
             </div>
         </section>
 
-        <!-- Crea tu Ensalada/Burrito Section -->
-        <section id="create-your-own" class="products-section">
-            <div class="container">
-                <h2 class="section-title">Ensalada/Burrito</h2>
-                <div class="products-grid">
-                    <?php
-                    // Query for ensalada-burrito products
-                    $ensalada_args = array(
-                        'post_type' => 'product',
-                        'posts_per_page' => 10,
-                        'tax_query' => array(
-                            array(
-                                'taxonomy' => 'product_cat',
-                                'field'    => 'slug',
-                                'terms'    => 'Ensalada-Burrito', // Exact category slug as specified
-                            ),
-                        ),
-                    );
-                    
-                    $ensalada_products = new WP_Query($ensalada_args);
-                    
-                    if ($ensalada_products->have_posts()) :
-                        while ($ensalada_products->have_posts()) : $ensalada_products->the_post();
-                            wc_get_template_part('content', 'product');
-                        endwhile;
-                        wp_reset_postdata();
-                    else :
-                        // Fallback: show any products if no ensalada-burrito found
-                        $fallback_args = array(
-                            'post_type' => 'product',
-                            'posts_per_page' => 10,
-                            'orderby' => 'title',
-                            'order' => 'ASC',
-                        );
-                        
-                        $fallback_products = new WP_Query($fallback_args);
-                        
-                        if ($fallback_products->have_posts()) :
-                            while ($fallback_products->have_posts()) : $fallback_products->the_post();
-                                wc_get_template_part('content', 'product');
-                            endwhile;
-                            wp_reset_postdata();
-                        else :
-                            echo '<div class="no-products-message">';
-                            echo '<p>No hay productos disponibles en este momento. Por favor, revisa más tarde.</p>';
-                            echo '</div>';
-                        endif;
-                    endif;
-                    ?>
-                </div>
-            </div>
-        </section>
 
 
         <!-- Sopas Section -->
@@ -355,29 +303,29 @@ get_header();
             </div>
         </section>
 
-        <!-- Botanas Section -->
-        <section id="botanas" class="products-section">
+        <!-- Entradas Section -->
+        <section id="entradas" class="products-section">
             <div class="container">
-                <h2 class="section-title">Botanas</h2>
+                <h2 class="section-title">Entradas</h2>
                 <div class="products-grid">
                     <?php
-                    // Query for botanas products
-                    $botanas_args = array(
+                    // Query for entradas products
+                    $entradas_args = array(
                         'post_type' => 'product',
                         'posts_per_page' => 10,
                         'tax_query' => array(
                             array(
                                 'taxonomy' => 'product_cat',
                                 'field'    => 'slug',
-                                'terms'    => 'botanas',
+                                'terms'    => 'entradas',
                             ),
                         ),
                     );
                     
-                    $botanas_products = new WP_Query($botanas_args);
+                    $entradas_products = new WP_Query($entradas_args);
                     
-                    if ($botanas_products->have_posts()) :
-                        while ($botanas_products->have_posts()) : $botanas_products->the_post();
+                    if ($entradas_products->have_posts()) :
+                        while ($entradas_products->have_posts()) : $entradas_products->the_post();
                             wc_get_template_part('content', 'product');
                         endwhile;
                         wp_reset_postdata();
@@ -386,6 +334,7 @@ get_header();
                 </div>
             </div>
         </section>
+
 
         <!-- Fuertes Section -->
         <section id="fuertes" class="products-section">
@@ -451,29 +400,29 @@ get_header();
             </div>
         </section>
 
-        <!-- Fajitas Section -->
-        <section id="fajitas" class="products-section">
+        <!-- Para que arme su taco Section -->
+        <section id="para-que-arme-su-taco" class="products-section">
             <div class="container">
-                <h2 class="section-title">Fajitas</h2>
+                <h2 class="section-title">Para que arme su taco</h2>
                 <div class="products-grid">
                     <?php
-                    // Query for fajitas products
-                    $fajitas_args = array(
+                    // Query for para-que-arme-su-taco products
+                    $para_que_arme_su_taco_args = array(
                         'post_type' => 'product',
                         'posts_per_page' => 10,
                         'tax_query' => array(
                             array(
                                 'taxonomy' => 'product_cat',
                                 'field'    => 'slug',
-                                'terms'    => 'fajitas',
+                                'terms'    => 'para-que-arme-su-taco',
                             ),
                         ),
                     );
                     
-                    $fajitas_products = new WP_Query($fajitas_args);
+                    $para_que_arme_su_taco_products = new WP_Query($para_que_arme_su_taco_args);
                     
-                    if ($fajitas_products->have_posts()) :
-                        while ($fajitas_products->have_posts()) : $fajitas_products->the_post();
+                    if ($para_que_arme_su_taco_products->have_posts()) :
+                        while ($para_que_arme_su_taco_products->have_posts()) : $para_que_arme_su_taco_products->the_post();
                             wc_get_template_part('content', 'product');
                         endwhile;
                         wp_reset_postdata();

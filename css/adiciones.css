@@ -30,6 +30,7 @@
 .combo-banner-image img {
     max-width: 100%;
     height: 600px;
+    -o-object-fit: cover;
     object-fit: cover;
 }
 
@@ -98,7 +99,7 @@
 }
 
 .combo-size {
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     font-size: 1.4rem;
     font-weight: 600;
     color: #000;
@@ -110,7 +111,7 @@
 }
 
 .includes-title {
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     font-size: 1.2rem;
     font-weight: 600;
     color: #000;
@@ -124,7 +125,7 @@
 }
 
 .includes-list li {
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     font-size: 1.1rem;
     color: #333;
     margin-bottom: 8px;
@@ -145,7 +146,7 @@
 }
 
 .price-amount {
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     font-size: 1.4rem;
     font-weight: 600;
     color: #000;
@@ -279,7 +280,7 @@
 }
 
 .combo-option-card .option-title {
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     font-size: 1.1rem;
     font-weight: 600;
     color: #000;
@@ -288,7 +289,7 @@
 }
 
 .combo-option-card .option-spec {
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     font-size: 0.85rem;
     font-weight: 400;
     color: #666;
@@ -787,7 +788,7 @@
 }
 
 .size-modal-title {
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     font-size: 1.3rem;
     font-weight: 600;
     color: #000;
@@ -836,7 +837,7 @@
 }
 
 .quantity-text {
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     font-size: 1rem;
     font-weight: 600;
     color: #495057;
@@ -867,6 +868,8 @@
     height: 18px;
     border: 2px solid #000;
     border-radius: 50%;
+    -webkit-appearance: none;
+    -moz-appearance: none;
     appearance: none;
     background: transparent;
     position: relative;
@@ -891,7 +894,7 @@
 }
 
 .size-label {
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     font-size: 1.1rem;
     font-weight: 500;
     color: #000;
@@ -909,7 +912,7 @@
     width: 100%;
     background: transparent;
     border: none;
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     font-size: 1.2rem;
     font-weight: 700;
     color: #000;
@@ -970,3 +973,4 @@
         padding: 10px 0;
     }
 }
+/*# sourceMappingURL=adiciones.css.map */

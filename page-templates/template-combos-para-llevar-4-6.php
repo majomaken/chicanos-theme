@@ -64,15 +64,15 @@ get_header(); ?>
                         </div>
                         <div class="portion-sizes">
                             <div class="portion-size-item">
-                                <div class="portion-bowl small"></div>
+                                <img src="<?php echo get_template_directory_uri(); ?>/img/size-small.svg" alt="250 Gramos" class="portion-svg">
                                 <span class="portion-label">250 Gramos</span>
                             </div>
                             <div class="portion-size-item">
-                                <div class="portion-bowl medium"></div>
+                                <img src="<?php echo get_template_directory_uri(); ?>/img/size-medium.svg" alt="500 Gramos" class="portion-svg">
                                 <span class="portion-label">500 Gramos</span>
                             </div>
                             <div class="portion-size-item active">
-                                <div class="portion-bowl large"></div>
+                                <img src="<?php echo get_template_directory_uri(); ?>/img/size-large.svg" alt="2000 Gramos" class="portion-svg">
                                 <div class="portion-dimensions">2000</div>
                                 <span class="portion-label">Gramos</span>
                             </div>
@@ -189,8 +189,19 @@ get_header(); ?>
                     if ($combo_product) {
                         echo '<!-- DEBUG: Producto cargado correctamente -->';
                         
-                        // Extraer opciones desde el meta field _wapf_fieldgroup
-                        $wapf_data = get_post_meta($combo_product_id, '_wapf_fieldgroup', true);
+                        // Debug específico de input fields WAPF
+                        debug_wapf_input_fields($combo_product_id);
+                        
+                        // Debug en consola JavaScript
+                        echo '<script>';
+                        echo 'console.log("=== DEBUG COMBO OPTIONS 4-6 ===");';
+                        echo 'console.log("Combo Product ID:", ' . $combo_product_id . ');';
+                        echo 'console.log("WAPF Active:", ' . (is_plugin_active('advanced-product-fields-for-woocommerce/advanced-product-fields-for-woocommerce.php') ? 'true' : 'false') . ');';
+                        
+                        // Debug WAPF data en consola
+                        $wapf_meta = get_post_meta($combo_product_id, '_wapf_fieldgroup', true);
+                        echo 'console.log("WAPF Meta Data:", ' . json_encode($wapf_meta) . ');';
+                        echo '</script>';
                         
                         // Inicializar arrays para las opciones
                         $protein_options = array();
@@ -198,77 +209,30 @@ get_header(); ?>
                         $sauce_options_2 = array(); // Segunda selección de salsas
                         $tortilla_options_1 = array(); // Primera selección de tortillas
                         $tortilla_options_2 = array(); // Segunda selección de tortillas
-                        $extra_guacamole = array();
                         
-                        if (!empty($wapf_data) && isset($wapf_data['fields'])) {
-                            echo '<!-- DEBUG: WAPF data encontrada -->';
-                            
-                            foreach ($wapf_data['fields'] as $field) {
-                                if (isset($field['id']) && isset($field['options']['choices'])) {
-                                    $choices = $field['options']['choices'];
-                                    $labels = array();
-                                    
-                                    // Extraer las etiquetas de las opciones
-                                    foreach ($choices as $choice) {
-                                        if (isset($choice['label'])) {
-                                            $labels[] = $choice['label'];
-                                        }
-                                    }
-                                    
-                                    // Asignar a la categoría correcta según el ID del campo
-                                    switch ($field['id']) {
-                                        case '68a50e0cee780': // Selecciona tu Proteína
-                                            $protein_options = $labels;
-                                            echo '<!-- DEBUG: Proteínas extraídas: ' . print_r($protein_options, true) . ' -->';
-                                            break;
-                                            
-                                        case '68a50e6ba4b20': // Salsas y Más (primera selección)
-                                            $sauce_options_1 = $labels;
-                                            echo '<!-- DEBUG: Salsas 1 extraídas: ' . print_r($labels, true) . ' -->';
-                                            break;
-                                            
-                                        case '68a51006d47d3': // Salsas y Más (segunda selección)
-                                            $sauce_options_2 = $labels;
-                                            echo '<!-- DEBUG: Salsas 2 extraídas: ' . print_r($labels, true) . ' -->';
-                                            break;
-                                            
-                                        case '68a510162a582': // Tortillas (primera selección)
-                                            $tortilla_options_1 = $labels;
-                                            echo '<!-- DEBUG: Tortillas 1 extraídas: ' . print_r($labels, true) . ' -->';
-                                            break;
-                                            
-                                        case '68a5104d583c2': // Tortillas (segunda selección)
-                                            $tortilla_options_2 = $labels;
-                                            echo '<!-- DEBUG: Tortillas 2 extraídas: ' . print_r($labels, true) . ' -->';
-                                            break;
-                                            
-                                        case '68a5104a7b121': // ¿Quieres más guacamole?
-                                            $extra_guacamole = $labels;
-                                            echo '<!-- DEBUG: Extra guacamole extraído: ' . print_r($extra_guacamole, true) . ' -->';
-                                            break;
-                                    }
-                                }
-                            }
-                        } else {
-                            echo '<!-- DEBUG: No se encontró WAPF data -->';
-                        }
+                        // Extraer opciones usando la nueva función dinámica
+                        $protein_options = get_combo_options_from_woocommerce($combo_product_id, 'protein');
+                        $sauce_options_1 = get_combo_options_from_woocommerce($combo_product_id, 'sauce');
+                        $tortilla_options_1 = get_combo_options_from_woocommerce($combo_product_id, 'tortilla');
+                        $totopos_options = get_combo_options_from_woocommerce($combo_product_id, 'totopo');
                         
-                        // Si no hay custom fields, usar valores por defecto
-                        if (empty($protein_options)) {
-                            echo '<!-- DEBUG: Usando proteínas por defecto -->';
-                            $protein_options = ['Pollo con Cebolla y Pimentón', 'Pollo Rosarita', 'Carne en Salsa Roja'];
-                        }
-                        if (empty($sauce_options_1)) {
-                            echo '<!-- DEBUG: Usando salsas por defecto -->';
-                            $sauce_options_1 = ['Mayonesa Chipotle', 'Salsa Roja', 'Sour Cream', 'Guacamole'];
-                        }
-                        if (empty($tortilla_options_1)) {
-                            echo '<!-- DEBUG: Usando tortillas por defecto -->';
-                            $tortilla_options_1 = ['Tortilla de Maíz (25 unidades)', 'Tortilla de Harina de Maíz (25 unidades)', 'Tortilla Crispy (12 unidades) en forma de canoa', 'Tostada Crispy (12 tostadas planas)', 'Strips (son tiras delgadas 200gr)', 'Tortilla de Trigo (12 unidades)'];
-                        }
+                        echo '<script>';
+                        echo 'console.log("Protein Options Found:", ' . json_encode($protein_options) . ');';
+                        echo 'console.log("Sauce Options Found:", ' . json_encode($sauce_options_1) . ');';
+                        echo 'console.log("Tortilla Options Found:", ' . json_encode($tortilla_options_1) . ');';
+                        echo 'console.log("Totopo Options Found:", ' . json_encode($totopos_options) . ');';
+                        echo '</script>';
                         
-                        // Totopos options (nueva categoría)
-                        $totopos_options = ['Totopos 100%', 'Totopos Tradicionales (Los de toda la vida)'];
+                        // Si no hay opciones encontradas, mostrar mensaje de error
+                        if (empty($protein_options) && empty($sauce_options_1) && empty($tortilla_options_1) && empty($totopos_options)) {
+                            echo '<div class="alert alert-warning">';
+                            echo '<h3>⚠️ Configuración de Combo Incompleta</h3>';
+                            echo '<p>No se encontraron opciones configuradas para este combo. Por favor contacta al administrador para configurar las opciones disponibles.</p>';
+                            echo '<p><strong>Combo ID:</strong> ' . $combo_product_id . '</p>';
+                            echo '<p><strong>Producto:</strong> ' . $combo_product->get_name() . '</p>';
+                            echo '</div>';
+                            return; // Salir del template
+                        }
                         
                         // 1. TOTOPOS SECTION (Nueva categoría)
                         ?>
@@ -373,7 +337,7 @@ get_header(); ?>
                                 <div class="col-12">
                                     <h2 class="section-title">
                                         Escoge tu Proteína 
-                                        <span class="selection-limit">(Escoge 3 de 500GR = 1,500GR)</span>
+                                        <span class="selection-limit">(Escoge 3 proteinas, cada una de 500Gr)</span>
                                     </h2>
                                 </div>
                             </div>
@@ -586,7 +550,7 @@ get_header(); ?>
                                         }
                                     ?>" class="adiciones-link" id="adiciones-link">
                                         <div class="option-content">
-                                            <h3 class="option-title">Adiciones</h3>
+                                            <h3 class="option-title">Todo para llevar</h3>
                                             <div class="option-price">$0.00</div>
                                         </div>
                                     </a>
@@ -642,7 +606,7 @@ get_header(); ?>
                 </div>
                 <div class="summary-item">
                     <span class="summary-icon">🍖</span>
-                    <span class="summary-label">Proteínas (3x250gr):</span>
+                    <span class="summary-label">Proteínas (3x500gr):</span>
                     <div class="summary-list" id="modal-proteins"></div>
                 </div>
                 <div class="summary-item">
@@ -978,7 +942,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Validar Proteínas (exactamente 3 selecciones requeridas)
         if (totalProteinSelections === 0) {
-            validationErrors.push('• Selecciona 3 proteínas (cada una de 250gr = 750gr total)');
+            validationErrors.push('• Selecciona 3 proteínas (cada una de 500gr)');
         } else if (totalProteinSelections !== 3) {
             validationErrors.push(`• Selecciona exactamente 3 proteínas (actualmente tienes ${totalProteinSelections})`);
         }
@@ -1026,7 +990,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Validar Proteínas (exactamente 3 selecciones requeridas para combo 4-6)
         if (totalProteinSelections === 0) {
-            validationErrors.push('• Selecciona 3 proteínas (cada una de 250gr = 750gr total)');
+            validationErrors.push('• Selecciona 3 proteínas (cada una de 500gr)');
         } else if (totalProteinSelections !== 3) {
             validationErrors.push(`• Selecciona exactamente 3 proteínas (actualmente tienes ${totalProteinSelections})`);
         }

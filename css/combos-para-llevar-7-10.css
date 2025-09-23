@@ -30,6 +30,7 @@
 .combo-banner-image img {
     max-width: 100%;
     height: 600px;
+    -o-object-fit: cover;
     object-fit: cover;
     
     
@@ -60,7 +61,7 @@
 }
 
 .combo-main-title {
-    font-family: "Proxima Nova Extra Condensed", sans-serif;
+    font-family: "Bebas Neue", sans-serif;
     font-size: 4rem;
     font-weight: 900;
     color: #000;
@@ -100,7 +101,7 @@
 }
 
 .combo-size {
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     font-size: 1.4rem;
     font-weight: 600;
     color: #000;
@@ -112,7 +113,7 @@
 }
 
 .includes-title {
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     font-size: 1.2rem;
     font-weight: 600;
     color: #000;
@@ -126,7 +127,7 @@
 }
 
 .includes-list li {
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     font-size: 1.1rem;
     color: #333;
     margin-bottom: 8px;
@@ -147,7 +148,7 @@
 }
 
 .price-amount {
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     font-size: 1.4rem;
     font-weight: 600;
     color: #000;
@@ -218,7 +219,7 @@
 }
 
 .section-title {
-    font-family: "Proxima Nova Extra Condensed", sans-serif;
+    font-family: "Bebas Neue", sans-serif;
     font-size: 2.5rem;
     font-weight: 900;
     color: #000;
@@ -281,7 +282,7 @@
 }
 
 .combo-option-card .option-title {
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     font-size: 1.1rem;
     font-weight: 600;
     color: #000;
@@ -290,7 +291,7 @@
 }
 
 .combo-option-card .option-spec {
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     font-size: 0.85rem;
     font-weight: 400;
     color: #666;
@@ -336,7 +337,7 @@
 }
 
 .summary-title {
-    font-family: "Proxima Nova Extra Condensed", sans-serif;
+    font-family: "Bebas Neue", sans-serif;
     font-size: 2rem;
     font-weight: 900;
     color: #000;
@@ -476,7 +477,7 @@
 }
 
 .salsas-list li {
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     font-size: 1rem;
     color: #333;
     margin-bottom: 8px;
@@ -773,7 +774,7 @@
 }
 
 .validation-modal-title {
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     font-size: 1.3rem;
     font-weight: 600;
     color: #000;
@@ -822,7 +823,7 @@
 }
 
 .validation-intro {
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     font-size: 1.1rem;
     font-weight: 500;
     color: #000;
@@ -837,7 +838,7 @@
 }
 
 .validation-list li {
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     font-size: 1rem;
     font-weight: 400;
     color: #333;
@@ -858,7 +859,7 @@
     border: 2px solid #000;
     border-radius: 6px;
     padding: 12px 30px;
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     font-size: 1.1rem;
     font-weight: 600;
     color: #000;
@@ -910,7 +911,7 @@
 }
 
 .confirmation-modal-title {
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     font-size: 1.3rem;
     font-weight: 600;
     color: #000;
@@ -963,7 +964,7 @@
 }
 
 .summary-title {
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     font-size: 1.2rem;
     font-weight: 600;
     color: #000;
@@ -987,7 +988,7 @@
 }
 
 .summary-label {
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     font-weight: 600;
     color: #333;
     margin-right: 10px;
@@ -995,7 +996,7 @@
 }
 
 .summary-value {
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     color: #007bff;
     font-weight: 500;
 }
@@ -1005,7 +1006,7 @@
 }
 
 .summary-list-item {
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     color: #007bff;
     font-size: 0.9rem;
 }
@@ -1026,7 +1027,7 @@
     border: 2px solid #000;
     border-radius: 6px;
     padding: 12px 25px;
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     font-size: 1rem;
     font-weight: 600;
     color: #000;
@@ -1053,5 +1054,4 @@
     background: #218838;
     border-color: #218838;
 }
-
-/*# sourceMappingURL=combos-para-llevar.css.map */
+/*# sourceMappingURL=combos-para-llevar-7-10.css.map */

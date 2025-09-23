@@ -159,12 +159,16 @@ if ($is_combo) {
         </div>
 
         <div class="combo-imagen">
-            <a href="<?php echo esc_url( $link_url ); ?>">
+            <a href="<?php echo esc_url( $link_url ); ?>" class="product-link">
                 <?php
                 // Muestra la imagen destacada del producto.
                 echo woocommerce_get_product_thumbnail();
                 ?>
             </a>
+            <!-- Botón para abrir popup de descripción -->
+            <button class="product-description-btn" data-product-id="<?php echo $product->get_id(); ?>">
+                <i class="fas fa-info-circle"></i>
+            </button>
         </div>
         
         <div class="combo-footer">
@@ -173,5 +177,55 @@ if ($is_combo) {
             </a>
         </div>
 
+    </div>
+    
+    <!-- Popup de descripción del producto -->
+    <div class="product-popup" id="product-popup-<?php echo $product->get_id(); ?>">
+        <div class="popup-overlay"></div>
+        <div class="popup-content">
+            <!-- Header del popup -->
+            <div class="popup-header">
+                <h3 class="popup-title"><?php the_title(); ?></h3>
+                <button class="popup-close-btn">
+                    <span class="close-icon">×</span>
+                </button>
+            </div>
+            
+            <!-- Contenido del popup -->
+            <div class="popup-body">
+                <!-- Imagen destacada del producto -->
+                <div class="popup-product-image">
+                    <?php
+                    $product_image_id = $product->get_image_id();
+                    if ($product_image_id) {
+                        $image_url = wp_get_attachment_image_url($product_image_id, 'medium');
+                        if ($image_url) {
+                            echo '<img src="' . esc_url($image_url) . '" alt="' . esc_attr($product->get_name()) . '" class="popup-image">';
+                        }
+                    }
+                    ?>
+                </div>
+                
+                <div class="popup-description">
+                    <?php 
+                    $description = $product->get_description();
+                    if (empty($description)) {
+                        $description = $product->get_short_description();
+                    }
+                    if (empty($description)) {
+                        $description = 'Descripción no disponible.';
+                    }
+                    echo wp_kses_post($description);
+                    ?>
+                </div>
+            </div>
+            
+            <!-- Footer del popup -->
+            <div class="popup-footer">
+                <a href="<?php echo esc_url( $link_url ); ?>" class="popup-add-btn">
+                    AGREGAR
+                </a>
+            </div>
+        </div>
     </div>
 </li>

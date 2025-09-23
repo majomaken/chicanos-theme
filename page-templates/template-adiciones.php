@@ -24,17 +24,17 @@ get_header(); ?>
                         </div>
                         <div class="portion-sizes">
                             <div class="portion-size-item">
-                                <div class="portion-bowl small"></div>
-                                <span class="portion-label">Pequeño</span>
+                                <img src="<?php echo get_template_directory_uri(); ?>/img/size-small.svg" alt="250 Gramos" class="portion-svg">
+                                <span class="portion-label">250 Gramos</span>
                             </div>
                             <div class="portion-size-item">
-                                <div class="portion-bowl medium"></div>
-                                <span class="portion-label">Mediano</span>
+                                <img src="<?php echo get_template_directory_uri(); ?>/img/size-medium.svg" alt="500 Gramos" class="portion-svg">
+                                <span class="portion-label">500 Gramos</span>
                             </div>
                             <div class="portion-size-item active">
-                                <div class="portion-bowl large"></div>
-                                <div class="portion-dimensions">Grande</div>
-                                <span class="portion-label">Tamaño</span>
+                                <img src="<?php echo get_template_directory_uri(); ?>/img/size-large.svg" alt="1000 Gramos" class="portion-svg">
+                                <div class="portion-dimensions">1000</div>
+                                <span class="portion-label">Gramos</span>
                             </div>
                         </div>
                     </div>
@@ -54,35 +54,13 @@ get_header(); ?>
             <form id="adiciones-builder-form" class="combo-builder">
                 
                 <?php
-                // Obtener el producto de adiciones desde la categoría 'adiciones' (igual que burritos)
-                $adiciones_product_id = null;
+                // Obtener el producto de adiciones de manera dinámica
+                $adiciones_product_id = find_adiciones_product();
                 
-                // Primero intentar desde parámetro de URL (para compatibilidad)
-                if (isset($_GET['product_id'])) {
-                    $adiciones_product_id = intval($_GET['product_id']);
-                    echo '<!-- DEBUG: Adiciones ID desde URL: ' . $adiciones_product_id . ' -->';
+                if ($adiciones_product_id) {
+                    echo '<!-- DEBUG: Producto de adiciones encontrado con ID: ' . $adiciones_product_id . ' -->';
                 } else {
-                    // Si no hay product_id en URL, buscar el primer producto de la categoría adiciones
-                    $adiciones_args = array(
-                        'post_type' => 'product',
-                        'posts_per_page' => 1,
-                        'tax_query' => array(
-                            array(
-                                'taxonomy' => 'product_cat',
-                                'field'    => 'slug',
-                                'terms'    => 'adiciones',
-                            ),
-                        ),
-                    );
-                    
-                    $adiciones_products = new WP_Query($adiciones_args);
-                    
-                    if ($adiciones_products->have_posts()) {
-                        $adiciones_products->the_post();
-                        $adiciones_product_id = get_the_ID();
-                        echo '<!-- DEBUG: Adiciones ID desde categoría: ' . $adiciones_product_id . ' -->';
-                        wp_reset_postdata();
-                    }
+                    echo '<!-- DEBUG: ERROR: No se pudo encontrar el producto de adiciones -->';
                 }
                 
                 if ($adiciones_product_id) {
@@ -154,6 +132,17 @@ get_header(); ?>
                         $yith_debug = debug_yith_status($adiciones_product_id);
                         echo '<!-- DEBUG: YITH Status completo: ' . print_r($yith_debug, true) . ' -->';
                         
+                        // Diagnóstico completo para producción
+                        $production_diagnostic = yith_production_diagnostic($adiciones_product_id);
+                        echo '<!-- DEBUG: Diagnóstico de producción: ' . print_r($production_diagnostic, true) . ' -->';
+                        
+                        // Debug adicional: verificar si el producto tiene addons asignados
+                        if (function_exists('yith_wapo_get_addon_groups')) {
+                            $yith_groups = yith_wapo_get_addon_groups($adiciones_product_id);
+                            echo '<!-- DEBUG: Grupos YITH encontrados: ' . count($yith_groups) . ' -->';
+                            echo '<!-- DEBUG: Grupos YITH datos: ' . print_r($yith_groups, true) . ' -->';
+                        }
+                        
                         // Intentar obtener opciones de YITH usando función directa de BD
                         $yith_addons = get_yith_addons_direct_db($adiciones_product_id, $blocks_table, $addons_table, $blocks_assoc_table);
                         echo '<!-- DEBUG: YITH addons obtenidos (BD directa): ' . print_r($yith_addons, true) . ' -->';
@@ -167,10 +156,10 @@ get_header(); ?>
                             echo '<!-- DEBUG: Todos los addons en BD: ' . print_r($all_addons, true) . ' -->';
                             
                             // Buscar bloques que estén asignados al producto específico
-                            $product_blocks = $wpdb->get_results("
+                            $product_blocks = $wpdb->get_results($wpdb->prepare("
                                 SELECT * FROM $blocks_table 
-                                WHERE settings LIKE '%248%'
-                            ");
+                                WHERE settings LIKE %s
+                            ", '%' . $adiciones_product_id . '%'));
                             echo '<!-- DEBUG: Bloques asignados al producto ' . $adiciones_product_id . ': ' . print_r($product_blocks, true) . ' -->';
                         }
                         

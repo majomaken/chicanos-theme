@@ -30,6 +30,7 @@ if ( ! function_exists( 'understrap_scripts' ) ) {
 		$css_version = $theme_version . '.' . filemtime( get_template_directory() . $theme_styles );
 		wp_enqueue_style( 'understrap-styles', get_template_directory_uri() . $theme_styles, array(), $css_version );
 		wp_enqueue_style( 'fontawesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css', array(), '5.15.4' );
+		wp_enqueue_style( 'google-fonts', 'https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@200;300;400;500;600;700&display=swap', array(), null );
 				wp_enqueue_style( 'chicanos-custom-styles', get_template_directory_uri() . '/css/custom.css', array('understrap-styles'), $css_version );
 		wp_enqueue_style( 'chicanos-image-fixes', get_template_directory_uri() . '/css/image-fixes.css', array('chicanos-custom-styles'), $css_version );
 
@@ -48,10 +49,12 @@ if ( ! function_exists( 'understrap_scripts' ) ) {
 
 		if ( is_page_template( 'page-templates/template-domicilio-nogal.php' ) ) {
 			wp_enqueue_style( 'chicanos-domicilio-nogal-styles', get_template_directory_uri() . '/css/domicilio-nogal.css', array('chicanos-custom-styles'), $css_version );
+			wp_enqueue_style( 'chicanos-product-popup-styles', get_template_directory_uri() . '/css/product-popup.css', array('chicanos-domicilio-nogal-styles'), $css_version );
 		}
 
 		if ( is_page_template( 'page-templates/template-domicilio-castellana.php' ) ) {
 			wp_enqueue_style( 'chicanos-domicilio-castellana-styles', get_template_directory_uri() . '/css/domicilio-castellana.css', array('chicanos-custom-styles'), $css_version );
+			wp_enqueue_style( 'chicanos-product-popup-styles', get_template_directory_uri() . '/css/product-popup.css', array('chicanos-domicilio-castellana-styles'), $css_version );
 		}
 
 		if ( is_page_template( 'page-templates/template-under-construction.php' ) ) {
@@ -99,11 +102,13 @@ if ( ! function_exists( 'understrap_scripts' ) ) {
 		// Enqueue domicilio nogal script for specific template
 		if ( is_page_template( 'page-templates/template-domicilio-nogal.php' ) ) {
 			wp_enqueue_script( 'chicanos-domicilio-nogal', get_template_directory_uri() . '/js/domicilio-nogal.min.js', array('jquery'), $theme_version, true );
+			wp_enqueue_script( 'chicanos-product-popup', get_template_directory_uri() . '/js/product-popup.js', array('jquery'), $theme_version, true );
 		}
 		
 		// Enqueue domicilio castellana script for specific template
 		if ( is_page_template( 'page-templates/template-domicilio-castellana.php' ) ) {
 			wp_enqueue_script( 'chicanos-domicilio-castellana', get_template_directory_uri() . '/js/domicilio-castellana.min.js', array('jquery'), $theme_version, true );
+			wp_enqueue_script( 'chicanos-product-popup', get_template_directory_uri() . '/js/product-popup.js', array('jquery'), $theme_version, true );
 		}
 		
 		// Enqueue combos para llevar script for specific template

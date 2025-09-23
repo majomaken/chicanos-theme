@@ -77,6 +77,7 @@
 .combo-imagen img {
   width: 100% !important;
   height: 100% !important;
+  -o-object-fit: cover !important;
   object-fit: cover !important;
   border-radius: 0 !important;
 }
@@ -140,3 +141,5 @@
     gap: 15px !important;
   }
 }
+
+/*# sourceMappingURL=product-cards-fix.css.map */

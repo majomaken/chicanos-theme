@@ -31,7 +31,7 @@
 
 #delivery-hero h1 {
     margin-bottom: 40px;
-    font-family: "Proxima Nova Extra Condensed", sans-serif;
+    font-family: "Bebas Neue", sans-serif;
     font-weight: 800;
     font-size: 40px;
     line-height: 60px;
@@ -64,7 +64,7 @@
 }
 
 #locations .location-title {
-    font-family: "Proxima Nova Extra Condensed", sans-serif;
+    font-family: "Bebas Neue", sans-serif;
     font-size: 2.5rem;
     font-weight: 800;
     margin-bottom: 50px;
@@ -118,7 +118,7 @@
     margin: 0;
     font-size: 1.3rem;
     font-weight: 700;
-    font-family: "Proxima Nova Extra Condensed", sans-serif;
+    font-family: "Bebas Neue", sans-serif;
     color: #fff;
 }
 
@@ -154,7 +154,7 @@
     color: #fff;
     margin-bottom: 1rem;
     font-size: 0.9rem;
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     font-weight: 500;
     font-style: italic;
 }

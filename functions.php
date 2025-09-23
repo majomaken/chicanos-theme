@@ -1288,9 +1288,16 @@ function debug_yith_status($product_id) {
     global $wpdb;
     $groups_table = $wpdb->prefix . 'yith_wapo_groups';
     $options_table = $wpdb->prefix . 'yith_wapo_options';
+    $blocks_table = $wpdb->prefix . 'yith_wapo_blocks';
+    $addons_table = $wpdb->prefix . 'yith_wapo_addons';
     
     $debug_info['groups_table_exists'] = $wpdb->get_var("SHOW TABLES LIKE '$groups_table'") ? true : false;
     $debug_info['options_table_exists'] = $wpdb->get_var("SHOW TABLES LIKE '$options_table'") ? true : false;
+    $debug_info['blocks_table_exists'] = $wpdb->get_var("SHOW TABLES LIKE '$blocks_table'") ? true : false;
+    $debug_info['addons_table_exists'] = $wpdb->get_var("SHOW TABLES LIKE '$addons_table'") ? true : false;
+    
+    // Verificar plugin activo
+    $debug_info['plugin_active'] = is_plugin_active('yith-woocommerce-product-add-ons/init.php');
     
     // Obtener grupos directamente de la base de datos
     if ($debug_info['groups_table_exists']) {
@@ -1307,7 +1314,223 @@ function debug_yith_status($product_id) {
         }
     }
     
+    // Verificar bloques en la nueva estructura
+    if ($debug_info['blocks_table_exists']) {
+        $blocks = $wpdb->get_results($wpdb->prepare("
+            SELECT * FROM $blocks_table 
+            WHERE settings LIKE %s
+            AND visibility = 1
+        ", '%' . $product_id . '%'));
+        $debug_info['blocks_found'] = count($blocks);
+        $debug_info['blocks_data'] = $blocks;
+    }
+    
     return $debug_info;
+}
+
+// Función para diagnóstico completo de YITH en producción
+function yith_production_diagnostic($product_id) {
+    $diagnostic = array();
+    
+    // Información básica del producto
+    $product = wc_get_product($product_id);
+    $diagnostic['product_exists'] = $product ? true : false;
+    $diagnostic['product_name'] = $product ? $product->get_name() : 'No encontrado';
+    $diagnostic['product_status'] = $product ? $product->get_status() : 'No disponible';
+    
+    // Estado del plugin YITH
+    $diagnostic['yith_plugin_active'] = is_plugin_active('yith-woocommerce-product-add-ons/init.php');
+    $diagnostic['yith_functions_available'] = function_exists('yith_wapo_get_addon_groups') || class_exists('YITH_WAPO_Group');
+    
+    // Verificar tablas de base de datos
+    global $wpdb;
+    $tables_to_check = array(
+        'yith_wapo_groups',
+        'yith_wapo_options', 
+        'yith_wapo_blocks',
+        'yith_wapo_addons'
+    );
+    
+    $diagnostic['database_tables'] = array();
+    foreach ($tables_to_check as $table) {
+        $table_name = $wpdb->prefix . $table;
+        $diagnostic['database_tables'][$table] = $wpdb->get_var("SHOW TABLES LIKE '$table_name'") ? true : false;
+    }
+    
+    // Buscar bloques asignados al producto
+    if ($diagnostic['database_tables']['yith_wapo_blocks']) {
+        $blocks_table = $wpdb->prefix . 'yith_wapo_blocks';
+        $blocks = $wpdb->get_results($wpdb->prepare("
+            SELECT id, name, settings, visibility 
+            FROM $blocks_table 
+            WHERE settings LIKE %s
+        ", '%' . $product_id . '%'));
+        
+        $diagnostic['blocks_assigned'] = count($blocks);
+        $diagnostic['blocks_details'] = array();
+        
+        foreach ($blocks as $block) {
+            $diagnostic['blocks_details'][] = array(
+                'id' => $block->id,
+                'name' => $block->name,
+                'visibility' => $block->visibility,
+                'settings' => substr($block->settings, 0, 100) . '...' // Solo primeros 100 caracteres
+            );
+        }
+    }
+    
+    // Buscar addons en los bloques
+    if ($diagnostic['database_tables']['yith_wapo_addons'] && !empty($blocks)) {
+        $addons_table = $wpdb->prefix . 'yith_wapo_addons';
+        $total_addons = 0;
+        
+        foreach ($blocks as $block) {
+            $addons = $wpdb->get_results($wpdb->prepare("
+                SELECT COUNT(*) as count 
+                FROM $addons_table 
+                WHERE block_id = %d AND visibility = 1
+            ", $block->id));
+            
+            $total_addons += $addons[0]->count;
+        }
+        
+        $diagnostic['total_addons'] = $total_addons;
+    }
+    
+    return $diagnostic;
+}
+
+// Función para encontrar el producto de adiciones de manera dinámica
+function find_adiciones_product() {
+    $adiciones_product_id = null;
+    
+    // Método 1: Parámetro de URL (para compatibilidad)
+    if (isset($_GET['product_id'])) {
+        $adiciones_product_id = intval($_GET['product_id']);
+        error_log('Adiciones ID desde URL: ' . $adiciones_product_id);
+        return $adiciones_product_id;
+    }
+    
+    // Método 2: Buscar por categoría 'adiciones'
+    $adiciones_args = array(
+        'post_type' => 'product',
+        'posts_per_page' => 1,
+        'tax_query' => array(
+            array(
+                'taxonomy' => 'product_cat',
+                'field'    => 'slug',
+                'terms'    => 'adiciones',
+            ),
+        ),
+    );
+    
+    $adiciones_products = new WP_Query($adiciones_args);
+    
+    if ($adiciones_products->have_posts()) {
+        $adiciones_products->the_post();
+        $adiciones_product_id = get_the_ID();
+        error_log('Adiciones ID desde categoría: ' . $adiciones_product_id);
+        wp_reset_postdata();
+        return $adiciones_product_id;
+    }
+    
+    // Método 3: Buscar por slug 'adiciones'
+    $adiciones_by_slug = get_posts(array(
+        'post_type' => 'product',
+        'name' => 'adiciones',
+        'posts_per_page' => 1,
+        'post_status' => 'publish'
+    ));
+    
+    if (!empty($adiciones_by_slug)) {
+        $adiciones_product_id = $adiciones_by_slug[0]->ID;
+        error_log('Adiciones ID desde slug: ' . $adiciones_product_id);
+        return $adiciones_product_id;
+    }
+    
+    // Método 4: Buscar productos que contengan "adiciones" en el título
+    $adiciones_by_title = get_posts(array(
+        'post_type' => 'product',
+        's' => 'adiciones',
+        'posts_per_page' => 1,
+        'post_status' => 'publish'
+    ));
+    
+    if (!empty($adiciones_by_title)) {
+        $adiciones_product_id = $adiciones_by_title[0]->ID;
+        error_log('Adiciones ID desde búsqueda en título: ' . $adiciones_product_id);
+        return $adiciones_product_id;
+    }
+    
+    // Método 5: Buscar productos que contengan "adiciones" en el contenido
+    $adiciones_by_content = get_posts(array(
+        'post_type' => 'product',
+        'meta_query' => array(
+            'relation' => 'OR',
+            array(
+                'key' => '_product_description',
+                'value' => 'adiciones',
+                'compare' => 'LIKE'
+            ),
+            array(
+                'key' => '_product_short_description',
+                'value' => 'adiciones',
+                'compare' => 'LIKE'
+            )
+        ),
+        'posts_per_page' => 1,
+        'post_status' => 'publish'
+    ));
+    
+    if (!empty($adiciones_by_content)) {
+        $adiciones_product_id = $adiciones_by_content[0]->ID;
+        error_log('Adiciones ID desde contenido: ' . $adiciones_product_id);
+        return $adiciones_product_id;
+    }
+    
+    // Método 6: Buscar productos con meta field específico
+    $adiciones_by_meta = get_posts(array(
+        'post_type' => 'product',
+        'meta_query' => array(
+            array(
+                'key' => '_adiciones_product',
+                'value' => 'yes',
+                'compare' => '='
+            )
+        ),
+        'posts_per_page' => 1,
+        'post_status' => 'publish'
+    ));
+    
+    if (!empty($adiciones_by_meta)) {
+        $adiciones_product_id = $adiciones_by_meta[0]->ID;
+        error_log('Adiciones ID desde meta field: ' . $adiciones_product_id);
+        return $adiciones_product_id;
+    }
+    
+    // Método 7: Buscar productos con SKU que contenga "adiciones"
+    $adiciones_by_sku = get_posts(array(
+        'post_type' => 'product',
+        'meta_query' => array(
+            array(
+                'key' => '_sku',
+                'value' => 'adiciones',
+                'compare' => 'LIKE'
+            )
+        ),
+        'posts_per_page' => 1,
+        'post_status' => 'publish'
+    ));
+    
+    if (!empty($adiciones_by_sku)) {
+        $adiciones_product_id = $adiciones_by_sku[0]->ID;
+        error_log('Adiciones ID desde SKU: ' . $adiciones_product_id);
+        return $adiciones_product_id;
+    }
+    
+    // Si no se encuentra nada, registrar error
+    error_log('ERROR: No se pudo encontrar el producto de adiciones usando ningún método');
+    return null;
 }
 
 // Función para obtener opciones de YITH directamente de la base de datos
@@ -1433,6 +1656,427 @@ function ensure_yith_is_active() {
     }
     
     return true;
+}
+
+// Función de debug específica para WAPF
+function debug_wapf_status($product_id) {
+    $debug_info = array();
+    
+    // Verificar si WAPF está activo
+    $debug_info['wapf_active'] = is_plugin_active('advanced-product-fields-for-woocommerce/advanced-product-fields-for-woocommerce.php');
+    
+    // Obtener datos WAPF del producto
+    $wapf_data = get_post_meta($product_id, '_wapf_fieldgroup', true);
+    $debug_info['wapf_data'] = $wapf_data;
+    $debug_info['wapf_data_empty'] = empty($wapf_data);
+    
+    // Verificar todos los meta fields del producto
+    $all_meta = get_post_meta($product_id);
+    $debug_info['all_meta_keys'] = array_keys($all_meta);
+    
+    // Buscar cualquier meta field que contenga 'wapf'
+    $wapf_meta_fields = array();
+    foreach ($all_meta as $key => $value) {
+        if (strpos(strtolower($key), 'wapf') !== false) {
+            $wapf_meta_fields[$key] = $value;
+        }
+    }
+    $debug_info['wapf_meta_fields'] = $wapf_meta_fields;
+    
+    // Verificar si el producto existe y está publicado
+    $product = wc_get_product($product_id);
+    if ($product) {
+        $debug_info['product_exists'] = true;
+        $debug_info['product_name'] = $product->get_name();
+        $debug_info['product_status'] = $product->get_status();
+        $debug_info['product_categories'] = wp_get_post_terms($product_id, 'product_cat', array('fields' => 'names'));
+    } else {
+        $debug_info['product_exists'] = false;
+    }
+    
+    return $debug_info;
+}
+
+// Función para listar todos los productos de combo y su estado WAPF
+function debug_all_combo_products() {
+    $debug_info = array();
+    
+    $combo_query = new WP_Query(array(
+        'post_type' => 'product',
+        'posts_per_page' => -1,
+        'tax_query' => array(
+            array(
+                'taxonomy' => 'product_cat',
+                'field'    => 'slug',
+                'terms'    => array('combos', 'combo', 'combo-para-llevar'),
+                'operator' => 'IN',
+            ),
+        ),
+    ));
+    
+    if ($combo_query->have_posts()) {
+        while ($combo_query->have_posts()) {
+            $combo_query->the_post();
+            $product_id = get_the_ID();
+            $product_name = get_the_title();
+            
+            $wapf_status = debug_wapf_status($product_id);
+            
+            $debug_info[] = array(
+                'id' => $product_id,
+                'name' => $product_name,
+                'wapf_status' => $wapf_status
+            );
+        }
+        wp_reset_postdata();
+    }
+    
+    return $debug_info;
+}
+
+// Función para extraer opciones de combo desde WAPF Input Fields
+function get_combo_options_from_woocommerce($combo_product_id, $option_type) {
+    $options = array();
+    
+    // Debug
+    echo "<!-- DEBUG: Buscando opciones de tipo '$option_type' para combo ID: $combo_product_id -->";
+    echo "<script>console.log('=== BUSCANDO OPCIONES DE TIPO: $option_type ===');</script>";
+    
+    // 1. PRIMERA PRIORIDAD: Buscar desde WAPF Meta Data directamente
+    $wapf_data = get_post_meta($combo_product_id, '_wapf_fieldgroup', true);
+    if (!empty($wapf_data) && isset($wapf_data['fields'])) {
+        echo "<!-- DEBUG: WAPF data encontrado en meta field -->";
+        echo "<script>console.log('WAPF data encontrado:', " . json_encode($wapf_data) . ");</script>";
+        
+        foreach ($wapf_data['fields'] as $index => $field) {
+            echo "<script>console.log('=== CAMPO WAPF #$index ===');</script>";
+            echo "<script>console.log('Campo completo:', " . json_encode($field) . ");</script>";
+            
+            // Intentar diferentes estructuras posibles
+            $field_title = '';
+            $field_label = '';
+            
+            // Estructura 1: field['options']['title']
+            if (isset($field['options']['title'])) {
+                $field_title = strtolower($field['options']['title']);
+            }
+            // Estructura 2: field['title']
+            elseif (isset($field['title'])) {
+                $field_title = strtolower($field['title']);
+            }
+            // Estructura 3: field['label']
+            elseif (isset($field['label'])) {
+                $field_title = strtolower($field['label']);
+            }
+            
+            // Estructura 1: field['options']['label']
+            if (isset($field['options']['label'])) {
+                $field_label = strtolower($field['options']['label']);
+            }
+            // Estructura 2: field['label']
+            elseif (isset($field['label'])) {
+                $field_label = strtolower($field['label']);
+            }
+            
+            echo "<!-- DEBUG: Campo meta - Título: '$field_title' - Label: '$field_label' -->";
+            echo "<script>console.log('Campo meta - Título: \"$field_title\" - Label: \"$field_label\"');</script>";
+            
+            // Mostrar opciones de cada campo para debug
+            echo "<script>console.log('Buscando opciones en el campo...');</script>";
+            
+            // Buscar opciones en diferentes estructuras posibles
+            $choices = array();
+            
+            // Estructura 1: field['options']['choices']
+            if (isset($field['options']['choices'])) {
+                $choices = $field['options']['choices'];
+                echo "<script>console.log('Opciones encontradas en field[options][choices]:', " . json_encode($choices) . ");</script>";
+            }
+            // Estructura 2: field['choices']
+            elseif (isset($field['choices'])) {
+                $choices = $field['choices'];
+                echo "<script>console.log('Opciones encontradas en field[choices]:', " . json_encode($choices) . ");</script>";
+            }
+            // Estructura 3: field['options']['options']
+            elseif (isset($field['options']['options'])) {
+                $choices = $field['options']['options'];
+                echo "<script>console.log('Opciones encontradas en field[options][options]:', " . json_encode($choices) . ");</script>";
+            }
+            
+            // Verificar si el campo coincide con el tipo de opción buscado
+            $coincide = false;
+            
+            // Coincidencias exactas
+            if (strpos($field_title, $option_type) !== false || 
+                strpos($field_label, $option_type) !== false ||
+                strpos($field_title, str_replace('o', 'ó', $option_type)) !== false ||
+                strpos($field_label, str_replace('o', 'ó', $option_type)) !== false) {
+                $coincide = true;
+            }
+            
+            // Coincidencias inteligentes para casos específicos
+            if (!$coincide) {
+                switch ($option_type) {
+                    case 'protein':
+                    case 'proteína':
+                        if (strpos($field_title, 'proteína') !== false || 
+                            strpos($field_label, 'proteína') !== false ||
+                            strpos($field_title, 'proteina') !== false || 
+                            strpos($field_label, 'proteina') !== false) {
+                            $coincide = true;
+                        }
+                        break;
+                    case 'sauce':
+                    case 'salsa':
+                        if (strpos($field_title, 'salsa') !== false || 
+                            strpos($field_label, 'salsa') !== false) {
+                            $coincide = true;
+                        }
+                        break;
+                    case 'tortilla':
+                        if (strpos($field_title, 'tortilla') !== false || 
+                            strpos($field_label, 'tortilla') !== false) {
+                            $coincide = true;
+                        }
+                        break;
+                    case 'totopo':
+                        if (strpos($field_title, 'totopo') !== false || 
+                            strpos($field_label, 'totopo') !== false) {
+                            $coincide = true;
+                        }
+                        break;
+                }
+            }
+            
+            if ($coincide) {
+                
+                echo "<!-- DEBUG: Campo meta coincide con '$option_type' -->";
+                echo "<script>console.log('Campo meta coincide con \"$option_type\"');</script>";
+                
+                // Extraer opciones del campo
+                if (!empty($choices)) {
+                    echo "<script>console.log('Procesando opciones del campo meta:', " . json_encode($choices) . ");</script>";
+                    foreach ($choices as $choice) {
+                        if (isset($choice['label'])) {
+                            $options[] = $choice['label'];
+                            echo "<!-- DEBUG: Opción meta encontrada: " . $choice['label'] . " -->";
+                            echo "<script>console.log('Opción meta encontrada: \"" . $choice['label'] . "\"');</script>";
+                        }
+                    }
+                }
+            } else {
+                echo "<script>console.log('Campo NO coincide con \"$option_type\"');</script>";
+            }
+        }
+    } else {
+        echo "<script>console.log('No se encontró WAPF data en meta field');</script>";
+    }
+    
+    // 2. SEGUNDA PRIORIDAD: Buscar desde base de datos WAPF directamente
+    if (empty($options)) {
+        global $wpdb;
+        
+        // Buscar en la tabla de grupos de WAPF
+        $wapf_groups = $wpdb->get_results($wpdb->prepare("
+            SELECT * FROM {$wpdb->prefix}wapf_fieldgroups 
+            WHERE product_ids LIKE %s OR product_ids LIKE %s
+        ", '%' . $combo_product_id . '%', '%all%'));
+        
+        foreach ($wapf_groups as $group) {
+            $fields = $wpdb->get_results($wpdb->prepare("
+                SELECT * FROM {$wpdb->prefix}wapf_fields 
+                WHERE fieldgroup_id = %d
+            ", $group->id));
+            
+            foreach ($fields as $field) {
+                $field_data = maybe_unserialize($field->field_data);
+                $field_title = isset($field_data['title']) ? strtolower($field_data['title']) : '';
+                $field_label = isset($field_data['label']) ? strtolower($field_data['label']) : '';
+                
+                if (strpos($field_title, $option_type) !== false || 
+                    strpos($field_label, $option_type) !== false) {
+                    
+                    if (isset($field_data['choices'])) {
+                        foreach ($field_data['choices'] as $choice) {
+                            if (isset($choice['label'])) {
+                                $options[] = $choice['label'];
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    // Eliminar duplicados y valores vacíos
+    $options = array_unique(array_filter($options));
+    
+    echo "<!-- DEBUG: Opciones encontradas para '$option_type': " . print_r($options, true) . " -->";
+    echo "<script>console.log('=== RESULTADO FINAL PARA \"$option_type\" ===');</script>";
+    echo "<script>console.log('Opciones encontradas:', " . json_encode($options) . ");</script>";
+    echo "<script>console.log('Total de opciones:', " . count($options) . ");</script>";
+    
+    return $options;
+}
+
+// Función para debuggear específicamente los input fields de WAPF
+function debug_wapf_input_fields($combo_product_id) {
+    echo "<!-- DEBUG WAPF INPUT FIELDS PARA PRODUCTO ID: $combo_product_id -->";
+    
+    // 1. Verificar si WAPF está activo
+    $wapf_active = is_plugin_active('advanced-product-fields-for-woocommerce/advanced-product-fields-for-woocommerce.php');
+    echo "<!-- DEBUG: WAPF Plugin Active: " . ($wapf_active ? 'YES' : 'NO') . " -->";
+    
+    // 2. Verificar función wapf_get_fieldgroup
+    $wapf_function_exists = function_exists('wapf_get_fieldgroup');
+    echo "<!-- DEBUG: wapf_get_fieldgroup function exists: " . ($wapf_function_exists ? 'YES' : 'NO') . " -->";
+    
+    // 3. Intentar obtener fieldgroup usando la función WAPF
+    if ($wapf_function_exists) {
+        $fieldgroup = wapf_get_fieldgroup($combo_product_id);
+        echo "<!-- DEBUG: Fieldgroup from wapf_get_fieldgroup: " . print_r($fieldgroup, true) . " -->";
+    }
+    
+    // 4. Verificar meta field _wapf_fieldgroup
+    $wapf_meta = get_post_meta($combo_product_id, '_wapf_fieldgroup', true);
+    echo "<!-- DEBUG: Meta field _wapf_fieldgroup: " . print_r($wapf_meta, true) . " -->";
+    
+    // 5. Verificar todos los meta fields que contengan 'wapf'
+    $all_meta = get_post_meta($combo_product_id);
+    $wapf_meta_fields = array();
+    foreach ($all_meta as $key => $value) {
+        if (strpos(strtolower($key), 'wapf') !== false) {
+            $wapf_meta_fields[$key] = $value;
+        }
+    }
+    echo "<!-- DEBUG: Todos los meta fields WAPF: " . print_r($wapf_meta_fields, true) . " -->";
+    
+    // 6. Verificar tablas de base de datos WAPF
+    global $wpdb;
+    
+    // Verificar si existen las tablas WAPF
+    $wapf_fieldgroups_table = $wpdb->prefix . 'wapf_fieldgroups';
+    $wapf_fields_table = $wpdb->prefix . 'wapf_fields';
+    
+    $fieldgroups_table_exists = $wpdb->get_var("SHOW TABLES LIKE '$wapf_fieldgroups_table'") == $wapf_fieldgroups_table;
+    $fields_table_exists = $wpdb->get_var("SHOW TABLES LIKE '$wapf_fields_table'") == $wapf_fields_table;
+    
+    echo "<!-- DEBUG: Tabla fieldgroups existe: " . ($fieldgroups_table_exists ? 'YES' : 'NO') . " -->";
+    echo "<!-- DEBUG: Tabla fields existe: " . ($fields_table_exists ? 'YES' : 'NO') . " -->";
+    
+    if ($fieldgroups_table_exists) {
+        $fieldgroups = $wpdb->get_results("SELECT * FROM $wapf_fieldgroups_table");
+        echo "<!-- DEBUG: Todos los fieldgroups: " . print_r($fieldgroups, true) . " -->";
+        
+        // Buscar fieldgroups que apliquen a este producto
+        $applicable_groups = $wpdb->get_results($wpdb->prepare("
+            SELECT * FROM $wapf_fieldgroups_table 
+            WHERE product_ids LIKE %s OR product_ids LIKE %s OR product_ids = %s
+        ", '%' . $combo_product_id . '%', '%all%', $combo_product_id));
+        
+        echo "<!-- DEBUG: Grupos aplicables al producto: " . print_r($applicable_groups, true) . " -->";
+        
+        if ($fields_table_exists && !empty($applicable_groups)) {
+            foreach ($applicable_groups as $group) {
+                $fields = $wpdb->get_results($wpdb->prepare("
+                    SELECT * FROM $wapf_fields_table 
+                    WHERE fieldgroup_id = %d
+                ", $group->id));
+                
+                echo "<!-- DEBUG: Campos del grupo {$group->id}: " . print_r($fields, true) . " -->";
+                
+                foreach ($fields as $field) {
+                    $field_data = maybe_unserialize($field->field_data);
+                    echo "<!-- DEBUG: Datos del campo {$field->id}: " . print_r($field_data, true) . " -->";
+                }
+            }
+        }
+    }
+    
+    echo "<!-- DEBUG WAPF INPUT FIELDS FINALIZADO -->";
+}
+
+// Función para crear opciones de combo desde el admin
+function create_combo_options_admin_page() {
+    add_menu_page(
+        'Configurar Opciones de Combo',
+        'Opciones de Combo',
+        'manage_options',
+        'combo-options',
+        'combo_options_admin_page',
+        'dashicons-food',
+        30
+    );
+}
+add_action('admin_menu', 'create_combo_options_admin_page');
+
+function combo_options_admin_page() {
+    if (isset($_POST['submit'])) {
+        // Procesar formulario de configuración
+        $protein_options = sanitize_textarea_field($_POST['protein_options']);
+        $sauce_options = sanitize_textarea_field($_POST['sauce_options']);
+        $tortilla_options = sanitize_textarea_field($_POST['tortilla_options']);
+        $totopo_options = sanitize_textarea_field($_POST['totopo_options']);
+        
+        // Guardar en opciones de WordPress
+        update_option('combo_protein_options', $protein_options);
+        update_option('combo_sauce_options', $sauce_options);
+        update_option('combo_tortilla_options', $tortilla_options);
+        update_option('combo_totopo_options', $totopo_options);
+        
+        echo '<div class="notice notice-success"><p>Opciones de combo guardadas exitosamente!</p></div>';
+    }
+    
+    // Obtener opciones actuales
+    $protein_options = get_option('combo_protein_options', '');
+    $sauce_options = get_option('combo_sauce_options', '');
+    $tortilla_options = get_option('combo_tortilla_options', '');
+    $totopo_options = get_option('combo_totopo_options', '');
+    
+    ?>
+    <div class="wrap">
+        <h1>Configurar Opciones de Combo</h1>
+        <p>Configura las opciones disponibles para los combos. Una opción por línea.</p>
+        
+        <form method="post">
+            <table class="form-table">
+                <tr>
+                    <th scope="row">Opciones de Proteína</th>
+                    <td>
+                        <textarea name="protein_options" rows="5" cols="50" class="large-text"><?php echo esc_textarea($protein_options); ?></textarea>
+                        <p class="description">Una opción por línea. Ejemplo: Pollo con Cebolla y Pimentón</p>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">Opciones de Salsa</th>
+                    <td>
+                        <textarea name="sauce_options" rows="5" cols="50" class="large-text"><?php echo esc_textarea($sauce_options); ?></textarea>
+                        <p class="description">Una opción por línea. Ejemplo: Mayonesa Chipotle</p>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">Opciones de Tortilla</th>
+                    <td>
+                        <textarea name="tortilla_options" rows="5" cols="50" class="large-text"><?php echo esc_textarea($tortilla_options); ?></textarea>
+                        <p class="description">Una opción por línea. Ejemplo: Tortilla de Maíz (25 unidades)</p>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">Opciones de Totopo</th>
+                    <td>
+                        <textarea name="totopo_options" rows="5" cols="50" class="large-text"><?php echo esc_textarea($totopo_options); ?></textarea>
+                        <p class="description">Una opción por línea. Ejemplo: Totopos 100%</p>
+                    </td>
+                </tr>
+            </table>
+            
+            <?php submit_button('Guardar Opciones'); ?>
+        </form>
+        
+        <h2>Información de Debug</h2>
+        <p>Para ver cómo se están extrayendo las opciones, visita la página de combos y revisa el código fuente para ver los comentarios de debug.</p>
+    </div>
+    <?php
 }
 
 // Función para crear las tablas de YITH manualmente

@@ -30,6 +30,7 @@
 .combo-banner-image img {
     max-width: 100%;
     height: 600px;
+    -o-object-fit: cover;
     object-fit: cover;
     
     
@@ -60,9 +61,9 @@
 }
 
 .combo-main-title {
-    font-family: "Proxima Nova Extra Condensed", sans-serif;
-    font-size: 4rem;
-    font-weight: 900;
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 49px;
+    font-weight: 400;
     color: #000;
     margin-bottom: 30px;
     text-transform: uppercase;
@@ -100,9 +101,9 @@
 }
 
 .combo-size {
-    font-family: "Quicksand", sans-serif;
-    font-size: 1.4rem;
-    font-weight: 600;
+    font-family: "Oswald", sans-serif;
+    font-size: 27px;
+    font-weight: 300;
     color: #000;
     margin-bottom: 25px;
 }
@@ -112,7 +113,7 @@
 }
 
 .includes-title {
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     font-size: 1.2rem;
     font-weight: 600;
     color: #000;
@@ -126,7 +127,7 @@
 }
 
 .includes-list li {
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     font-size: 1.1rem;
     color: #333;
     margin-bottom: 8px;
@@ -147,7 +148,7 @@
 }
 
 .price-amount {
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     font-size: 1.4rem;
     font-weight: 600;
     color: #000;
@@ -218,7 +219,7 @@
 }
 
 .section-title {
-    font-family: "Proxima Nova Extra Condensed", sans-serif;
+    font-family: "Bebas Neue", sans-serif;
     font-size: 2.5rem;
     font-weight: 900;
     color: #000;
@@ -281,7 +282,7 @@
 }
 
 .combo-option-card .option-title {
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     font-size: 1.1rem;
     font-weight: 600;
     color: #000;
@@ -290,7 +291,7 @@
 }
 
 .combo-option-card .option-spec {
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     font-size: 0.85rem;
     font-weight: 400;
     color: #666;
@@ -336,7 +337,7 @@
 }
 
 .summary-title {
-    font-family: "Proxima Nova Extra Condensed", sans-serif;
+    font-family: "Bebas Neue", sans-serif;
     font-size: 2rem;
     font-weight: 900;
     color: #000;
@@ -750,7 +751,7 @@
     transition: all 0.3s ease;
     min-width: auto; /* Tamaño automático como los demás */
     cursor: pointer;
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -788,7 +789,7 @@ a.add-to-cart-button:hover {
 }
 
 .add-to-cart-description {
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     font-size: 1rem;
     color: #666;
     font-style: italic;
@@ -836,6 +837,7 @@ a.add-to-cart-button:hover {
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.7);
+    -webkit-backdrop-filter: blur(5px);
     backdrop-filter: blur(5px);
 }
 
@@ -869,7 +871,7 @@ a.add-to-cart-button:hover {
 }
 
 .modal-header h3 {
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     font-size: 1.4rem;
     font-weight: 700;
     color: #28a745;
@@ -881,7 +883,7 @@ a.add-to-cart-button:hover {
 }
 
 .combo-summary h4 {
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     font-size: 1.2rem;
     font-weight: 600;
     color: #333;
@@ -906,7 +908,7 @@ a.add-to-cart-button:hover {
 }
 
 .summary-label {
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     font-weight: 600;
     color: #333;
     margin-right: 10px;
@@ -915,7 +917,7 @@ a.add-to-cart-button:hover {
 }
 
 .summary-value {
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     color: #666;
     flex: 1;
 }
@@ -925,7 +927,7 @@ a.add-to-cart-button:hover {
 }
 
 .summary-list-item {
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     color: #666;
     margin-bottom: 4px;
     font-size: 0.9rem;
@@ -1042,7 +1044,7 @@ a.add-to-cart-button:hover {
     background: #f8f9fa !important;
     border-left: 4px solid #007bff !important;
     border-radius: 6px !important;
-    font-family: "Quicksand", sans-serif !important;
+    font-family: "Oswald", sans-serif !important;
 }
 
 .combo-cart-details > div:first-child {
@@ -1070,7 +1072,7 @@ a.add-to-cart-button:hover {
     background: #f8f9fa !important;
     border-left: 4px solid #007bff !important;
     border-radius: 6px !important;
-    font-family: "Quicksand", sans-serif !important;
+    font-family: "Oswald", sans-serif !important;
 }
 
 .combo-order-details > div:first-child {
@@ -1147,7 +1149,7 @@ a.add-to-cart-button:hover {
 }
 
 .validation-modal-title {
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     font-size: 1.3rem;
     font-weight: 600;
     color: #000;
@@ -1196,7 +1198,7 @@ a.add-to-cart-button:hover {
 }
 
 .validation-intro {
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     font-size: 1.1rem;
     font-weight: 500;
     color: #000;
@@ -1211,7 +1213,7 @@ a.add-to-cart-button:hover {
 }
 
 .validation-list li {
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     font-size: 1rem;
     font-weight: 400;
     color: #333;
@@ -1232,7 +1234,7 @@ a.add-to-cart-button:hover {
     border: 2px solid #000;
     border-radius: 6px;
     padding: 12px 30px;
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     font-size: 1.1rem;
     font-weight: 600;
     color: #000;
@@ -1284,7 +1286,7 @@ a.add-to-cart-button:hover {
 }
 
 .confirmation-modal-title {
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     font-size: 1.3rem;
     font-weight: 600;
     color: #000;
@@ -1337,7 +1339,7 @@ a.add-to-cart-button:hover {
 }
 
 .summary-title {
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     font-size: 1.2rem;
     font-weight: 600;
     color: #000;
@@ -1361,7 +1363,7 @@ a.add-to-cart-button:hover {
 }
 
 .summary-label {
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     font-weight: 600;
     color: #333;
     margin-right: 10px;
@@ -1369,7 +1371,7 @@ a.add-to-cart-button:hover {
 }
 
 .summary-value {
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     color: #007bff;
     font-weight: 500;
 }
@@ -1379,7 +1381,7 @@ a.add-to-cart-button:hover {
 }
 
 .summary-list-item {
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     color: #007bff;
     font-size: 0.9rem;
 }
@@ -1400,7 +1402,7 @@ a.add-to-cart-button:hover {
     border: 2px solid #000;
     border-radius: 6px;
     padding: 12px 25px;
-    font-family: "Quicksand", sans-serif;
+    font-family: "Oswald", sans-serif;
     font-size: 1rem;
     font-weight: 600;
     color: #000;
@@ -1427,5 +1429,4 @@ a.add-to-cart-button:hover {
     background: #218838;
     border-color: #218838;
 }
-
 /*# sourceMappingURL=combos-para-llevar.css.map */
