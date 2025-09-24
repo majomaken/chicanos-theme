@@ -88,55 +88,47 @@ add_action('wp_ajax_nopriv_add_adiciones_to_cart', 'add_adiciones_to_cart_handle
 // Handle combo add to cart
 function handle_add_combo_to_cart() {
     try {
-        // Log para debugging
-        error_log('=== COMBO AJAX Handler llamado ===');
-        error_log('POST data: ' . print_r($_POST, true));
-        
         // Verificar que WooCommerce esté activo
         if (!class_exists('WooCommerce')) {
-            error_log('WooCommerce no está activo');
             wp_send_json_error('WooCommerce not active');
-            return;
         }
         
         // Verify nonce
         if (!wp_verify_nonce($_POST['nonce'], 'add_combo_to_cart')) {
-            error_log('Nonce verification failed');
             wp_send_json_error('Security check failed');
-            return;
         }
         
-        // Verificar que combo_id existe
-        if (!isset($_POST['combo_id']) || empty($_POST['combo_id'])) {
-            error_log('combo_id no está presente en POST');
-            wp_send_json_error('Combo ID is required');
-            return;
-        }
-        
+        // Obtener datos del combo
         $combo_id = intval($_POST['combo_id']);
-        error_log('Combo ID: ' . $combo_id);
-        
-        // Verificar que combo_data existe
-        if (!isset($_POST['combo_data']) || empty($_POST['combo_data'])) {
-            error_log('combo_data no está presente en POST');
-            wp_send_json_error('Combo data is required');
-            return;
-        }
-        
         $combo_data = $_POST['combo_data'];
-        error_log('Combo data: ' . print_r($combo_data, true));
         
-        // Get the combo product
-        $product = wc_get_product($combo_id);
-        if (!$product) {
-            error_log('Producto no encontrado con ID: ' . $combo_id);
-            wp_send_json_error('Product not found');
-            return;
+        error_log("DEBUG AJAX: combo_id recibido: " . $combo_id);
+        error_log("DEBUG AJAX: combo_data recibido: " . print_r($combo_data, true));
+        
+        // Debug específico para combos 4-6 y 7-10
+        if (isset($combo_data['total_price'])) {
+            error_log("DEBUG AJAX COMBO 4-6/7-10: total_price recibido: " . $combo_data['total_price']);
+        } else {
+            error_log("DEBUG AJAX COMBO 4-6/7-10: NO se recibió total_price");
         }
         
-        error_log('Producto encontrado: ' . $product->get_name());
+        // Decode JSON arrays if they are JSON strings
+        if (isset($combo_data['totopos']) && is_string($combo_data['totopos'])) {
+            $combo_data['totopos'] = json_decode($combo_data['totopos'], true);
+        }
+        if (isset($combo_data['tortillas']) && is_string($combo_data['tortillas'])) {
+            $combo_data['tortillas'] = json_decode($combo_data['tortillas'], true);
+        }
+        if (isset($combo_data['proteins']) && is_string($combo_data['proteins'])) {
+            $combo_data['proteins'] = json_decode($combo_data['proteins'], true);
+        }
+        if (isset($combo_data['sauces']) && is_string($combo_data['sauces'])) {
+            $combo_data['sauces'] = json_decode($combo_data['sauces'], true);
+        }
         
-        // Prepare combo data for cart - con validación adicional
+        error_log("DEBUG AJAX: combo_data después de decode: " . print_r($combo_data, true));
+        
+        // Preparar datos para el carrito
         $cart_item_data = array();
         
         if (isset($combo_data['totopos'])) {
@@ -155,47 +147,66 @@ function handle_add_combo_to_cart() {
             $cart_item_data['combo_sauces'] = array_map('sanitize_text_field', $combo_data['sauces']);
         }
         
-        $cart_item_data['combo_custom_data'] = true;
+        // Include the calculated total price
+        if (isset($combo_data['total_price'])) {
+            $cart_item_data['combo_total_price'] = floatval($combo_data['total_price']);
+            error_log("DEBUG AJAX: combo_total_price guardado: " . $cart_item_data['combo_total_price']);
+        } else {
+            error_log("DEBUG AJAX: NO se encontró total_price en combo_data");
+        }
         
-        error_log('Cart item data: ' . print_r($cart_item_data, true));
+        $cart_item_data['combo_custom_data'] = true;
         
         // Add to cart
         $cart_item_key = WC()->cart->add_to_cart($combo_id, 1, 0, array(), $cart_item_data);
         
         if ($cart_item_key) {
-            // Update cart totals
-            WC()->cart->calculate_totals();
+            error_log("DEBUG AJAX: Item agregado al carrito con key: " . $cart_item_key);
             
-            error_log('Combo agregado exitosamente al carrito');
-            error_log('Cart item key: ' . $cart_item_key);
-            
-            // Verificar que los datos se guardaron correctamente
-            $cart_contents = WC()->cart->get_cart_contents();
-            foreach ($cart_contents as $key => $item) {
-                if ($key === $cart_item_key) {
-                    error_log('Verificando datos guardados: ' . print_r($item, true));
-                    break;
-                }
+            // Manually trigger price modification for AJAX requests
+            $product = wc_get_product($combo_id);
+            if ($product && isset($cart_item_data['combo_total_price']) && $cart_item_data['combo_total_price'] > 0) {
+                $new_price = floatval($cart_item_data['combo_total_price']);
+                error_log("DEBUG AJAX: Aplicando precio manual: " . $new_price);
+                
+                $product->set_price($new_price);
+                error_log("DEBUG AJAX: Precio del producto después de set_price: " . $product->get_price());
+                
+                // Update cart item data
+                WC()->cart->cart_contents[$cart_item_key]['combo_custom_data'] = true;
+                WC()->cart->cart_contents[$cart_item_key]['combo_total_price'] = $new_price;
+                
+                // Force recalculation
+                WC()->cart->calculate_totals();
+                error_log("DEBUG AJAX: Totales recalculados manualmente");
+                
+                // Check cart total after recalculation
+                $cart_total = WC()->cart->get_cart_total();
+                error_log("DEBUG AJAX: Cart total después de recalcular: " . $cart_total);
+            } else {
+                error_log("DEBUG AJAX: NO se aplicó precio manual - producto: " . ($product ? 'existe' : 'NO existe') . ", combo_total_price: " . (isset($cart_item_data['combo_total_price']) ? $cart_item_data['combo_total_price'] : 'NO SET'));
             }
             
-            // Limpiar cache si existe
-            if (function_exists('wp_cache_flush')) {
-                wp_cache_flush();
-            }
+            // Get debug information
+            $debug_info = array(
+                'combo_id' => $combo_id,
+                'combo_total_price_received' => isset($cart_item_data['combo_total_price']) ? $cart_item_data['combo_total_price'] : 'NOT SET',
+                'product_price_after_set' => $product ? $product->get_price() : 'NO PRODUCT',
+                'cart_total' => WC()->cart->get_cart_total(),
+                'cart_contents_count' => WC()->cart->get_cart_contents_count()
+            );
             
             wp_send_json_success(array(
                 'message' => 'Combo agregado al carrito exitosamente',
                 'cart_count' => WC()->cart->get_cart_contents_count(),
-                'cart_total' => WC()->cart->get_cart_total()
+                'cart_total' => WC()->cart->get_cart_total(),
+                'debug' => $debug_info
             ));
         } else {
-            error_log('Error al agregar al carrito');
             wp_send_json_error('Error al agregar al carrito');
         }
         
     } catch (Exception $e) {
-        error_log('Exception en handle_add_combo_to_cart: ' . $e->getMessage());
-        error_log('Stack trace: ' . $e->getTraceAsString());
         wp_send_json_error('Server error: ' . $e->getMessage());
     }
 }
@@ -203,6 +214,56 @@ function handle_add_combo_to_cart() {
 add_action('wp_ajax_add_combo_to_cart', 'handle_add_combo_to_cart');
 add_action('wp_ajax_nopriv_add_combo_to_cart', 'handle_add_combo_to_cart');
 
+// Hook to ensure combo prices are applied after AJAX cart addition
+add_action('woocommerce_add_to_cart', 'apply_combo_price_after_ajax_add', 20, 6);
+
+// Function to apply combo price after AJAX addition
+function apply_combo_price_after_ajax_add($cart_item_key, $product_id, $quantity, $variation_id, $variation, $cart_item_data) {
+    error_log("DEBUG apply_combo_price_after_ajax_add: Función llamada - wp_doing_ajax: " . (wp_doing_ajax() ? 'true' : 'false'));
+    
+    // Only run for AJAX requests
+    if (!wp_doing_ajax()) {
+        error_log("DEBUG apply_combo_price_after_ajax_add: No es AJAX, saliendo");
+        return;
+    }
+    
+    $product = wc_get_product($product_id);
+    if (!$product) {
+        error_log("DEBUG apply_combo_price_after_ajax_add: Producto no encontrado para ID: $product_id");
+        return;
+    }
+    
+    $product_title = $product->get_name();
+    error_log("DEBUG apply_combo_price_after_ajax_add: Producto: '$product_title'");
+    error_log("DEBUG apply_combo_price_after_ajax_add: cart_item_data: " . print_r($cart_item_data, true));
+    
+    // Check if this is a combo product
+    if (strpos($product_title, 'Combo para llevar') !== false) {
+        error_log("DEBUG apply_combo_price_after_ajax_add: Procesando combo - '$product_title'");
+        
+        // Check if this combo has custom data with additions
+        if (isset($cart_item_data['combo_total_price']) && $cart_item_data['combo_total_price'] > 0) {
+            $correct_price = floatval($cart_item_data['combo_total_price']);
+            error_log("DEBUG apply_combo_price_after_ajax_add: Usando precio con adiciones: $correct_price");
+            
+            // Apply the correct price
+            $product->set_price($correct_price);
+            error_log("DEBUG apply_combo_price_after_ajax_add: Precio aplicado: " . $product->get_price());
+            
+            // Update cart item data
+            WC()->cart->cart_contents[$cart_item_key]['combo_custom_data'] = true;
+            WC()->cart->cart_contents[$cart_item_key]['combo_total_price'] = $correct_price;
+            
+            // Force recalculation
+            WC()->cart->calculate_totals();
+            error_log("DEBUG apply_combo_price_after_ajax_add: Precio aplicado y totales recalculados");
+        } else {
+            error_log("DEBUG apply_combo_price_after_ajax_add: NO hay combo_total_price en cart_item_data");
+        }
+    } else {
+        error_log("DEBUG apply_combo_price_after_ajax_add: NO es un combo");
+    }
+}
 
 // Personalizar la visualización del combo en el carrito
 function customize_combo_cart_item_name($product_name, $cart_item, $cart_item_key) {
@@ -2128,9 +2189,187 @@ add_filter('woocommerce_cart_item_subtotal', 'modify_adiciones_cart_item_subtota
 // Hook adicional para modificar el precio del producto directamente
 add_action('woocommerce_before_calculate_totals', 'modify_adiciones_product_price', 10, 1);
 
+// Hook para modificar el precio de los combos en el carrito
+add_action('woocommerce_before_calculate_totals', 'modify_combo_product_price', 10, 1);
+
+// Additional hook to ensure combo prices are correct in cart
+add_filter('woocommerce_cart_item_price', 'modify_combo_cart_price', 10, 3);
+add_filter('woocommerce_cart_item_subtotal', 'modify_combo_cart_subtotal', 10, 3);
+
+// Hook to modify price immediately when added to cart
+add_action('woocommerce_add_to_cart', 'force_combo_price_on_add', 10, 6);
+
+// Hook adicional para forzar actualización después de agregar
+// TEMPORALMENTE DESHABILITADO POR ERROR 500
+// add_action('woocommerce_add_to_cart', 'force_combo_price_update', 20, 6);
+
+// Function to get correct combo price based on product title
+function get_combo_correct_price($product_title) {
+    if (strpos($product_title, '1 a 3') !== false) {
+        return 134800;
+    } elseif (strpos($product_title, '4 a 6') !== false) {
+        return 198900;
+    } elseif (strpos($product_title, '7 a 10') !== false) {
+        return 284600;
+    }
+    return 15000; // Default fallback
+}
+
+// Function to force combo price when added to cart
+function force_combo_price_on_add($cart_item_key, $product_id, $quantity, $variation_id, $variation, $cart_item_data) {
+    $product = wc_get_product($product_id);
+    if (!$product) return;
+    
+    $product_title = $product->get_name();
+    
+    // Check if this is a combo product
+    if (strpos($product_title, 'Combo para llevar') !== false) {
+        error_log("DEBUG force_combo_price_on_add: Procesando combo - '$product_title'");
+        error_log("DEBUG force_combo_price_on_add: cart_item_data recibido: " . print_r($cart_item_data, true));
+        
+        $correct_price = get_combo_correct_price($product_title);
+        error_log("DEBUG force_combo_price_on_add: Precio base: $correct_price");
+        
+        // Check if this combo has custom data with additions
+        if (isset($cart_item_data['combo_total_price']) && $cart_item_data['combo_total_price'] > 0) {
+            // Use the custom price that includes additions
+            $correct_price = floatval($cart_item_data['combo_total_price']);
+            error_log("DEBUG force_combo_price_on_add: Usando precio con adiciones: $correct_price");
+        } else {
+            error_log("DEBUG force_combo_price_on_add: NO hay combo_total_price, usando precio base: $correct_price");
+        }
+        
+        // Force the price immediately
+        $product->set_price($correct_price);
+        error_log("DEBUG force_combo_price_on_add: Precio aplicado al producto: " . $product->get_price());
+        
+        // Update cart item data
+        WC()->cart->cart_contents[$cart_item_key]['combo_custom_data'] = true;
+        WC()->cart->cart_contents[$cart_item_key]['combo_total_price'] = $correct_price;
+        
+        // Recalculate totals
+        WC()->cart->calculate_totals();
+        error_log("DEBUG force_combo_price_on_add: Totales recalculados");
+    }
+}
+
+function force_combo_price_update($cart_item_key, $product_id, $quantity, $variation_id, $variation, $cart_item_data) {
+    $product = wc_get_product($product_id);
+    if (!$product) return;
+    
+    $product_title = $product->get_name();
+    if (strpos($product_title, 'Combo para llevar') !== false) {
+        error_log("FORCE UPDATE: Ejecutándose para combo '$product_title'");
+        
+        // Get the cart item
+        $cart_item = WC()->cart->get_cart_item($cart_item_key);
+        if ($cart_item) {
+            error_log("FORCE UPDATE: cart_item data: " . print_r($cart_item, true));
+            
+            // Check if this combo has custom data with additions
+            if (isset($cart_item['combo_custom_data']) && $cart_item['combo_custom_data'] === true) {
+                if (isset($cart_item['combo_total_price']) && $cart_item['combo_total_price'] > 0) {
+                    $correct_price = floatval($cart_item['combo_total_price']);
+                    error_log("FORCE UPDATE: Usando precio personalizado con adiciones - '$product_title' - Precio: $correct_price");
+                    
+                    // Apply the correct price
+                    $product->set_price($correct_price);
+                    
+                    // Update cart totals
+                    WC()->cart->calculate_totals();
+                    
+                    error_log("FORCE UPDATE: Precio actualizado - '$product_title' - Precio: $correct_price");
+                }
+            }
+        }
+    }
+}
+
 // Hook para modificar el precio justo antes de mostrarlo
 add_filter('woocommerce_cart_item_price', 'force_adiciones_price_display', 5, 3);
 add_filter('woocommerce_cart_item_subtotal', 'force_adiciones_subtotal_display', 5, 3);
+
+// Hook para modificar el precio de los combos en las tarjetas de productos
+add_filter('woocommerce_get_price_html', 'modify_combo_price_display', 10, 2);
+
+// Hook para deshabilitar el botón de agregar al carrito para combos
+add_filter('woocommerce_loop_add_to_cart_link', 'disable_combo_add_to_cart_button', 10, 2);
+
+// Hook para interceptar cualquier intento de agregar combos al carrito
+// TEMPORALMENTE DESHABILITADO POR ERROR 500
+// add_action('woocommerce_add_to_cart', 'intercept_combo_add_to_cart', 5, 6);
+
+function modify_combo_price_display($price, $product) {
+    // Check if this is a combo product
+    $product_title = $product->get_name();
+    if (strpos($product_title, 'Combo para llevar') !== false) {
+        $correct_price = get_combo_correct_price($product_title);
+        return wc_price($correct_price);
+    }
+    return $price;
+}
+
+function disable_combo_add_to_cart_button($link, $product) {
+    // Check if this is a combo product
+    $product_title = $product->get_name();
+    if (strpos($product_title, 'Combo para llevar') !== false) {
+        // Return empty string to hide the default add to cart button
+        return '';
+    }
+    return $link;
+}
+
+function intercept_combo_add_to_cart($cart_item_key, $product_id, $quantity, $variation_id, $variation, $cart_item_data) {
+    $product = wc_get_product($product_id);
+    if (!$product) return;
+    
+    $product_title = $product->get_name();
+    if (strpos($product_title, 'Combo para llevar') !== false) {
+        error_log("INTERCEPT: Combo detectado - Product ID: $product_id, Title: $product_title");
+        error_log("INTERCEPT: wp_doing_ajax(): " . (wp_doing_ajax() ? 'true' : 'false'));
+        error_log("INTERCEPT: POST action: " . (isset($_POST['action']) ? $_POST['action'] : 'NO SET'));
+        error_log("INTERCEPT: cart_item_data: " . print_r($cart_item_data, true));
+        
+        // Check if this is an AJAX request (from custom templates)
+        if (wp_doing_ajax() && isset($_POST['action']) && $_POST['action'] === 'add_combo_to_cart') {
+            // This is from our custom template - allow it to proceed
+            error_log("INTERCEPT: Allowing combo from custom template - Product ID: $product_id, Title: $product_title");
+            return;
+        }
+        
+        // This is a combo being added directly - redirect to custom template
+        error_log("INTERCEPT: Combo being added directly - Product ID: $product_id, Title: $product_title");
+        
+        // Remove the item from cart
+        WC()->cart->remove_cart_item($cart_item_key);
+        
+        // Only redirect if not AJAX request
+        if (!wp_doing_ajax()) {
+            // Redirect to appropriate combo template
+            $product_title_lower = strtolower($product_title);
+            $combo_page_slug = 'combos-para-llevar-1-3'; // Default
+            
+            if (strpos($product_title_lower, '4-6') !== false || strpos($product_title_lower, '4 a 6') !== false) {
+                $combo_page_slug = 'combos-para-llevar-4-6';
+            } elseif (strpos($product_title_lower, '7-10') !== false || strpos($product_title_lower, '7 a 10') !== false) {
+                $combo_page_slug = 'combos-para-llevar-7-10';
+            }
+            
+            $combo_page = get_posts(array(
+                'name' => $combo_page_slug,
+                'post_type' => 'page',
+                'post_status' => 'publish',
+                'numberposts' => 1
+            ));
+            
+            if (!empty($combo_page)) {
+                $combo_url = get_permalink($combo_page[0]->ID);
+                wp_redirect($combo_url);
+                exit;
+            }
+        }
+    }
+}
 
 function force_adiciones_price_display($price, $cart_item, $cart_item_key) {
     // Solo modificar si es una adición
@@ -2229,6 +2468,95 @@ function modify_adiciones_cart_item_subtotal($subtotal, $cart_item, $cart_item_k
         }
     } else {
         // error_log("DEBUG: No es una adición para subtotal - custom_product_type: " . (isset($cart_item['custom_product_type']) ? $cart_item['custom_product_type'] : 'NO DEFINIDO'));
+    }
+    return $subtotal;
+}
+
+// Function to modify combo product price in cart
+function modify_combo_product_price($cart) {
+    // Allow execution for AJAX requests (including our combo AJAX)
+    if (is_admin() && !defined('DOING_AJAX')) {
+        return;
+    }
+    
+    foreach ($cart->get_cart() as $cart_item_key => $cart_item) {
+        $product = $cart_item['data'];
+        $product_title = $product->get_name();
+        
+        // Check if this is a combo product by title
+        if (strpos($product_title, 'Combo para llevar') !== false) {
+            error_log("DEBUG modify_combo_product_price: Procesando combo - '$product_title'");
+            error_log("DEBUG modify_combo_product_price: cart_item data: " . print_r($cart_item, true));
+            
+            $correct_price = get_combo_correct_price($product_title);
+            error_log("DEBUG modify_combo_product_price: Precio base: $correct_price");
+            
+            // Check if this combo has custom data with additions (from templates)
+            if (isset($cart_item['combo_custom_data']) && $cart_item['combo_custom_data'] === true) {
+                if (isset($cart_item['combo_total_price']) && $cart_item['combo_total_price'] > 0) {
+                    // Use the custom price that includes additions
+                    $correct_price = floatval($cart_item['combo_total_price']);
+                    error_log("DEBUG modify_combo_product_price: Usando precio con adiciones: $correct_price");
+                } else {
+                    error_log("DEBUG modify_combo_product_price: combo_custom_data=true pero NO hay combo_total_price");
+                }
+            } else {
+                error_log("DEBUG modify_combo_product_price: NO hay combo_custom_data");
+            }
+            
+            // Apply the correct price
+            $product->set_price($correct_price);
+            error_log("DEBUG modify_combo_product_price: Precio aplicado: " . $product->get_price());
+            
+            // Also set it in cart item data for consistency
+            WC()->cart->cart_contents[$cart_item_key]['combo_custom_data'] = true;
+            WC()->cart->cart_contents[$cart_item_key]['combo_total_price'] = $correct_price;
+        }
+    }
+}
+
+function modify_combo_cart_price($price, $cart_item, $cart_item_key) {
+    $product = $cart_item['data'];
+    $product_title = $product->get_name();
+    
+    // Check if this is a combo product by title
+    if (strpos($product_title, 'Combo para llevar') !== false) {
+        // First check if this combo has custom data with additions
+        if (isset($cart_item['combo_custom_data']) && $cart_item['combo_custom_data'] === true) {
+            if (isset($cart_item['combo_total_price']) && $cart_item['combo_total_price'] > 0) {
+                $custom_price = floatval($cart_item['combo_total_price']);
+                return wc_price($custom_price);
+            }
+        }
+        
+        // Fallback to base price
+        $correct_price = get_combo_correct_price($product_title);
+        return wc_price($correct_price);
+    }
+    return $price;
+}
+
+function modify_combo_cart_subtotal($subtotal, $cart_item, $cart_item_key) {
+    $product = $cart_item['data'];
+    $product_title = $product->get_name();
+    
+    // Check if this is a combo product by title
+    if (strpos($product_title, 'Combo para llevar') !== false) {
+        // First check if this combo has custom data with additions
+        if (isset($cart_item['combo_custom_data']) && $cart_item['combo_custom_data'] === true) {
+            if (isset($cart_item['combo_total_price']) && $cart_item['combo_total_price'] > 0) {
+                $custom_price = floatval($cart_item['combo_total_price']);
+                $quantity = $cart_item['quantity'];
+                $total_price = $custom_price * $quantity;
+                return wc_price($total_price);
+            }
+        }
+        
+        // Fallback to base price
+        $correct_price = get_combo_correct_price($product_title);
+        $quantity = $cart_item['quantity'];
+        $total_price = $correct_price * $quantity;
+        return wc_price($total_price);
     }
     return $subtotal;
 }

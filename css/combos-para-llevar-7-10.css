@@ -5,14 +5,14 @@
 
 /* Background - usar el color de página existente con green flowers repetidas verticalmente */
 #combos-para-llevar-7-10-wrapper {
-    background-color: #f5f5dc; /* Light beige background */
+    background-color: #FBF5ED; /* Light beige background */
     min-height: 100vh;
     padding: 40px 0;
 }
 
 /* Banner Section - fondo limpio */
 .combo-banner-section {
-    background-color: #f5f5dc; /* Fondo limpio sin imagen */
+    background-color: #FBF5ED; /* Fondo limpio sin imagen */
     margin-bottom: 60px;
     position: relative;
     z-index: 2;
@@ -38,15 +38,16 @@
 
 /* Contenido principal con imagen de fondo */
 .combo-content-main {
-    background-color: #f5f5dc;
+    background-color: #FBF5ED;
     background-image: 
-        linear-gradient(rgba(245, 245, 220, 0.8), rgba(245, 245, 220, 0.8)),
-        url('../img/green-flowers.png');
-    background-repeat: repeat-y;
-    background-size: 300px 200px;
+        linear-gradient(rgba(251, 245, 237, 0.8), rgba(251, 245, 237, 0.8)),
+        url('../img/combo-flores-back.png');
+    
+    background-repeat: no-repeat;
+    background-size: 800px auto;
     background-position: center top;
     position: relative;
-    padding: 40px 0;
+    
 }
 
 .combo-image-placeholder {
@@ -157,7 +158,7 @@
 /* Portion Sizes */
 .portion-sizes {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     gap: 20px;
     margin-top: 30px;
 }
@@ -202,15 +203,18 @@
 
 .portion-dimensions {
     font-size: 0.8rem;
-    color: #666;
+    color: #5B5B5B;
     font-weight: 600;
-    margin-bottom: 4px;
+    margin: 0;
+    line-height: 1;
 }
 
 .portion-label {
     font-size: 0.9rem;
-    color: #333;
+    color: #5B5B5B;
     font-weight: 500;
+    margin: 0;
+    line-height: 1;
 }
 
 /* Combo Sections */
@@ -435,6 +439,11 @@
 #combos-para-llevar-7-10-wrapper .combo-option-card .option-content {
     text-align: left;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100%;
 }
 
 #combos-para-llevar-7-10-wrapper .combo-option-card .option-title {
@@ -483,6 +492,15 @@
     margin-bottom: 8px;
     position: relative;
     padding-left: 20px;
+}
+
+.sugerencias-title {
+    font-family: "Oswald", sans-serif;
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 8px;
+    font-weight: normal;
+    text-transform: none;
 }
 
 .salsas-list li:before {
@@ -1053,5 +1071,15 @@
 .confirmation-modal-accept-btn:hover {
     background: #218838;
     border-color: #218838;
+}
+
+/* Adiciones Button Styles - Remove hover underline */
+.adiciones-link:hover {
+    text-decoration: none !important;
+    color: inherit;
+}
+
+.adiciones-link:hover * {
+    text-decoration: none !important;
 }
 /*# sourceMappingURL=combos-para-llevar-7-10.css.map */

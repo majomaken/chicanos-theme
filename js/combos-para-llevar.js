@@ -9,9 +9,22 @@ class ComboBuilder {
     }
 
     init() {
+        this.initializeSelectedOptions();
         this.bindEvents();
         this.updateSummary();
         this.setupAccessibility();
+    }
+
+    initializeSelectedOptions() {
+        // Initialize options that are already selected by default
+        const selectedCards = document.querySelectorAll('.combo-option-card.selected');
+        selectedCards.forEach(card => {
+            card.setAttribute('aria-pressed', 'true');
+            // Ensure the visual state is correct
+            if (!card.style.backgroundColor) {
+                card.style.backgroundColor = '#F9CB38';
+            }
+        });
     }
 
     bindEvents() {
@@ -128,7 +141,7 @@ class ComboBuilder {
         card.classList.toggle('selected');
         
         if (card.classList.contains('selected')) {
-            card.style.backgroundColor = '#ffd700';
+            card.style.backgroundColor = '#F9CB38';
             card.setAttribute('aria-pressed', 'true');
         } else {
             card.style.backgroundColor = '';

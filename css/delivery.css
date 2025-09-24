@@ -93,10 +93,25 @@
     }
 }
 
+.location-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.location-card-link:hover {
+    text-decoration: none;
+    color: inherit;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
 .location-card {
     border: 2px solid #000;
     margin-bottom: 30px;
     border-radius: 0 !important;
+    cursor: pointer;
 }
 
 /* Solo ajustar border-radius, mantener los bordes */
@@ -126,6 +141,7 @@
     font-size: 2rem;
     color: #fff;
     text-decoration: none;
+    display: inline-block;
 }
 
 .location-card img {

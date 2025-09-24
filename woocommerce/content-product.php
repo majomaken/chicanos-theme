@@ -172,9 +172,17 @@ if ($is_combo) {
         </div>
         
         <div class="combo-footer">
-            <a href="<?php echo esc_url( $link_url ); ?>" class="btn btn-primary btn-lg add-to-cart-button">
-                AGREGAR
-            </a>
+            <?php if ($is_combo): ?>
+                <!-- Para combos, siempre redirigir al template personalizado -->
+                <a href="<?php echo esc_url( $link_url ); ?>" class="btn btn-primary btn-lg add-to-cart-button">
+                    PERSONALIZAR
+                </a>
+            <?php else: ?>
+                <!-- Para otros productos, usar el método estándar -->
+                <a href="<?php echo esc_url( $link_url ); ?>" class="btn btn-primary btn-lg add-to-cart-button">
+                    AGREGAR
+                </a>
+            <?php endif; ?>
         </div>
 
     </div>
@@ -222,9 +230,17 @@ if ($is_combo) {
             
             <!-- Footer del popup -->
             <div class="popup-footer">
-                <a href="<?php echo esc_url( $link_url ); ?>" class="popup-add-btn">
-                    AGREGAR
-                </a>
+                <?php if ($is_combo): ?>
+                    <!-- Para combos, siempre redirigir al template personalizado -->
+                    <a href="<?php echo esc_url( $link_url ); ?>" class="popup-add-btn">
+                        PERSONALIZAR
+                    </a>
+                <?php else: ?>
+                    <!-- Para otros productos, usar el método estándar -->
+                    <a href="<?php echo esc_url( $link_url ); ?>" class="popup-add-btn">
+                        AGREGAR
+                    </a>
+                <?php endif; ?>
             </div>
         </div>
     </div>

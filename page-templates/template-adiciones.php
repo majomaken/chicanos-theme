@@ -25,11 +25,13 @@ get_header(); ?>
                         <div class="portion-sizes">
                             <div class="portion-size-item">
                                 <img src="<?php echo get_template_directory_uri(); ?>/img/size-small.svg" alt="250 Gramos" class="portion-svg">
-                                <span class="portion-label">250 Gramos</span>
+                                <div class="portion-dimensions">250</div>
+                                <span class="portion-label">Gramos</span>
                             </div>
                             <div class="portion-size-item">
                                 <img src="<?php echo get_template_directory_uri(); ?>/img/size-medium.svg" alt="500 Gramos" class="portion-svg">
-                                <span class="portion-label">500 Gramos</span>
+                                <div class="portion-dimensions">500</div>
+                                <span class="portion-label">Gramos</span>
                             </div>
                             <div class="portion-size-item active">
                                 <img src="<?php echo get_template_directory_uri(); ?>/img/size-large.svg" alt="1000 Gramos" class="portion-svg">

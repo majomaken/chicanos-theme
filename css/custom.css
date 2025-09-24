@@ -80,7 +80,7 @@ p,
 
 #wrapper-navbar {
   background-color: #FBF5ED; /* brand-beige */
-  border-bottom: 2px solid #000;
+  border-bottom: none !important; /* Eliminar línea divisoria */
   padding-top: 1rem;
   padding-bottom: 1rem;
 }
@@ -96,13 +96,6 @@ p,
   margin-right: 30px; /* Espacio entre elementos del menú */
 }
 
-#main-nav .navbar-nav .nav-item.current-menu-item .nav-link {
-  border-bottom: 4px solid #000; /* brand-black */
-}
-
-#main-nav .navbar-nav .nav-item .nav-link:hover {
-  border-bottom: 4px solid #000; /* brand-black */
-}
 
 #main-nav .navbar-icons .navbar-icon {
   color: #000; /* brand-black */

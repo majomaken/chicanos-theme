@@ -62,17 +62,19 @@ get_header(); ?>
                                 </ul>
                             </div>
                             <div class="combo-price">
-                                <span class="price-amount">$134,800</span>
+                                <span class="price-amount" id="combo-total-price">$134,800</span>
                             </div>
                         </div>
                         <div class="portion-sizes">
                             <div class="portion-size-item">
                                 <img src="<?php echo get_template_directory_uri(); ?>/img/size-small.svg" alt="250 Gramos" class="portion-svg">
-                                <span class="portion-label">250 Gramos</span>
+                                <div class="portion-dimensions">250</div>
+                                <span class="portion-label">Gramos</span>
                             </div>
                             <div class="portion-size-item">
                                 <img src="<?php echo get_template_directory_uri(); ?>/img/size-medium.svg" alt="500 Gramos" class="portion-svg">
-                                <span class="portion-label">500 Gramos</span>
+                                <div class="portion-dimensions">500</div>
+                                <span class="portion-label">Gramos</span>
                             </div>
                             <div class="portion-size-item active">
                                 <img src="<?php echo get_template_directory_uri(); ?>/img/size-large.svg" alt="1000 Gramos" class="portion-svg">
@@ -733,6 +735,34 @@ get_header(); ?>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // Base price for combo 1-3
+    const BASE_PRICE = 134800;
+    const ADDITION_PRICE = 7500;
+    
+    // Function to update total price
+    function updateTotalPrice() {
+        let totalPrice = BASE_PRICE;
+        let additionalCount = 0;
+        
+        // Count all selected options that have "(adicion de 7,500)" in their text
+        document.querySelectorAll('.combo-option-card').forEach(card => {
+            const count = parseInt(card.dataset.count) || 0;
+            const optionText = card.dataset.value || '';
+            
+            if (count > 0 && optionText.includes('(adicion de 7,500)')) {
+                additionalCount += count;
+            }
+        });
+        
+        totalPrice += (additionalCount * ADDITION_PRICE);
+        
+        // Update the price display
+        const priceElement = document.getElementById('combo-total-price');
+        if (priceElement) {
+            priceElement.textContent = '$' + totalPrice.toLocaleString();
+        }
+    }
+    
     // PROTEINAS LOGIC (2 selecciones para combo 1-3)
     const proteinCards = document.querySelectorAll('.protein-option');
     proteinCards.forEach(card => {
@@ -758,6 +788,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.dataset.count = '0';
                 this.classList.remove('selected');
             }
+            
+            // Update total price after any change
+            updateTotalPrice();
             
             updateProteinQuantityIndicators();
             updateSummary();
@@ -817,6 +850,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.dataset.count = '0';
                 this.classList.remove('selected');
             }
+            
+            // Update total price after any change
+            updateTotalPrice();
             
             updateSauceQuantityIndicators();
             updateSummary();
@@ -954,13 +990,34 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
+        // Calculate total price
+        let totalPrice = BASE_PRICE;
+        let additionalCount = 0;
+        
+        // Count all selected options that have "(adicion de 7,500)" in their text
+        document.querySelectorAll('.combo-option-card').forEach(card => {
+            const count = parseInt(card.dataset.count) || 0;
+            const optionText = card.dataset.value || '';
+            
+            if (count > 0 && optionText.includes('(adicion de 7,500)')) {
+                additionalCount += count;
+            }
+        });
+        
+        totalPrice += (additionalCount * ADDITION_PRICE);
+        
+        console.log('DEBUG: Precio calculado - Base:', BASE_PRICE, 'Adiciones:', additionalCount, 'Precio adición:', ADDITION_PRICE, 'Total:', totalPrice);
+        
         // Recopilar todas las selecciones
         const comboData = {
             totopos: selectedTotopos.dataset.value,
             tortillas: selectedTortillas.dataset.value,
             proteins: [],
-            sauces: []
+            sauces: [],
+            total_price: totalPrice
         };
+        
+        console.log('DEBUG: comboData a enviar:', comboData);
         
         // Recopilar proteínas seleccionadas
         document.querySelectorAll('.protein-option').forEach(card => {
@@ -1116,83 +1173,126 @@ document.addEventListener('DOMContentLoaded', function() {
         document.addEventListener('keydown', handleEscape);
     }
     
-    function addComboToCart(comboData) {
-        // Show loading state
-        const button = document.getElementById('add-to-cart-btn');
-        const originalText = button.innerHTML;
-        button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Agregando...';
-        button.disabled = true;
-        
-        // Prepare data for WooCommerce
-        const comboIdInput = document.querySelector('input[name="combo_product_id"]');
-        if (!comboIdInput) {
-            alert('Error: No se encontró el ID del combo. Por favor recarga la página.');
-            return;
-        }
-        
-        const cartData = {
-            action: 'add_combo_to_cart',
-            combo_id: comboIdInput.value,
-            combo_data: comboData,
-            nonce: '<?php echo wp_create_nonce("add_combo_to_cart"); ?>'
-        };
-        
-        console.log('Datos a enviar:', cartData);
-        
-        // Send AJAX request to add to cart
-        fetch('<?php echo admin_url("admin-ajax.php"); ?>', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: new URLSearchParams(cartData)
-        })
-        .then(response => {
-            console.log('Response status:', response.status);
-            console.log('Response headers:', response.headers);
+    function addComboToCart(comboData, skipRedirect = false) {
+        return new Promise((resolve, reject) => {
+            // Show loading state
+            const button = document.getElementById('add-to-cart-btn');
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Agregando...';
+            button.disabled = true;
             
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+            // Prepare data for WooCommerce
+            const comboIdInput = document.querySelector('input[name="combo_product_id"]');
+            if (!comboIdInput) {
+                alert('Error: No se encontró el ID del combo. Por favor recarga la página.');
+                reject(new Error('No combo ID found'));
+                return;
             }
             
-            return response.text().then(text => {
-                console.log('Raw response:', text);
-                try {
-                    return JSON.parse(text);
-                } catch (e) {
-                    console.error('JSON parse error:', e);
-                    throw new Error('Invalid JSON response: ' + text);
-                }
+            // Prepare data for WooCommerce with proper serialization
+            const formData = new FormData();
+            formData.append('action', 'add_combo_to_cart');
+            formData.append('combo_id', comboIdInput.value);
+            formData.append('nonce', '<?php echo wp_create_nonce("add_combo_to_cart"); ?>');
+            
+            // Add combo data fields individually
+            formData.append('combo_data[totopos]', comboData.totopos || '');
+            formData.append('combo_data[tortillas]', comboData.tortillas || '');
+            formData.append('combo_data[total_price]', comboData.total_price || '');
+            
+            // Add proteins array
+            if (comboData.proteins && comboData.proteins.length > 0) {
+                comboData.proteins.forEach((protein, index) => {
+                    formData.append(`combo_data[proteins][${index}]`, protein);
+                });
+            }
+            
+            // Add sauces array
+            if (comboData.sauces && comboData.sauces.length > 0) {
+                comboData.sauces.forEach((sauce, index) => {
+                    formData.append(`combo_data[sauces][${index}]`, sauce);
+                });
+            }
+            
+            console.log('Datos a enviar:', {
+                action: 'add_combo_to_cart',
+                combo_id: comboIdInput.value,
+                combo_data: comboData,
+                nonce: '<?php echo wp_create_nonce("add_combo_to_cart"); ?>'
             });
-        })
-        .then(data => {
-            console.log('Parsed data:', data);
-            if (data.success) {
-                // Show success notification
-                showSuccessNotification();
+            
+            // Send AJAX request to add to cart
+            fetch('<?php echo admin_url("admin-ajax.php"); ?>', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                console.log('Response status:', response.status);
+                console.log('Response headers:', response.headers);
                 
-                // Update cart count if element exists
-                updateCartCount();
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
                 
-                // Reset form
-                resetComboForm();
+                return response.text().then(text => {
+                    console.log('Raw response:', text);
+                    try {
+                        return JSON.parse(text);
+                    } catch (e) {
+                        console.error('JSON parse error:', e);
+                        throw new Error('Invalid JSON response: ' + text);
+                    }
+                });
+            })
+            .then(data => {
+                console.log('Parsed data:', data);
                 
-                // Redirect to cart after a short delay
-                setTimeout(() => {
-                    window.location.href = '<?php echo wc_get_cart_url(); ?>';
-                }, 1500);
-            } else {
-                alert('Error al agregar el combo al carrito: ' + (data.data || 'Error desconocido'));
-            }
-        })
-        .catch(error => {
-            console.error('Error completo:', error);
-            alert('Error al agregar el combo al carrito: ' + error.message);
-        })
-        .finally(() => {
-            // Reset button
-            button.innerHTML = originalText;
-            button.disabled = false;
+                // Display debug information
+                if (data.success && data.data && data.data.debug) {
+                    console.log('=== DEBUG SERVER RESPONSE ===');
+                    console.log('Combo ID:', data.data.debug.combo_id);
+                    console.log('Combo Total Price Received:', data.data.debug.combo_total_price_received);
+                    console.log('Product Price After Set:', data.data.debug.product_price_after_set);
+                    console.log('Cart Total:', data.data.debug.cart_total);
+                    console.log('Cart Contents Count:', data.data.debug.cart_contents_count);
+                    console.log('=== END DEBUG ===');
+                }
+                
+                if (data.success) {
+                    // Show success notification
+                    showSuccessNotification();
+                    
+                    // Update cart count if element exists
+                    updateCartCount();
+                    
+                    // Reset form
+                    resetComboForm();
+                    
+                    if (!skipRedirect) {
+                        // Redirect to cart after a short delay
+                        setTimeout(() => {
+                            window.location.href = '<?php echo wc_get_cart_url(); ?>';
+                        }, 1500);
+                    }
+                    
+                    resolve(data);
+                } else {
+                    const errorMsg = 'Error al agregar el combo al carrito: ' + (data.data || 'Error desconocido');
+                    alert(errorMsg);
+                    reject(new Error(errorMsg));
+                }
+            })
+            .catch(error => {
+                console.error('Error completo:', error);
+                const errorMsg = 'Error al agregar el combo al carrito: ' + error.message;
+                alert(errorMsg);
+                reject(error);
+            })
+            .finally(() => {
+                // Reset button
+                button.innerHTML = originalText;
+                button.disabled = false;
+            });
         });
     }
     
@@ -1267,12 +1367,29 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
+        // Calculate total price
+        let totalPrice = BASE_PRICE;
+        let additionalCount = 0;
+        
+        // Count all selected options that have "(adicion de 7,500)" in their text
+        document.querySelectorAll('.combo-option-card').forEach(card => {
+            const count = parseInt(card.dataset.count) || 0;
+            const optionText = card.dataset.value || '';
+            
+            if (count > 0 && optionText.includes('(adicion de 7,500)')) {
+                additionalCount += count;
+            }
+        });
+        
+        totalPrice += (additionalCount * ADDITION_PRICE);
+        
         // Recopilar todas las selecciones actuales
         const comboData = {
             totopos: selectedTotopos ? selectedTotopos.dataset.value : null,
             tortillas: selectedTortillas ? selectedTortillas.dataset.value : null,
             proteins: [],
-            sauces: []
+            sauces: [],
+            total_price: totalPrice
         };
         
         // Recopilar proteínas seleccionadas
@@ -1306,8 +1423,14 @@ document.addEventListener('DOMContentLoaded', function() {
         };
         sessionStorage.setItem('combo_selection', JSON.stringify(comboDataWithId));
         
-        // Redireccionar a la página de adiciones
-        window.location.href = this.getAttribute('href');
+        // Agregar al carrito primero, luego redireccionar
+        addComboToCart(comboData, true).then(() => {
+            // Redireccionar a la página de adiciones después de agregar al carrito
+            window.location.href = this.getAttribute('href');
+        }).catch(error => {
+            console.error('Error al agregar al carrito:', error);
+            alert('Error al agregar el combo al carrito. Por favor intenta de nuevo.');
+        });
     });
 });
 </script>

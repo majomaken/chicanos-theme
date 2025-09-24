@@ -72,10 +72,11 @@ img {
 
 /* Imágenes de eventos */
 #home-section-7 .event-item img {
-  width: 100% !important;
+  width: auto !important;
   height: auto !important;
-  -o-object-fit: cover;
-  object-fit: cover;
+  max-height: 150px !important;
+  -o-object-fit: contain;
+  object-fit: contain;
 }
 
 /* Imágenes del banner de desplazamiento */
@@ -420,5 +421,4 @@ img.maintain-ratio {
 .combo-card-personalizado * {
   box-sizing: border-box !important;
 }
-
 /*# sourceMappingURL=image-fixes.css.map */

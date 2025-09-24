@@ -303,7 +303,9 @@ p {
 }
 
 #home-section-7 .event-item img {
-    max-height: 80px;
+    max-height: 150px;
+    height: auto;
+    width: auto;
     margin-bottom: 20px;
 }
 

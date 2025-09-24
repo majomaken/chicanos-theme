@@ -99,7 +99,61 @@ get_header();
                     
                     if ($combo_products->have_posts()) :
                         while ($combo_products->have_posts()) : $combo_products->the_post();
-                            wc_get_template_part('content', 'product');
+                            // For combos, redirect to custom templates instead of using standard WooCommerce template
+                            global $product;
+                            $product_title = strtolower($product->get_name());
+                            $product_slug = $product->get_slug();
+                            
+                            // Determine which combo template to use
+                            $combo_page_slug = 'combos-para-llevar-1-3'; // Default
+                            
+                            if (strpos($product_title, '4-6') !== false || strpos($product_slug, '4-6') !== false || 
+                                strpos($product_title, '4 a 6') !== false || strpos($product_title, '4 a 6') !== false) {
+                                $combo_page_slug = 'combos-para-llevar-4-6';
+                            } elseif (strpos($product_title, '7-10') !== false || strpos($product_slug, '7-10') !== false || 
+                                      strpos($product_title, '7 a 10') !== false || strpos($product_title, '7 a 10') !== false) {
+                                $combo_page_slug = 'combos-para-llevar-7-10';
+                            }
+                            
+                            // Find the specific combo page
+                            $combo_page = get_posts(array(
+                                'name' => $combo_page_slug,
+                                'post_type' => 'page',
+                                'post_status' => 'publish',
+                                'numberposts' => 1
+                            ));
+                            
+                            if (!empty($combo_page)) {
+                                $combo_url = get_permalink($combo_page[0]->ID);
+                                // Show custom combo card that redirects to template
+                                ?>
+                                <li class="product type-product">
+                                    <div class="combo-card-personalizado">
+                                        <div class="combo-header" style="background-color: #FAD3DB;">
+                                            <a href="<?php echo esc_url($combo_url); ?>">
+                                                <h2 class="woocommerce-loop-product__title"><?php the_title(); ?></h2>
+                                                <div class="combo-price">
+                                                    <?php echo $product->get_price_html(); ?>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="combo-imagen">
+                                            <a href="<?php echo esc_url($combo_url); ?>" class="product-link">
+                                                <?php echo woocommerce_get_product_thumbnail(); ?>
+                                            </a>
+                                        </div>
+                                        <div class="combo-footer">
+                                            <a href="<?php echo esc_url($combo_url); ?>" class="btn btn-primary btn-lg add-to-cart-button">
+                                                PERSONALIZAR
+                                            </a>
+                                        </div>
+                                    </div>
+                                </li>
+                                <?php
+                            } else {
+                                // Fallback to standard template if combo page not found
+                                wc_get_template_part('content', 'product');
+                            }
                         endwhile;
                         wp_reset_postdata();
                     else :

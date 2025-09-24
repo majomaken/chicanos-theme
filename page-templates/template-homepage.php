@@ -119,14 +119,14 @@ get_header();
 						</a>
 					</div>
 					<div class="col-md-4">
-						<a href="<?php echo site_url('/combos-para-llevar/'); ?>" class="card-link">
+						<div class="card-link">
 							<div class="card-header">
 								<h3>Menú</h3>
 								<span class="arrow">→</span>
 							</div>
 							<!-- Image path: <?php echo get_stylesheet_directory_uri(); ?>/img/menu.png -->
 							<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/menu.png" alt="Menú Chicanos">
-						</a>
+						</div>
 					</div>
 					<div class="col-md-4">
 						<a href="<?php echo site_url('/distribution/'); ?>" class="card-link">

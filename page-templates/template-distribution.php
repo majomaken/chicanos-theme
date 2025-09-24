@@ -84,7 +84,7 @@ get_header();
 				<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/flower-red.png" alt="Flor Roja" class="cta-flower">
 				<h2>¿Te interesa tener nuestras<br>tortillas en tu negocio?</h2>
 				<p>Escríbenos para una muestra o una<br>cotización personalizada.</p>
-				<a href="#" class="btn btn-contact">Contact</a>
+				<a href="#" class="btn btn-contact">Contacto</a>
 			</div>
 		</section>
 

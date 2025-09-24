@@ -59,17 +59,19 @@ get_header(); ?>
                                 </ul>
                             </div>
                             <div class="combo-price">
-                                <span class="price-amount">$198,900</span>
+                                <span class="price-amount" id="combo-total-price">$198,900</span>
                             </div>
                         </div>
                         <div class="portion-sizes">
                             <div class="portion-size-item">
                                 <img src="<?php echo get_template_directory_uri(); ?>/img/size-small.svg" alt="250 Gramos" class="portion-svg">
-                                <span class="portion-label">250 Gramos</span>
+                                <div class="portion-dimensions">250</div>
+                                <span class="portion-label">Gramos</span>
                             </div>
                             <div class="portion-size-item">
                                 <img src="<?php echo get_template_directory_uri(); ?>/img/size-medium.svg" alt="500 Gramos" class="portion-svg">
-                                <span class="portion-label">500 Gramos</span>
+                                <div class="portion-dimensions">500</div>
+                                <span class="portion-label">Gramos</span>
                             </div>
                             <div class="portion-size-item active">
                                 <img src="<?php echo get_template_directory_uri(); ?>/img/size-large.svg" alt="2000 Gramos" class="portion-svg">
@@ -386,14 +388,15 @@ get_header(); ?>
                                 <div class="col-12">
                                     <h2 class="section-title">
                                         Salsas y Más 
-                                        <span class="selection-limit">(escoge 6)</span>
+                                        <span class="selection-limit">(escoge 6 de salsas(3500gr))</span>
                                     </h2>
                                     <div class="salsas-details">
+                                        <span class="sugerencias-title">Sugerencias:</span><br>
                                         <ul class="salsas-list">
-                                            <li>6 salsas (3500gr) 1000gr de guacamole,</li>
+                                            <li>1000 gr de guacamole predeterminadas</li>
                                             <li>1000 gr de pico de gallo predeterminadas</li>
-                                            <li>500 gramos de frijol</li>
-                                            <li>500 gramos de queso</li>
+                                            <li>500 gramos de frijol predeterminadas</li>
+                                            <li>500 gramos de queso predeterminadas</li>
                                             <li>250 gramos de lo que quieran</li>
                                             <li>250 gramos de lo que quieran</li>
                                         </ul>
@@ -403,6 +406,7 @@ get_header(); ?>
                             
                             <div class="products-grid" id="sauce-grid">
                                 <?php
+                                $sauce_index = 0;
                                 foreach ($sauce_options_1 as $sauce) {
                                     // Separar el texto principal de las especificaciones
                                     $sauce_text = trim($sauce);
@@ -414,12 +418,24 @@ get_header(); ?>
                                         $main_text = trim($matches[1]);
                                         $spec_text = '(' . trim($matches[2]) . ')';
                                     }
+                                    
+                                    // Preseleccionar las opciones específicas de la lista de sugerencias
+                                    $preselected_options = ['guacamole', 'pico de gallo', 'frijol refrito', 'queso mozzarella'];
+                                    $is_preselected = false;
+                                    foreach ($preselected_options as $preselected_option) {
+                                        if (stripos($sauce_text, $preselected_option) !== false) {
+                                            $is_preselected = true;
+                                            break;
+                                        }
+                                    }
+                                    $initial_count = $is_preselected ? '1' : '0';
+                                    $selected_class = $is_preselected ? ' selected' : '';
                                     ?>
-                                    <div class="combo-option-card sauce-option" 
+                                    <div class="combo-option-card sauce-option<?php echo $selected_class; ?>" 
                                          data-type="sauce" 
                                          data-value="<?php echo esc_attr($sauce_text); ?>"
                                          data-price="0.00"
-                                         data-count="0">
+                                         data-count="<?php echo $initial_count; ?>">
                                         <input type="hidden" 
                                                name="sauce[]" 
                                                value="<?php echo esc_attr($sauce_text); ?>"
@@ -434,6 +450,7 @@ get_header(); ?>
                                         </div>
                                     </div>
                                     <?php
+                                    $sauce_index++;
                                 }
                                 ?>
                             </div>
@@ -627,6 +644,69 @@ get_header(); ?>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // Base price for combo 4-6
+    const BASE_PRICE = 198900;
+    const ADDITION_PRICE = 7500;
+    
+    // Function to update total price
+    function updateTotalPrice() {
+        let totalPrice = BASE_PRICE;
+        let additionalCount = 0;
+        
+        // Count all selected options that have "(adicion de 7,500)" in their text
+        document.querySelectorAll('.combo-option-card').forEach(card => {
+            const count = parseInt(card.dataset.count) || 0;
+            const optionText = card.dataset.value || '';
+            
+            if (count > 0 && optionText.includes('(adicion de 7,500)')) {
+                additionalCount += count;
+            }
+        });
+        
+        totalPrice += (additionalCount * ADDITION_PRICE);
+        
+        // Update the price display
+        const priceElement = document.getElementById('combo-total-price');
+        if (priceElement) {
+            priceElement.textContent = '$' + totalPrice.toLocaleString();
+        }
+    }
+    
+    // Función genérica para actualizar indicadores de cantidad
+    function updateQuantityIndicator(card) {
+        const count = parseInt(card.dataset.count) || 0;
+        const indicator = card.querySelector('.quantity-indicator');
+        
+        if (indicator) {
+            if (count >= 2) {
+                // Si está seleccionado 2 o más veces, mostrar el indicador
+                indicator.textContent = `x${count}`;
+                indicator.style.display = 'block';
+            } else {
+                // Si no está seleccionado 2 o más veces, ocultar el indicador
+                indicator.style.display = 'none';
+            }
+        }
+    }
+    
+    // Initialize preselected sauce options
+    const sauceCards = document.querySelectorAll('.sauce-option');
+    const preselectedOptions = ['guacamole', 'pico de gallo', 'frijol refrito', 'queso mozzarella'];
+    
+    sauceCards.forEach(card => {
+        const sauceValue = card.dataset.value.toLowerCase();
+        const isPreselected = preselectedOptions.some(option => 
+            sauceValue.includes(option.toLowerCase())
+        );
+        
+        if (isPreselected) {
+            // Las opciones específicas están preseleccionadas
+            card.classList.add('selected');
+            card.dataset.count = '1'; // Establecer contador inicial
+            updateQuantityIndicator(card);
+        }
+    });
+    
     // Handle clicks on protein cards
     const proteinCards = document.querySelectorAll('.protein-option');
     proteinCards.forEach(card => {
@@ -668,6 +748,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.classList.remove('selected');
             }
             
+            // Update total price after any change
+            updateTotalPrice();
+            
             // Actualizar indicadores de cantidad
             updateProteinQuantityIndicators();
             
@@ -702,7 +785,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Handle clicks on sauce cards
-    const sauceCards = document.querySelectorAll('.sauce-option');
     sauceCards.forEach(card => {
         card.addEventListener('click', function() {
             const currentCount = parseInt(this.dataset.count);
@@ -771,6 +853,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.dataset.count = '0';
                 this.classList.remove('selected');
             }
+            
+            // Update total price after any change
+            updateTotalPrice();
             
             // Actualizar indicadores de cantidad
             updateSauceQuantityIndicators();
@@ -844,6 +929,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.classList.remove('selected');
             }
             
+            // Update total price after any change
+            updateTotalPrice();
+            
             // Actualizar indicadores de cantidad
             updateTortillaQuantityIndicators();
             
@@ -886,6 +974,9 @@ document.addEventListener('DOMContentLoaded', function() {
             const sameTypeCards = document.querySelectorAll(`.${type}-option`);
             sameTypeCards.forEach(c => c.classList.remove('selected'));
             this.classList.add('selected');
+            
+            // Update total price after any change
+            updateTotalPrice();
             
             updateSummary();
         });
@@ -1008,13 +1099,35 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
+        // Calculate total price
+        let totalPrice = BASE_PRICE;
+        let additionalCount = 0;
+        
+        // Count all selected options that have "(adicion de 7,500)" in their text
+        document.querySelectorAll('.combo-option-card').forEach(card => {
+            const count = parseInt(card.dataset.count) || 0;
+            const optionText = card.dataset.value || '';
+            
+            if (count > 0 && optionText.includes('(adicion de 7,500)')) {
+                additionalCount += count;
+            }
+        });
+        
+        totalPrice += (additionalCount * ADDITION_PRICE);
+        
+        console.log('DEBUG COMBO 4-6: Precio calculado - Base:', BASE_PRICE, 'Adiciones:', additionalCount, 'Precio adición:', ADDITION_PRICE, 'Total:', totalPrice);
+        
         // Recopilar todas las selecciones
         const comboData = {
             totopos: [],
             tortillas: [],
             proteins: [],
-            sauces: []
+            sauces: [],
+            total_price: totalPrice
         };
+        
+        console.log('DEBUG COMBO 4-6: comboData a enviar:', comboData);
+        console.log('DEBUG COMBO 4-6: total_price en comboData:', comboData.total_price);
         
         // Recopilar totopos seleccionados
         document.querySelectorAll('.totopo-option').forEach(card => {
@@ -1075,12 +1188,29 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
+        // Calculate total price
+        let totalPrice = BASE_PRICE;
+        let additionalCount = 0;
+        
+        // Count all selected options that have "(adicion de 7,500)" in their text
+        document.querySelectorAll('.combo-option-card').forEach(card => {
+            const count = parseInt(card.dataset.count) || 0;
+            const optionText = card.dataset.value || '';
+            
+            if (count > 0 && optionText.includes('(adicion de 7,500)')) {
+                additionalCount += count;
+            }
+        });
+        
+        totalPrice += (additionalCount * ADDITION_PRICE);
+        
         // Recopilar todas las selecciones actuales
         const comboData = {
             totopos: [],
             tortillas: [],
             proteins: [],
-            sauces: []
+            sauces: [],
+            total_price: totalPrice
         };
         
         // Recopilar totopos seleccionados
@@ -1134,8 +1264,14 @@ document.addEventListener('DOMContentLoaded', function() {
         };
         sessionStorage.setItem('combo_selection', JSON.stringify(comboDataWithId));
         
-        // Redireccionar a la página de adiciones
-        window.location.href = this.getAttribute('href');
+        // Agregar al carrito primero, luego redireccionar
+        addComboToCart(comboData, true).then(() => {
+            // Redireccionar a la página de adiciones después de agregar al carrito
+            window.location.href = this.getAttribute('href');
+        }).catch(error => {
+            console.error('Error al agregar al carrito:', error);
+            alert('Error al agregar el combo al carrito. Por favor intenta de nuevo.');
+        });
     });
     
     // Modal functionality
@@ -1203,83 +1339,100 @@ document.addEventListener('DOMContentLoaded', function() {
         document.addEventListener('keydown', handleEscape);
     }
     
-    function addComboToCart(comboData) {
-        // Show loading state
-        const button = document.getElementById('add-to-cart-btn');
-        const originalText = button.innerHTML;
-        button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Agregando...';
-        button.disabled = true;
-        
-        // Prepare data for WooCommerce
-        const comboIdInput = document.querySelector('input[name="combo_product_id"]');
-        if (!comboIdInput) {
-            alert('Error: No se encontró el ID del combo. Por favor recarga la página.');
-            return;
-        }
-        
-        const cartData = {
-            action: 'add_combo_to_cart',
-            combo_id: comboIdInput.value,
-            combo_data: comboData,
-            nonce: '<?php echo wp_create_nonce("add_combo_to_cart"); ?>'
-        };
-        
-        console.log('Datos a enviar:', cartData);
-        
-        // Send AJAX request to add to cart
-        fetch('<?php echo admin_url("admin-ajax.php"); ?>', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: new URLSearchParams(cartData)
-        })
-        .then(response => {
-            console.log('Response status:', response.status);
-            console.log('Response headers:', response.headers);
+    function addComboToCart(comboData, skipRedirect = false) {
+        return new Promise((resolve, reject) => {
+            // Show loading state
+            const button = document.getElementById('add-to-cart-btn');
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Agregando...';
+            button.disabled = true;
             
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+            // Prepare data for WooCommerce
+            const comboIdInput = document.querySelector('input[name="combo_product_id"]');
+            if (!comboIdInput) {
+                alert('Error: No se encontró el ID del combo. Por favor recarga la página.');
+                reject(new Error('No combo ID found'));
+                return;
             }
             
-            return response.text().then(text => {
-                console.log('Raw response:', text);
-                try {
-                    return JSON.parse(text);
-                } catch (e) {
-                    console.error('JSON parse error:', e);
-                    throw new Error('Invalid JSON response: ' + text);
+            // Convert combo_data to individual form fields for PHP
+            const formData = new URLSearchParams();
+            formData.append('action', 'add_combo_to_cart');
+            formData.append('combo_id', comboIdInput.value);
+            formData.append('nonce', '<?php echo wp_create_nonce("add_combo_to_cart"); ?>');
+            
+            // Add combo_data fields individually
+            formData.append('combo_data[totopos]', JSON.stringify(comboData.totopos));
+            formData.append('combo_data[tortillas]', JSON.stringify(comboData.tortillas));
+            formData.append('combo_data[proteins]', JSON.stringify(comboData.proteins));
+            formData.append('combo_data[sauces]', JSON.stringify(comboData.sauces));
+            formData.append('combo_data[total_price]', comboData.total_price);
+            
+            console.log('Datos a enviar:', formData.toString());
+            
+            // Send AJAX request to add to cart
+            fetch('<?php echo admin_url("admin-ajax.php"); ?>', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: formData
+            })
+            .then(response => {
+                console.log('Response status:', response.status);
+                console.log('Response headers:', response.headers);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
+                
+                return response.text().then(text => {
+                    console.log('Raw response:', text);
+                    try {
+                        return JSON.parse(text);
+                    } catch (e) {
+                        console.error('JSON parse error:', e);
+                        throw new Error('Invalid JSON response: ' + text);
+                    }
+                });
+            })
+            .then(data => {
+                console.log('Parsed data:', data);
+                if (data.success) {
+                    // Show success notification
+                    showSuccessNotification();
+                    
+                    // Update cart count if element exists
+                    updateCartCount();
+                    
+                    // Reset form
+                    resetComboForm();
+                    
+                    if (!skipRedirect) {
+                        // Redirect to cart after a short delay
+                        setTimeout(() => {
+                            window.location.href = '<?php echo wc_get_cart_url(); ?>';
+                        }, 1500);
+                    }
+                    
+                    resolve(data);
+                } else {
+                    const errorMsg = 'Error al agregar el combo al carrito: ' + (data.data || 'Error desconocido');
+                    alert(errorMsg);
+                    reject(new Error(errorMsg));
+                }
+            })
+            .catch(error => {
+                console.error('Error completo:', error);
+                const errorMsg = 'Error al agregar el combo al carrito: ' + error.message;
+                alert(errorMsg);
+                reject(error);
+            })
+            .finally(() => {
+                // Reset button
+                button.innerHTML = originalText;
+                button.disabled = false;
             });
-        })
-        .then(data => {
-            console.log('Parsed data:', data);
-            if (data.success) {
-                // Show success notification
-                showSuccessNotification();
-                
-                // Update cart count if element exists
-                updateCartCount();
-                
-                // Reset form
-                resetComboForm();
-                
-                // Redirect to cart after a short delay
-                setTimeout(() => {
-                    window.location.href = '<?php echo wc_get_cart_url(); ?>';
-                }, 1500);
-            } else {
-                alert('Error al agregar el combo al carrito: ' + (data.data || 'Error desconocido'));
-            }
-        })
-        .catch(error => {
-            console.error('Error completo:', error);
-            alert('Error al agregar el combo al carrito: ' + error.message);
-        })
-        .finally(() => {
-            // Reset button
-            button.innerHTML = originalText;
-            button.disabled = false;
         });
     }
     
