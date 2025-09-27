@@ -503,13 +503,25 @@ get_header(); ?>
                                 <div class="col-12">
                                     <h2 class="section-title">
                                         Salsas y Más 
-                                        <span class="selection-limit">(6 salsas de 250GR)</span>
+                                        <span class="selection-limit">(escoge 6 de salsas(3500gr))</span>
                                     </h2>
+                                    <div class="salsas-details">
+                                        <span class="sugerencias-title">Sugerencias:</span><br>
+                                        <ul class="salsas-list">
+                                            <li>1000 gr de guacamole predeterminadas</li>
+                                            <li>1000 gr de pico de gallo predeterminadas</li>
+                                            <li>500 gramos de frijol predeterminadas</li>
+                                            <li>500 gramos de queso predeterminadas</li>
+                                            <li>250 gramos de lo que quieran</li>
+                                            <li>250 gramos de lo que quieran</li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                             
                             <div class="products-grid" id="sauce-grid">
                                 <?php
+                                $sauce_index = 0;
                                 foreach ($sauce_options_1 as $sauce) {
                                     // Separar el texto principal de las especificaciones
                                     $sauce_text = trim($sauce);
@@ -521,18 +533,30 @@ get_header(); ?>
                                         $main_text = trim($matches[1]);
                                         $spec_text = '(' . trim($matches[2]) . ')';
                                     }
+                                    
+                                    // Preseleccionar las opciones específicas de la lista de sugerencias
+                                    $preselected_options = ['guacamole', 'pico de gallo', 'frijol refrito', 'queso mozzarella'];
+                                    $is_preselected = false;
+                                    foreach ($preselected_options as $preselected_option) {
+                                        if (stripos($sauce_text, $preselected_option) !== false) {
+                                            $is_preselected = true;
+                                            break;
+                                        }
+                                    }
+                                    $initial_count = $is_preselected ? '1' : '0';
+                                    $selected_class = $is_preselected ? ' selected' : '';
                                     ?>
-                                    <div class="combo-option-card sauce-option" 
+                                    <div class="combo-option-card sauce-option<?php echo $selected_class; ?>" 
                                          data-type="sauce" 
                                          data-value="<?php echo esc_attr($sauce_text); ?>"
                                          data-price="0.00"
-                                         data-count="0">
+                                         data-count="<?php echo $initial_count; ?>">
                                         <input type="hidden" 
                                                name="sauce[]" 
                                                value="<?php echo esc_attr($sauce_text); ?>"
                                                class="sauce-input">
                                         <div class="option-content">
-                                            <div class="quantity-indicator" style="display: none;">x2</div>
+                                            <div class="quantity-indicator" style="<?php echo $is_preselected ? 'display: block;' : 'display: none;'; ?>">x<?php echo $initial_count; ?></div>
                                             <h3 class="option-title"><?php echo esc_html($main_text); ?></h3>
                                             <?php if ($spec_text): ?>
                                                 <div class="option-spec"><?php echo esc_html($spec_text); ?></div>
@@ -541,6 +565,7 @@ get_header(); ?>
                                         </div>
                                     </div>
                                     <?php
+                                    $sauce_index++;
                                 }
                                 ?>
                             </div>

@@ -75,9 +75,10 @@
     border: 2px solid #000;
     border-radius: 8px;
     width: 90%;
-    max-width: 400px;
-    max-height: 90vh;
-    overflow: hidden;
+    max-width: 450px;
+    max-height: 95vh;
+    overflow-y: auto;
+    overflow-x: hidden;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
     animation: popupSlideIn 0.3s ease-out;
 }
@@ -149,10 +150,13 @@
 
 .popup-image {
     width: 100%;
-    height: 200px;
-    -o-object-fit: cover;
-    object-fit: cover;
+    height: auto;
+    min-height: 250px;
+    max-height: 420px;
+    -o-object-fit: contain;
+    object-fit: contain;
     display: block;
+    background: #f8f9fa;
 }
 
 .popup-description {
@@ -198,10 +202,23 @@
 }
 
 /* Responsive design para el popup */
+@media (max-width: 768px) {
+    .popup-content {
+        max-width: 90%;
+        max-height: 90vh;
+    }
+    
+    .popup-image {
+        min-height: 220px;
+        max-height: 350px;
+    }
+}
+
 @media (max-width: 576px) {
     .popup-content {
         width: 95%;
         margin: 20px;
+        max-width: 95%;
     }
     
     .popup-header {
@@ -230,7 +247,8 @@
     }
     
     .popup-image {
-        height: 150px;
+        min-height: 180px;
+        max-height: 280px;
     }
     
     .popup-description {
@@ -245,6 +263,13 @@
     .popup-add-btn {
         font-size: 1.1rem;
         padding: 10px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .popup-image {
+        min-height: 160px;
+        max-height: 250px;
     }
 }
 /*# sourceMappingURL=product-popup.css.map */

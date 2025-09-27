@@ -83,7 +83,7 @@ get_header(); ?>
                 </div>
                 <div class="col-md-6">
                     <div class="combo-banner-image">
-                        <img src="<?php echo get_template_directory_uri(); ?>/img/combos-para-llevar-banner.jpg" alt="Combos para Llevar - Comida Mexicana" class="img-fluid">
+                        <img src="<?php echo get_template_directory_uri(); ?>/img/combos-para-llevar-banner-7-10.jpg" alt="Combos para Llevar 7-10 Personas - Comida Mexicana" class="img-fluid">
                     </div>
                 </div>
             </div>

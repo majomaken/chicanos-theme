@@ -93,7 +93,7 @@ p,
   font-weight: 800;
   line-height: normal;
   padding-bottom: 0.5rem;
-  margin-right: 30px; /* Espacio entre elementos del menú */
+  margin-right: 60px; /* Espacio entre elementos del menú aumentado */
 }
 
 
@@ -151,7 +151,7 @@ p,
   position: absolute;
   top: -190px; /* Mover aún más arriba */
   right: 30px;
-  width: 180px;
+  width: 220px; /* Aumentar tamaño del pájaro */
   height: auto;
   z-index: 10; /* Aumentar z-index para asegurar que esté por encima */
   transform: scaleX(-1);
@@ -176,6 +176,27 @@ p,
   /* Sombra sutil sin blur */
   box-shadow: 0 0 8px rgba(249, 203, 56, 0.4);
   filter: none;
+}
+
+/* Footer bottom row improvements */
+#wrapper-footer .footer-bottom-row {
+  display: flex;
+  align-items: center;
+}
+
+#wrapper-footer .footer-bottom-row .footer-legal-menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0;
+}
+
+#wrapper-footer .footer-bottom-row .footer-legal-menu li {
+  margin-right: 1.5rem;
+}
+
+#wrapper-footer .footer-bottom-row .footer-legal-menu li:last-child {
+  margin-right: 0;
 }
 
 #wrapper-footer h5 {

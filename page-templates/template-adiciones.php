@@ -19,7 +19,7 @@ get_header(); ?>
             <div class="row align-items-center">
                 <div class="col-md-6">
                     <div class="combo-info-content">
-                         <h1 class="combo-main-title">Adiciones para Llevar</h1>
+                         <h1 class="combo-main-title">Todo Para Llevar a la Casa</h1>
                          <div class="combo-details">
                         </div>
                         <div class="portion-sizes">
@@ -43,7 +43,7 @@ get_header(); ?>
                 </div>
                 <div class="col-md-6">
                     <div class="combo-banner-image">
-                        <img src="<?php echo get_template_directory_uri(); ?>/img/combos-para-llevar-banner.jpg" alt="Adiciones Extra - Comida Mexicana" class="img-fluid">
+                        <img src="<?php echo get_template_directory_uri(); ?>/img/todo-para-llevar-banner.jpg" alt="Adiciones Extra - Comida Mexicana" class="img-fluid">
                     </div>
                 </div>
             </div>

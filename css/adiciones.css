@@ -29,6 +29,7 @@
 
 .combo-banner-image img {
     max-width: 100%;
+    width: 100%;
     height: 600px;
     -o-object-fit: cover;
     object-fit: cover;

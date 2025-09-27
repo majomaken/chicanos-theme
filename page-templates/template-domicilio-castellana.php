@@ -219,6 +219,7 @@ get_header();
         <section id="tacos" class="products-section">
             <div class="container">
                 <h2 class="section-title">Tacos</h2>
+                <p class="section-subtitle">*Vienen por 1 unidad</p>
                 <div class="products-grid">
                     <?php
                     // Query for taco products
@@ -273,6 +274,7 @@ get_header();
         <section id="mini-taquitos" class="products-section">
             <div class="container">
                 <h2 class="section-title">Mini Taquitos</h2>
+                <p class="section-subtitle">*Vienen por 5 unidades</p>
                 <div class="products-grid">
                     <?php
                     // Query for mini taquitos products

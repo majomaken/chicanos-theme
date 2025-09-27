@@ -23,14 +23,13 @@ $container = get_theme_mod( 'understrap_container_type' );
                 <h2>¿Preguntas?<br>¡Contáctanos!</h2>
                 <ul class="footer-menu">
                     <li><a href="#">Home</a></li>
-                    <li><a href="#">Menú</a></li>
                     <li><a href="#">Entregas</a></li>
                     <li><a href="#">Distribución</a></li>
                 </ul>
             </div>
 
             <div class="col-md-6 footer-section">
-                <div class="footer-location">
+                <div class="footer-location" style="margin-top: 20px;">
                     <h4><i class="fas fa-map-marker-alt"></i> Sede Nogal</h4>
                     <p>
                         Carrera 11 #78-70<br>
@@ -39,7 +38,7 @@ $container = get_theme_mod( 'understrap_container_type' );
                         Correo: contacto@chicano.com.co
                     </p>
                 </div>
-                <div class="footer-location mt-4">
+                <div class="footer-location mt-4" style="margin-top: 40px;">
                     <h4><i class="fas fa-map-marker-alt"></i> Sede Castellana</h4>
                     <p>
                         Carrera 47 #94-56<br>
@@ -52,12 +51,12 @@ $container = get_theme_mod( 'understrap_container_type' );
 
 		</div><!-- .row -->
 
-        <div class="row footer-bottom-row">
+        <div class="row footer-bottom-row" style="align-items: center;">
             <div class="col-md-4">
-                <p>&copy; Chicanos 2025</p>
+                <p>Chicanos 2025</p>
             </div>
             <div class="col-md-4">
-                <ul class="footer-legal-menu">
+                <ul class="footer-legal-menu" style="margin-bottom: 0; display: flex; justify-content: center; align-items: center;">
                     <li><a href="#">Política de Privacidad</a></li>
                     <li><a href="#">Términos y Condiciones</a></li>
                 </ul>

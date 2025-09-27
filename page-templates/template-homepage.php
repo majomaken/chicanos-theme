@@ -41,14 +41,14 @@ get_header();
     border-radius: 0 !important;
 }
 
-#home-section-1 .col-md-4 {
+#home-section-1 .col-md-6 {
     display: flex !important;
     justify-content: center !important;
 }
 
 /* Mobile styles - HIGHEST PRIORITY */
 @media (max-width: 767px) {
-    #home-section-1 .row .col-md-4 {
+    #home-section-1 .row .col-md-6 {
         flex: 0 0 100% !important;
         max-width: 400px !important;
         margin: 0 auto 1rem auto !important;
@@ -56,9 +56,8 @@ get_header();
     }
     
     /* Asegurar que TODAS las cards tengan el mismo ancho */
-    #home-section-1 .row .col-md-4:nth-child(1),
-    #home-section-1 .row .col-md-4:nth-child(2),
-    #home-section-1 .row .col-md-4:nth-child(3) {
+    #home-section-1 .row .col-md-6:nth-child(1),
+    #home-section-1 .row .col-md-6:nth-child(2) {
         flex: 0 0 100% !important;
         max-width: 400px !important;
         margin: 0 auto 1rem auto !important;
@@ -87,6 +86,11 @@ get_header();
 		HERO SECTION
 		================================================================== -->
 		<section id="hero" class="homepage-section">
+			<!-- Video Background -->
+			<video autoplay muted loop playsinline class="hero-video">
+				<source src="<?php echo get_stylesheet_directory_uri(); ?>/img/CHICANOS 2025.mp4" type="video/mp4">
+			</video>
+			
 			<div class="container">
 				<div class="row justify-content-center">
 					<div class="col-12 text-center hero-text-container">
@@ -107,35 +111,25 @@ get_header();
 		================================================================== -->
 		<section id="home-section-1" class="homepage-section">
 			<div class="container">
-				<div class="row">
-					<div class="col-md-4">
+				<div class="row justify-content-center">
+					<div class="col-md-6">
 						<a href="<?php echo site_url('/domicilio/'); ?>" class="card-link">
 							<div class="card-header">
 								<h3>Domicilios</h3>
 								<span class="arrow">→</span>
 							</div>
 							<!-- Image path: <?php echo get_stylesheet_directory_uri(); ?>/img/domicilios.png -->
-							<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/domicilios.png" alt="Domicilios Chicanos">
+							<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/domicilios.jpg" alt="Domicilios Chicanos">
 						</a>
 					</div>
-					<div class="col-md-4">
-						<div class="card-link">
-							<div class="card-header">
-								<h3>Menú</h3>
-								<span class="arrow">→</span>
-							</div>
-							<!-- Image path: <?php echo get_stylesheet_directory_uri(); ?>/img/menu.png -->
-							<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/menu.png" alt="Menú Chicanos">
-						</div>
-					</div>
-					<div class="col-md-4">
+					<div class="col-md-6">
 						<a href="<?php echo site_url('/distribution/'); ?>" class="card-link">
 							<div class="card-header">
 								<h3>Distribución</h3>
 								<span class="arrow">→</span>
 							</div>
 							<!-- Image path: <?php echo get_stylesheet_directory_uri(); ?>/img/distribucion.png -->
-							<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/distribucion.png" alt="Distribución Chicanos">
+							<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/distribucion.jpg" alt="Distribución Chicanos">
 						</a>
 					</div>
 				</div>
@@ -171,12 +165,12 @@ get_header();
 			<div class="container">
 				<div class="row align-items-center">
 					<div class="col-md-6">
-						<h2>Chicanos son los Mexicanos de aqui.</h2>
-						<p>Se dicen Chicanos, para celebrar un gusto por la comida mexicana que no pasa de moda, la que se sirve en Casa. Una casa al estilo tradicional y modernista de Luis Barragán.</p>
+						<h2>Así empezó todo</h2>
+						<p>En 1986, Lina y Toño viajaron a México en su luna de miel y volvieron con algo más que recuerdos: trajeron la pasión por su gastronomía. Así nació Chicanos, el primer restaurante mexicano en Bogotá.</p>
 					</div>
 					<div class="col-md-6">
 						<div class="image-frame">
-							<img src="https://via.placeholder.com/500x400" alt="Family photo">
+							<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/family.png" alt="Lina y Toño">
 						</div>
 					</div>
 				</div>
@@ -186,52 +180,51 @@ get_header();
 		<section id="home-section-3" class="homepage-section content-section">
 			<div class="container">
 				<div class="row align-items-center">
-					<div class="col-md-6 order-md-2">
-						<h2 class="text-right">Fueron los primeros, pero están mejor que siempre.</h2>
-						<p class="text-right">Tras inaugurar la explosión de restaurantes de comida mexicana en Bogotá hace tres décadas, Chicanos se convierte en La Casa que todos conocen y en la que siempre coinciden en volver.</p>
+					<div class="col-md-4">
+						<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/flor-layer.png" alt="Flor" class="content-flower">
 					</div>
-					<div class="col-md-6 order-md-1">
-						<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/flor-layer.png" alt="Flower" class="content-flower">
+					<div class="col-md-4">
+						<h2>El primer Chicanos</h2>
+						<p>Con una fachada sencilla y un sueño enorme, abrieron las puertas del primer restaurante mexicano en la ciudad. Entre tacos, margaritas y buena música, comenzó una historia que cambió la forma de vivir la comida mexicana en Colombia.</p>
 					</div>
-				</div>
-			</div>
-		</section>
-
-		<section id="home-section-4" class="homepage-section content-section">
-			<div class="container">
-				<div class="row align-items-center">
-					<div class="col-md-6">
-						<h2>La sensación es de familiaridad y la de una larga amistad a la que se regresa.</h2>
-						<p>La Casa de esos amigos de tus padres, expertos cicineros y divertidos anfitriones, que siempre quieren compartir el último descubrimiento gastronómico de su reciente viaje a México: los tacos de esquina, la salsa del Valle, la nueva receta de tortillas.</p>
-					</div>
-					<div class="col-md-6">
+					<div class="col-md-4">
 						<div class="image-frame">
-							<img src="https://via.placeholder.com/500x400" alt="Family photo">
+							<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/first-chicanos.png" alt="El primer Chicanos">
 						</div>
 					</div>
 				</div>
 			</div>
 		</section>
-		<section id="home-section-5" class="homepage-section content-section">
+
+		<section id="home-section-tradition" class="homepage-section content-section">
 			<div class="container">
 				<div class="row align-items-center">
 					<div class="col-md-6">
-						<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/green-flowers.png" alt="Flores Verdes" class="img-fluid">
+						<h2>Una tradición que sigue viva</h2>
+						<p>Lo que nació como el sueño de dos recién casados, hoy es un lugar donde generaciones han celebrado, reído y disfrutado del auténtico sabor de México. Casi cuatro décadas después, la historia continúa.</p>
 					</div>
-					<div class="col-md-6 home-section-5-text">
-						<p class="text-right">Sus platos llevan los nombres de sus célebres y viejos conocidos de los últimos treinta años. Ellos trajeron la experiencia de la comida mexicana a Colombia, pero siguen innovando. Son los que más saben lo que nos gusta por tradición.</p>
-						<h2 class="text-right">Los primeros,<br>mejor que siempre</h2>
+					<div class="col-md-6">
+						<div class="image-frame">
+							<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/first-menu.png" alt="Primer menú de Chicanos">
+						</div>
 					</div>
 				</div>
 			</div>
 		</section>
+
 		<section id="home-section-6" class="homepage-section text-center">
+			<div class="pattern-background-left">
+				<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/Group 20.png" alt="Pattern Background" class="pattern-bg">
+			</div>
 			<div class="container">
 				<div class="row justify-content-center">
-					<div class="col-md-8">
+					<div class="col-md-10">
 						<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/tacos-cart.png" alt="Carrito de Tacos" class="tacos-cart-img">
 						<h2>Nuestro carrito de <br> tacos para eventos</h2>
-						<p>Lleva la auténtica experiencia Chicanos a donde tú quieras. Contamos con un carrito de tacos diseñado para cualquier tipo de evento. Nuestro equipo se encarga de todo: desde la logística, preparación, y servicio.</p>
+						<p>Lleva la auténtica experiencia Chicanos a donde tú quieras.<br>
+						Contamos con un carrito de tacos diseñado para cualquier tipo de<br>
+						evento. Nuestro equipo se encarga de todo: desde la logística,<br>
+						preparación, y servicio.</p>
 					</div>
 				</div>
 			</div>
@@ -284,28 +277,28 @@ get_header();
 
                             <div class="form-mockup">
                                 <div class="form-group">
-                                    <label>Name</label>
+                                    <label>Nombre</label>
                                     <input type="text" disabled />
                                 </div>
                                 <div class="form-group">
-                                    <label>Email</label>
+                                    <label>Correo</label>
                                     <input type="email" disabled />
                                 </div>
                                 <div class="form-group">
-                                    <label>What type of event?</label>
+                                    <label>¿Qué tipo de evento?</label>
                                     <select disabled>
-                                        <option>Select an option</option>
+                                        <option>Selecciona una opción</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label>Type your message below</label>
-                                    <textarea rows="3" disabled>Please include as much detail in your message as possible so we can reply ASAP</textarea>
+                                    <label>Escribe tu mensaje abajo</label>
+                                    <textarea rows="3" disabled placeholder="Por favor incluir la mayor cantidad de informacion para el evento y te responderemos lo mas pronto posible."></textarea>
                                 </div>
                                 <div class="form-group">
-                                    <label>When is your event?</label>
+                                    <label>¿Cuándo es el evento?</label>
                                     <input type="text" placeholder="DD/MM/YYYY" disabled />
                                 </div>
-                                <button type="submit" class="btn" disabled>Submit</button>
+                                <button type="submit" class="btn" disabled>Enviar</button>
                             </div>
                         </div>
                     </div>

@@ -29,11 +29,10 @@
 
 .combo-banner-image img {
     max-width: 100%;
+    width: 100%;
     height: 600px;
     -o-object-fit: cover;
     object-fit: cover;
-    
-    
 }
 
 /* Contenido principal con imagen de fondo */
@@ -63,8 +62,8 @@
 
 .combo-main-title {
     font-family: "Bebas Neue", sans-serif;
-    font-size: 49px;
-    font-weight: 400;
+    font-size: 4rem;
+    font-weight: 900;
     color: #000;
     margin-bottom: 30px;
     text-transform: uppercase;
@@ -475,6 +474,38 @@
 }
 
 
+
+.salsas-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.salsas-list li {
+    font-family: "Oswald", sans-serif;
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 8px;
+    position: relative;
+    padding-left: 20px;
+}
+
+.sugerencias-title {
+    font-family: "Oswald", sans-serif;
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 8px;
+    font-weight: normal;
+    text-transform: none;
+}
+
+.salsas-list li:before {
+    content: "•";
+    color: #007bff;
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+}
 
 /* Success Notification */
 .success-notification {

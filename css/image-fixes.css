@@ -14,7 +14,7 @@ img {
 .woocommerce ul.products li.product .woocommerce-loop-product__image img,
 .woocommerce ul.products li.product .woocommerce-loop-product__image img:hover {
   width: 100% !important;
-  height: 200px !important;
+  height: 250px !important;
   -o-object-fit: cover !important;
   object-fit: cover !important;
   border-radius: 0;
@@ -25,7 +25,7 @@ img {
 .combo-imagen img,
 .combo-card-personalizado .combo-imagen img {
   width: 100% !important;
-  height: 200px !important;
+  height: 420px !important;
   display: block !important;
   -o-object-fit: cover !important;
   object-fit: cover !important;
