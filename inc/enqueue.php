@@ -45,6 +45,7 @@ if ( ! function_exists( 'understrap_scripts' ) ) {
 
 		if ( is_page_template( 'page-templates/template-delivery.php' ) ) {
 			wp_enqueue_style( 'chicanos-delivery-styles', get_template_directory_uri() . '/css/delivery.css', array('chicanos-custom-styles'), $css_version );
+			wp_enqueue_script( 'chicanos-delivery-carousel', get_template_directory_uri() . '/js/delivery-carousel.js', array('jquery'), $theme_version, true );
 		}
 
 		if ( is_page_template( 'page-templates/template-domicilio-nogal.php' ) ) {
@@ -136,6 +137,12 @@ if ( ! function_exists( 'understrap_scripts' ) ) {
 				wp_enqueue_script( 'wc-add-to-cart' );
 				wp_enqueue_script( 'wc-cart-fragments' );
 			}
+		}
+		
+		// Enqueue checkout delivery script for checkout page
+		if ( is_checkout() && class_exists( 'WooCommerce' ) ) {
+			wp_enqueue_script( 'chicanos-checkout-delivery', get_template_directory_uri() . '/js/checkout-delivery.js', array('jquery'), $theme_version, true );
+			wp_enqueue_style( 'chicanos-delivery-styles', get_template_directory_uri() . '/css/delivery.css', array('chicanos-custom-styles'), $css_version );
 		}
 		
 		if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {

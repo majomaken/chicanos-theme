@@ -25,14 +25,14 @@ get_header();
                     <!-- Left Column - Text Content -->
                     <div class="col-lg-6">
                         <div class="hero-content">
-                            <img src="<?php echo get_stylesheet_directory_uri(); ?>/img/pixel-flower-red.png" alt="Flor Roja Pixelada" class="hero-decoration">
+                            <img src="<?php echo get_stylesheet_directory_uri(); ?>/img/pixel-flower-red.webp" alt="Flor Roja Pixelada" class="hero-decoration">
                             <h1 class="hero-title">Sede Castellana</h1>
                             <div class="hero-info">
                                 <p class="delivery-range">Desde la carrera 1 con 24</p>
                                 <p class="delivery-range">hasta la carrera 90 con 20</p>
                                 <p class="address">Carrera 47 #94-56</p>
-                                <p class="contact-info">WhatsApp: +57 310 6878901</p>
-                                <p class="contact-info">Teléfono: (310) 687 8901 o (601) 300 0780</p>
+                                <p class="contact-info">WhatsApp: +57 310 687 8901</p>
+                                <p class="contact-info">Teléfono: 310 687 8901 o (601)3000708</p>
                                 <p class="contact-info">Correo: castellana@chicanos.com.co</p>
                             </div>
                         </div>
@@ -40,9 +40,9 @@ get_header();
                     <!-- Right Column - Image -->
                     <div class="col-lg-6">
                         <div class="hero-image-container">
-                            <img src="<?php echo get_stylesheet_directory_uri(); ?>/img/sede-castellana-banner.jpg" alt="Sede Castellana" class="hero-image">
+                            <img src="<?php echo get_stylesheet_directory_uri(); ?>/img/sede-castellana-banner.webp" alt="Sede Castellana" class="hero-image">
                             <div class="hero-pattern">
-                                <img src="<?php echo get_stylesheet_directory_uri(); ?>/img/hero-layer.png" alt="Capa Rosa" class="hero-layer-pink">
+                                <img src="<?php echo get_stylesheet_directory_uri(); ?>/img/hero-layer.webp" alt="Capa Rosa" class="hero-layer-pink">
                             </div>
                         </div>
                     </div>

@@ -47,6 +47,18 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
 
 		<?php do_action( 'woocommerce_checkout_after_customer_details' ); ?>
 
+		<!-- Campo oculto para la sucursal seleccionada -->
+		<?php 
+		$current_branch_id = null;
+		if (class_exists('Chicanos_Branch_Management')) {
+			$current_branch_id = Chicanos_Branch_Management::get_current_branch();
+		}
+		?>
+		
+		<?php if ($current_branch_id): ?>
+		<input type="hidden" name="branch_selection" value="<?php echo esc_attr($current_branch_id); ?>">
+		<?php endif; ?>
+
 	<?php endif; ?>
 
 	<?php do_action( 'woocommerce_checkout_before_order_review_heading' ); ?>

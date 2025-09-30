@@ -40,7 +40,7 @@
     background-color: #FBF5ED;
     background-image: 
         linear-gradient(rgba(251, 245, 237, 0.8), rgba(251, 245, 237, 0.8)),
-        url('../img/combo-flores-back.png');
+        url('../img/combo-flores-back.webp');
     
     background-repeat: no-repeat;
     background-size: 800px auto;
@@ -200,16 +200,17 @@
     border-width: 2px;
 }
 
-.portion-dimensions {
-    font-size: 0.8rem;
+.portion-weight {
+    font-size: 0.9rem;
     color: #5B5B5B;
     font-weight: 600;
     margin: 0;
     line-height: 1;
+    margin-bottom: 4px;
 }
 
-.portion-label {
-    font-size: 0.9rem;
+.portion-size-label {
+    font-size: 0.8rem;
     color: #5B5B5B;
     font-weight: 500;
     margin: 0;
@@ -227,16 +228,28 @@
     font-weight: 900;
     color: #000;
     margin-bottom: 30px;
-    text-align: left;
-    text-transform: uppercase;
-    letter-spacing: 1px;
 }
 
-.selection-limit {
-    font-size: 1.2rem;
-    font-weight: 400;
-    color: #666;
-    font-style: italic;
+/* Protein Details Styling - matching salsas-details */
+.protein-details {
+    margin: 20px 0;
+}
+
+.protein-suggestion-text {
+    font-family: "Oswald", sans-serif;
+    font-size: 1rem;
+    color: #333;
+    margin: 0;
+    font-weight: normal;
+    text-transform: none;
+}
+
+h2.section-title span.selection-limit {
+    font-size: 1rem !important;
+    font-weight: 400 !important;
+    color: #666 !important;
+    font-family: "Oswald", sans-serif !important;
+    line-height: 1.1 !important;
 }
 
 /* Products Grid */
@@ -303,9 +316,7 @@
 }
 
 .combo-option-card .option-price {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #007bff;
+    display: none;
 }
 
 /* Quantity Indicator for x2 display */
@@ -362,7 +373,6 @@
     padding: 15px;
     background: #f8f9fa;
     border-radius: 8px;
-    border-left: 4px solid #007bff;
 }
 
 .summary-item strong {
@@ -371,19 +381,18 @@
 }
 
 .summary-item span {
-    color: #007bff;
+    color: #000;
     font-weight: 500;
 }
 
 .summary-item.total-row {
     background: #e3f2fd;
-    border-left-color: #2196f3;
     font-weight: 700;
 }
 
 .summary-item.total-row strong,
 .summary-item.total-row span {
-    color: #1976d2;
+    color: #000;
     font-size: 1.1rem;
 }
 
@@ -423,16 +432,13 @@
     box-shadow: none;
 }
 
-/* Combos 7-10 Template Specific Styles */
+/* All combo option cards styling - left aligned and vertically centered */
 #combos-para-llevar-7-10-wrapper .combo-option-card {
     min-height: 100px;
     display: flex;
     align-items: center;
-    justify-content: center;
-}
-
-#combos-para-llevar-7-10-wrapper .combo-option-card.selected {
-    background-color: #F9CB38 !important;
+    justify-content: flex-start;
+    padding-left: 20px;
 }
 
 #combos-para-llevar-7-10-wrapper .combo-option-card .option-content {
@@ -448,13 +454,16 @@
 #combos-para-llevar-7-10-wrapper .combo-option-card .option-title {
     font-size: 1rem;
     line-height: 1.2;
-    margin-bottom: 8px;
+    margin-bottom: 0;
+    text-align: left;
 }
 
 #combos-para-llevar-7-10-wrapper .combo-option-card .option-price {
-    font-size: 1rem;
-    font-weight: 700;
     display: none;
+}
+
+#combos-para-llevar-7-10-wrapper .combo-option-card.selected {
+    background-color: #F9CB38 !important;
 }
 
 /* Tortillas Note Styling */
@@ -470,7 +479,6 @@
     font-size: 1.1rem;
     color: #495057;
     margin: 0;
-    font-style: italic;
 }
 
 /* Salsas Details Styling */
@@ -1007,14 +1015,14 @@
 .summary-label {
     font-family: "Oswald", sans-serif;
     font-weight: 600;
-    color: #333;
+    color: #000;
     margin-right: 10px;
     min-width: 120px;
 }
 
 .summary-value {
     font-family: "Oswald", sans-serif;
-    color: #007bff;
+    color: #000;
     font-weight: 500;
 }
 
@@ -1024,8 +1032,15 @@
 
 .summary-list-item {
     font-family: "Oswald", sans-serif;
-    color: #007bff;
+    color: #000;
     font-size: 0.9rem;
+}
+
+/* Force remove all blue borders from summary items */
+.confirmation-modal .summary-item,
+.combo-summary .summary-item,
+.summary-item {
+    border-left: none !important;
 }
 
 /* Footer del modal - Bright yellow background */

@@ -44,7 +44,7 @@
   }
 
   .navbar-logo {
-    max-height: 60px;
+    max-height: 90px;
     width: auto;
     object-fit: contain;
   }
@@ -62,8 +62,8 @@
 #wrapper-footer {
   background-color: $brand-yellow;
   // IMPORTANT: You need to add your pattern image to the /img/ folder
-  // and replace 'footer-pattern.png' with the real file name.
-  background-image: url('../img/footer-pattern.png');
+  // and replace 'footer-pattern.webp' with the real file name.
+  background-image: url('../img/footer-pattern.webp');
   background-repeat: repeat;
   padding: 5rem 0;
   position: relative;

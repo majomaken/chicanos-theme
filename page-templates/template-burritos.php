@@ -25,7 +25,7 @@ get_header(); ?>
                 </div>
                 <div class="col-md-6">
                     <div class="combo-image-placeholder">
-                        <img src="<?php echo get_template_directory_uri(); ?>/img/burritos-banner.jpg" alt="Burritos" class="img-fluid">
+                        <img src="<?php echo get_template_directory_uri(); ?>/img/burritos-banner.webp" alt="Burritos" class="img-fluid">
                     </div>
                 </div>
             </div>

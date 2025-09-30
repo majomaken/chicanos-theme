@@ -25,24 +25,24 @@ get_header();
                     <!-- Left Column - Text Content -->
                     <div class="col-lg-6">
                         <div class="hero-content">
-                            <img src="<?php echo get_stylesheet_directory_uri(); ?>/img/pixel-flower-red.png" alt="Flor Roja Pixelada" class="hero-decoration">
+                            <img src="<?php echo get_stylesheet_directory_uri(); ?>/img/pixel-flower-red.webp" alt="Flor Roja Pixelada" class="hero-decoration">
                             <h1 class="hero-title">Sede Nogal</h1>
                             <div class="hero-info">
                                 <p class="delivery-range">Desde la carrera 1 con 24</p>
                                 <p class="delivery-range">hasta la carrera 90 con 20</p>
                                 <p class="address">Carrera 11 #78-70</p>
                                 <p class="contact-info">WhatsApp: +57 322 2112325</p>
-                                <p class="contact-info">Teléfono: (601) 312 9887 o (601) 300 2326</p>
-                                <p class="contact-info">Correo: contacto@chicano.com.co</p>
+                                <p class="contact-info">Teléfono: (601)312 9887 o (601)3002326</p>
+                                <p class="contact-info">Correo: contacto@chicanos.com.co</p>
                             </div>
                         </div>
                     </div>
                     <!-- Right Column - Image -->
                     <div class="col-lg-6">
                         <div class="hero-image-container">
-                            <img src="<?php echo get_stylesheet_directory_uri(); ?>/img/sede-nogal-banner.jpg" alt="Sede Nogal" class="hero-image">
+                            <img src="<?php echo get_stylesheet_directory_uri(); ?>/img/sede-nogal-banner.webp" alt="Sede Nogal" class="hero-image">
                             <div class="hero-pattern">
-                                <img src="<?php echo get_stylesheet_directory_uri(); ?>/img/hero-layer.png" alt="Capa Rosa" class="hero-layer-pink">
+                                <img src="<?php echo get_stylesheet_directory_uri(); ?>/img/hero-layer.webp" alt="Capa Rosa" class="hero-layer-pink">
                             </div>
                         </div>
                     </div>

@@ -2,12 +2,75 @@
 #delivery-hero {
     padding: 60px 0 60px 0;
     position: relative;
-    background-image: url('../img/banner-domicilio.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
     min-height: 500px;
     z-index: 10;
+    overflow: hidden;
+}
+
+/* Carousel Styles */
+.carousel-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.carousel-slides {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.carousel-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.carousel-slide.active {
+    opacity: 1;
+}
+
+.carousel-slide img {
+    width: 100%;
+    height: 100%;
+    -o-object-fit: cover;
+    object-fit: cover;
+    -o-object-position: center;
+    object-position: center;
+}
+
+.carousel-indicators {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 20;
+}
+
+.carousel-indicators .indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.carousel-indicators .indicator.active {
+    background-color: rgba(255, 255, 255, 1);
+}
+
+.carousel-indicators .indicator:hover {
+    background-color: rgba(255, 255, 255, 0.8);
 }
 
 /* Dark overlay for better text readability */
@@ -18,7 +81,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.4);
     z-index: 1;
 }
 
@@ -57,7 +120,7 @@
 }
 
 #locations {
-    padding: 120px 0 250px 0;
+    padding: 50px 0 250px 0;
     position: relative;
     z-index: 1;
     background-color: #FBF5ED;
@@ -172,7 +235,6 @@
     font-size: 0.9rem;
     font-family: "Oswald", sans-serif;
     font-weight: 500;
-    font-style: italic;
 }
 
 #locations .delivery-background-pattern {
@@ -181,8 +243,379 @@
     left: 0;
     width: 100%;
     height: 145px;
-    background-image: url('../img/dark-green-cross-layer-x.png');
+    background-image: url('../img/dark-green-cross-layer-x.webp');
     background-repeat: repeat;
     z-index: -1;
+}
+
+/* Checkout Billing Details Styles */
+.woocommerce-checkout .woocommerce-billing-fields,
+.woocommerce-checkout .woocommerce-shipping-fields {
+    background: #FBF5ED !important;
+    border: 2px solid #ffc107 !important;
+    border-radius: 8px !important;
+    padding: 20px !important;
+    margin-bottom: 30px !important;
+}
+
+.woocommerce-checkout .woocommerce-billing-fields h3,
+.woocommerce-checkout .woocommerce-shipping-fields h3 {
+    color: #000 !important;
+    margin-bottom: 15px !important;
+    font-family: "Bebas Neue", sans-serif !important;
+    font-size: 1.5rem !important;
+    font-weight: 800 !important;
+}
+
+.woocommerce-checkout .woocommerce-billing-fields .form-row label,
+.woocommerce-checkout .woocommerce-shipping-fields .form-row label {
+    color: #000 !important;
+    font-family: "Oswald", sans-serif !important;
+    font-weight: 500 !important;
+}
+
+.woocommerce-checkout .woocommerce-billing-fields .form-row input,
+.woocommerce-checkout .woocommerce-billing-fields .form-row select,
+.woocommerce-checkout .woocommerce-billing-fields .form-row textarea,
+.woocommerce-checkout .woocommerce-shipping-fields .form-row input,
+.woocommerce-checkout .woocommerce-shipping-fields .form-row select,
+.woocommerce-checkout .woocommerce-shipping-fields .form-row textarea {
+    color: #000 !important;
+    border: 1px solid #ddd !important;
+    border-radius: 4px !important;
+    padding: 10px !important;
+}
+
+.woocommerce-checkout .woocommerce-billing-fields .form-row input:focus,
+.woocommerce-checkout .woocommerce-billing-fields .form-row select:focus,
+.woocommerce-checkout .woocommerce-billing-fields .form-row textarea:focus,
+.woocommerce-checkout .woocommerce-shipping-fields .form-row input:focus,
+.woocommerce-checkout .woocommerce-shipping-fields .form-row select:focus,
+.woocommerce-checkout .woocommerce-shipping-fields .form-row textarea:focus {
+    border-color: #ffc107 !important;
+    box-shadow: 0 0 0 2px rgba(255, 193, 7, 0.2) !important;
+}
+
+/* Additional specific styles for checkout sections */
+#customer_details .woocommerce-billing-fields,
+#customer_details .woocommerce-shipping-fields {
+    background: #FBF5ED !important;
+    border: 2px solid #ffc107 !important;
+    border-radius: 8px !important;
+    padding: 20px !important;
+    margin-bottom: 30px !important;
+}
+
+.checkout .woocommerce-billing-fields,
+.checkout .woocommerce-shipping-fields {
+    background: #FBF5ED !important;
+    border: 2px solid #ffc107 !important;
+    border-radius: 8px !important;
+    padding: 20px !important;
+    margin-bottom: 30px !important;
+}
+
+.woocommerce-checkout-review-order h3 {
+    color: #000 !important;
+    margin-bottom: 15px;
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+.woocommerce-checkout-review-order table {
+    background: white;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.woocommerce-checkout-review-order table th,
+.woocommerce-checkout-review-order table td {
+    color: #000 !important;
+    font-family: "Oswald", sans-serif;
+    font-weight: 500;
+}
+
+/* Payment Section */
+.woocommerce-checkout-payment {
+    background: #FBF5ED;
+    border: 2px solid #ffc107;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.woocommerce-checkout-payment h3 {
+    color: #000 !important;
+    margin-bottom: 15px;
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+.woocommerce-checkout-payment .payment_methods label {
+    color: #000 !important;
+    font-family: "Oswald", sans-serif;
+    font-weight: 500;
+}
+
+/* Place Order Button */
+.woocommerce-checkout .place-order .btn-primary {
+    background-color: #ffc107 !important;
+    border-color: #ffc107 !important;
+    color: #000 !important;
+    font-family: "Oswald", sans-serif;
+    font-weight: 500;
+    padding: 12px 30px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.woocommerce-checkout .place-order .btn-primary:hover {
+    background-color: #e0a800 !important;
+    border-color: #e0a800 !important;
+    color: #000 !important;
+}
+
+/* Checkout Delivery Schedule Styles */
+.delivery-schedule-container {
+    background-color: #FBF5ED;
+    border: 2px solid #ffc107;
+    padding: 30px;
+    margin: 20px 0;
+    border-radius: 8px;
+}
+
+/* Styles for delivery time slots in checkout template */
+.delivery-info-card .delivery-time-slots .time-slot input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.delivery-info-card .delivery-time-slots .time-slot label {
+    display: block;
+    padding: 15px 20px;
+    background-color: #f8f9fa;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    font-family: "Oswald", sans-serif;
+    font-weight: 500;
+    font-size: 1rem;
+    color: #000;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.delivery-info-card .delivery-time-slots .time-slot label:hover {
+    border-color: #ffc107;
+    background-color: #f8f9fa;
+}
+
+.delivery-info-card .delivery-time-slots .time-slot input[type="radio"]:checked + label {
+    background-color: #ffc107;
+    color: #000;
+    border-color: #ffc107;
+}
+
+.delivery-info-card .delivery-time-slots .time-slot input[type="radio"]:checked + label::after {
+    content: "✓";
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: bold;
+}
+
+.delivery-schedule-container h3 {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    color: #000;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.delivery-info {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 25px;
+    border-radius: 5px;
+}
+
+.delivery-info p {
+    margin-bottom: 10px;
+    font-family: "Oswald", sans-serif;
+    font-weight: 500;
+}
+
+.delivery-info p:last-child {
+    margin-bottom: 0;
+}
+
+.delivery-minimum {
+    color: #000;
+    font-size: 1.1rem;
+}
+
+.delivery-fee {
+    color: #000;
+    font-size: 1rem;
+}
+
+.delivery-time-slots {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.time-slot {
+    position: relative;
+}
+
+.time-slot input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.time-slot label {
+    display: block;
+    padding: 15px 20px;
+    background-color: #fff;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    font-family: "Oswald", sans-serif;
+    font-weight: 500;
+    font-size: 1rem;
+    color: #000;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.time-slot label:hover {
+    border-color: #ffc107;
+    background-color: #f8f9fa;
+}
+
+.time-slot input[type="radio"]:checked + label {
+    background-color: #ffc107;
+    color: #000;
+    border-color: #ffc107;
+}
+
+.time-slot input[type="radio"]:checked + label::after {
+    content: "✓";
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: bold;
+}
+
+.delivery-validation-message {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+    padding: 15px;
+    margin-top: 15px;
+}
+
+.delivery-validation-message .error-message {
+    color: #721c24;
+    margin: 0;
+    font-family: "Oswald", sans-serif;
+    font-weight: 500;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .delivery-schedule-container {
+        padding: 20px;
+        margin: 15px 0;
+    }
+    
+    .delivery-schedule-container h3 {
+        font-size: 1.5rem;
+    }
+    
+    .delivery-time-slots {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    
+    .time-slot label {
+        padding: 12px 15px;
+        font-size: 0.9rem;
+    }
+    
+    /* Responsive for checkout template */
+    .delivery-info-card .delivery-time-slots {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    
+    .delivery-info-card .delivery-time-slots .time-slot label {
+        padding: 12px 15px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .delivery-schedule-container {
+        padding: 15px;
+    }
+    
+    .delivery-info {
+        padding: 10px;
+    }
+    
+    .delivery-minimum {
+        font-size: 1rem;
+    }
+    
+    .delivery-fee {
+        font-size: 0.9rem;
+    }
+}
+
+/* Fix double border in Your Order section */
+.woocommerce-checkout-review-order-table {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.woocommerce-checkout-review-order-table th,
+.woocommerce-checkout-review-order-table td {
+    border: none !important;
+}
+
+.woocommerce-checkout-review-order-table thead th {
+    border-bottom: 1px solid #ddd !important;
+}
+
+/* Hide free shipping when delivery fee is applied */
+.woocommerce-shipping {
+    display: none !important;
+}
+
+/* Force hide free shipping text */
+.woocommerce-checkout-review-order-table .woocommerce-shipping,
+.woocommerce-checkout-review-order-table tr.shipping,
+.woocommerce-checkout-review-order-table .shipping td,
+.woocommerce-checkout-review-order-table .shipping th {
+    display: none !important;
+}
+
+/* Hide any text containing "Free shipping" */
+.woocommerce-checkout-review-order-table td:contains("Free shipping"),
+.woocommerce-checkout-review-order-table th:contains("Free shipping") {
+    display: none !important;
 }
 /*# sourceMappingURL=delivery.css.map */

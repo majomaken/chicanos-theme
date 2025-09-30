@@ -32,6 +32,9 @@ $understrap_includes = array(
 // Load WooCommerce functions if WooCommerce is activated.
 if ( class_exists( 'WooCommerce' ) ) {
 	$understrap_includes[] = '/woocommerce.php';
+	$understrap_includes[] = '/branch-management.php';
+	$understrap_includes[] = '/branch-ajax.php';
+	$understrap_includes[] = '/branch-admin.php';
 }
 
 // Load Jetpack compatibility file if Jetpack is activiated.
@@ -163,6 +166,58 @@ function handle_add_combo_to_cart() {
         if ($cart_item_key) {
             error_log("DEBUG AJAX: Item agregado al carrito con key: " . $cart_item_key);
             
+            // Agregar costo de envío automáticamente
+            error_log("=== AGREGANDO COSTO DE ENVÍO ===");
+            $delivery_cost = 6000;
+            $delivery_product_id = get_or_create_delivery_product();
+            
+            if ($delivery_product_id) {
+                error_log("Producto de envío ID obtenido: " . $delivery_product_id);
+                
+                // Verificar si ya existe el producto de envío en el carrito
+                $delivery_already_in_cart = false;
+                $cart_contents = WC()->cart->get_cart();
+                error_log("Contenido actual del carrito: " . print_r($cart_contents, true));
+                
+                foreach ($cart_contents as $cart_item_key => $cart_item) {
+                    if ($cart_item['product_id'] == $delivery_product_id) {
+                        $delivery_already_in_cart = true;
+                        error_log("Producto de envío ya está en el carrito con key: " . $cart_item_key);
+                        break;
+                    }
+                }
+                
+                // Solo agregar si no está ya en el carrito
+                if (!$delivery_already_in_cart) {
+                    error_log("Agregando producto de envío al carrito...");
+                    $delivery_cart_key = WC()->cart->add_to_cart($delivery_product_id, 1);
+                    if ($delivery_cart_key) {
+                        error_log("✅ Producto de envío agregado al carrito con ID: " . $delivery_product_id . ", cart_key: " . $delivery_cart_key);
+                        
+                        // Verificar que realmente se agregó
+                        $updated_cart = WC()->cart->get_cart();
+                        $found = false;
+                        foreach ($updated_cart as $key => $item) {
+                            if ($item['product_id'] == $delivery_product_id) {
+                                $found = true;
+                                error_log("✅ Verificado: Producto de envío está en el carrito con key: " . $key);
+                                break;
+                            }
+                        }
+                        if (!$found) {
+                            error_log("❌ Error: Producto de envío no se encontró en el carrito después de agregarlo");
+                        }
+                    } else {
+                        error_log("❌ Error al agregar producto de envío al carrito");
+                    }
+                } else {
+                    error_log("Producto de envío ya está en el carrito, no se agrega duplicado");
+                }
+            } else {
+                error_log("❌ Error al crear/obtener producto de envío");
+            }
+            error_log("=== FIN AGREGAR COSTO DE ENVÍO ===");
+            
             // Manually trigger price modification for AJAX requests
             $product = wc_get_product($combo_id);
             if ($product && isset($cart_item_data['combo_total_price']) && $cart_item_data['combo_total_price'] > 0) {
@@ -213,6 +268,154 @@ function handle_add_combo_to_cart() {
 
 add_action('wp_ajax_add_combo_to_cart', 'handle_add_combo_to_cart');
 add_action('wp_ajax_nopriv_add_combo_to_cart', 'handle_add_combo_to_cart');
+
+// Crear el producto de envío cuando se active el tema
+add_action('after_switch_theme', 'create_delivery_product_on_theme_activation');
+function create_delivery_product_on_theme_activation() {
+    get_or_create_delivery_product();
+}
+
+// Forzar creación del producto de envío en la próxima carga
+add_action('init', 'ensure_delivery_product_exists');
+function ensure_delivery_product_exists() {
+    if (!get_option('delivery_product_id', null)) {
+        get_or_create_delivery_product();
+    }
+}
+
+// Función de debug para verificar el producto de envío
+add_action('wp_ajax_debug_delivery_product', 'debug_delivery_product');
+function debug_delivery_product() {
+    $delivery_product_id = get_option('delivery_product_id', null);
+    
+    if ($delivery_product_id) {
+        $product = wc_get_product($delivery_product_id);
+        if ($product) {
+            wp_send_json_success(array(
+                'message' => 'Producto de envío encontrado',
+                'product_id' => $delivery_product_id,
+                'product_name' => $product->get_name(),
+                'product_price' => $product->get_price(),
+                'product_status' => $product->get_status()
+            ));
+        } else {
+            wp_send_json_error('Producto de envío no existe');
+        }
+    } else {
+        wp_send_json_error('No hay ID de producto de envío guardado');
+    }
+}
+
+// Función para forzar la creación del producto de envío
+add_action('wp_ajax_force_create_delivery', 'force_create_delivery_product');
+function force_create_delivery_product() {
+    // Eliminar el ID existente para forzar recreación
+    delete_option('delivery_product_id');
+    
+    $delivery_product_id = get_or_create_delivery_product();
+    
+    if ($delivery_product_id) {
+        wp_send_json_success(array(
+            'message' => 'Producto de envío creado exitosamente',
+            'product_id' => $delivery_product_id
+        ));
+    } else {
+        wp_send_json_error('Error al crear producto de envío');
+    }
+}
+
+// Función para probar agregar envío al carrito
+add_action('wp_ajax_test_add_delivery_to_cart', 'test_add_delivery_to_cart');
+function test_add_delivery_to_cart() {
+    $delivery_product_id = get_or_create_delivery_product();
+    
+    if ($delivery_product_id) {
+        // Limpiar carrito primero
+        WC()->cart->empty_cart();
+        
+        // Agregar producto de envío
+        $cart_key = WC()->cart->add_to_cart($delivery_product_id, 1);
+        
+        if ($cart_key) {
+            wp_send_json_success(array(
+                'message' => 'Producto de envío agregado al carrito exitosamente',
+                'product_id' => $delivery_product_id,
+                'cart_key' => $cart_key,
+                'cart_count' => WC()->cart->get_cart_contents_count(),
+                'cart_total' => WC()->cart->get_cart_total()
+            ));
+        } else {
+            wp_send_json_error('Error al agregar producto de envío al carrito');
+        }
+    } else {
+        wp_send_json_error('No se pudo crear/obtener producto de envío');
+    }
+}
+
+// Función para limpiar el carrito
+add_action('wp_ajax_woocommerce_clear_cart', 'woocommerce_clear_cart_ajax');
+function woocommerce_clear_cart_ajax() {
+    WC()->cart->empty_cart();
+    wp_send_json_success(array('message' => 'Carrito limpiado exitosamente'));
+}
+
+// Función para crear o obtener el producto de envío
+function get_or_create_delivery_product() {
+    $delivery_product_id = get_option('delivery_product_id', null);
+    
+    error_log("=== CREANDO/OBTENIENDO PRODUCTO DE ENVÍO ===");
+    error_log("ID actual: " . ($delivery_product_id ?: 'NO EXISTE'));
+    
+    if (!$delivery_product_id) {
+        error_log("Creando nuevo producto de envío...");
+        
+        // Crear el producto de envío
+        $product = new WC_Product_Simple();
+        $product->set_name('Costo de Domicilio');
+        $product->set_description('Costo de envío a domicilio');
+        $product->set_short_description('Costo de envío a domicilio');
+        $product->set_price(6000);
+        $product->set_regular_price(6000);
+        $product->set_status('publish');
+        $product->set_catalog_visibility('visible'); // Visible en el catálogo para que aparezca en el carrito
+        $product->set_featured(false);
+        $product->set_virtual(true); // Producto virtual
+        $product->set_downloadable(false);
+        $product->set_manage_stock(false);
+        $product->set_stock_status('instock');
+        
+        $delivery_product_id = $product->save();
+        
+        if ($delivery_product_id) {
+            update_option('delivery_product_id', $delivery_product_id);
+            error_log("✅ Producto de envío creado con ID: " . $delivery_product_id);
+            
+            // Verificar que se guardó correctamente
+            $saved_product = wc_get_product($delivery_product_id);
+            if ($saved_product) {
+                error_log("✅ Producto verificado - Nombre: " . $saved_product->get_name() . ", Precio: " . $saved_product->get_price());
+            } else {
+                error_log("❌ Error: Producto no se pudo verificar después de crear");
+            }
+        } else {
+            error_log("❌ Error: No se pudo crear el producto de envío");
+        }
+    } else {
+        error_log("Producto de envío ya existe, verificando...");
+        // Verificar que el producto aún existe
+        $product = wc_get_product($delivery_product_id);
+        if (!$product || !$product->exists()) {
+            error_log("❌ Producto de envío no existe, recreando...");
+            delete_option('delivery_product_id');
+            return get_or_create_delivery_product(); // Recursión para recrear
+        } else {
+            error_log("✅ Producto de envío verificado - Nombre: " . $product->get_name() . ", Precio: " . $product->get_price());
+        }
+    }
+    
+    error_log("=== FIN CREACIÓN/OBTENCIÓN PRODUCTO DE ENVÍO ===");
+    return $delivery_product_id;
+}
 
 // Hook to ensure combo prices are applied after AJAX cart addition
 add_action('woocommerce_add_to_cart', 'apply_combo_price_after_ajax_add', 20, 6);
@@ -273,29 +476,29 @@ function customize_combo_cart_item_name($product_name, $cart_item, $cart_item_ke
         
         // Agregar totopos
         if (isset($cart_item['combo_totopos'])) {
-            $combo_details[] = '<strong>🥨 Totopos:</strong> ' . $cart_item['combo_totopos'];
+            $combo_details[] = '<strong>Totopos:</strong> ' . $cart_item['combo_totopos'];
         }
         
         // Agregar tortillas
         if (isset($cart_item['combo_tortillas'])) {
-            $combo_details[] = '<strong>🌮 Tortillas:</strong> ' . $cart_item['combo_tortillas'];
+            $combo_details[] = '<strong>Tortillas:</strong> ' . $cart_item['combo_tortillas'];
         }
         
         // Agregar proteínas
         if (isset($cart_item['combo_proteins']) && is_array($cart_item['combo_proteins'])) {
             $proteins_text = implode(', ', $cart_item['combo_proteins']);
-            $combo_details[] = '<strong>🍖 Proteínas (3x250gr):</strong> ' . $proteins_text;
+            $combo_details[] = '<strong>Proteínas (3x250gr):</strong> ' . $proteins_text;
         }
         
         // Agregar salsas
         if (isset($cart_item['combo_sauces']) && is_array($cart_item['combo_sauces'])) {
             $sauces_text = implode(', ', $cart_item['combo_sauces']);
-            $combo_details[] = '<strong>🌶️ Salsas (6x250gr):</strong> ' . $sauces_text;
+            $combo_details[] = '<strong>Salsas (6x250gr):</strong> ' . $sauces_text;
         }
         
         if (!empty($combo_details)) {
             $product_name .= '<div class="combo-cart-details" style="margin-top: 10px; padding: 12px 15px; background: #f8f9fa; border-radius: 8px;">';
-            $product_name .= '<div style="font-weight: bold; margin-bottom: 8px; color: #333;">📋 Detalles del Combo:</div>';
+            $product_name .= '<div style="font-weight: bold; margin-bottom: 8px; color: #333;">Detalles del Combo:</div>';
             $product_name .= '<div style="font-size: 0.9em; line-height: 1.4;">';
             $product_name .= implode('<br>', $combo_details);
             $product_name .= '</div>';
@@ -331,29 +534,29 @@ function show_combo_details_after_name($cart_item, $cart_item_key) {
         
         // Agregar totopos
         if (isset($cart_item['combo_totopos'])) {
-            $combo_details[] = '<strong>🥨 Totopos:</strong> ' . $cart_item['combo_totopos'];
+            $combo_details[] = '<strong>Totopos:</strong> ' . $cart_item['combo_totopos'];
         }
         
         // Agregar tortillas
         if (isset($cart_item['combo_tortillas'])) {
-            $combo_details[] = '<strong>🌮 Tortillas:</strong> ' . $cart_item['combo_tortillas'];
+            $combo_details[] = '<strong>Tortillas:</strong> ' . $cart_item['combo_tortillas'];
         }
         
         // Agregar proteínas
         if (isset($cart_item['combo_proteins']) && is_array($cart_item['combo_proteins'])) {
             $proteins_text = implode(', ', $cart_item['combo_proteins']);
-            $combo_details[] = '<strong>🍖 Proteínas (3x250gr):</strong> ' . $proteins_text;
+            $combo_details[] = '<strong>Proteínas (3x250gr):</strong> ' . $proteins_text;
         }
         
         // Agregar salsas
         if (isset($cart_item['combo_sauces']) && is_array($cart_item['combo_sauces'])) {
             $sauces_text = implode(', ', $cart_item['combo_sauces']);
-            $combo_details[] = '<strong>🌶️ Salsas (6x250gr):</strong> ' . $sauces_text;
+            $combo_details[] = '<strong>Salsas (6x250gr):</strong> ' . $sauces_text;
         }
         
         if (!empty($combo_details)) {
             echo '<div class="combo-cart-details" style="margin-top: 10px; padding: 12px 15px; background: #f8f9fa; border-radius: 8px;">';
-            echo '<div style="font-weight: bold; margin-bottom: 8px; color: #333;">📋 Detalles del Combo:</div>';
+            echo '<div style="font-weight: bold; margin-bottom: 8px; color: #333;">Detalles del Combo:</div>';
             echo '<div style="font-size: 0.9em; line-height: 1.4;">';
             echo implode('<br>', $combo_details);
             echo '</div>';
@@ -369,29 +572,29 @@ function customize_combo_order_item_name($product_name, $item, $is_visible) {
         
         // Agregar totopos
         if (isset($item['combo_totopos'])) {
-            $combo_details[] = '<strong>🥨 Totopos:</strong> ' . $item['combo_totopos'];
+            $combo_details[] = '<strong>Totopos:</strong> ' . $item['combo_totopos'];
         }
         
         // Agregar tortillas
         if (isset($item['combo_tortillas'])) {
-            $combo_details[] = '<strong>🌮 Tortillas:</strong> ' . $item['combo_tortillas'];
+            $combo_details[] = '<strong>Tortillas:</strong> ' . $item['combo_tortillas'];
         }
         
         // Agregar proteínas
         if (isset($item['combo_proteins']) && is_array($item['combo_proteins'])) {
             $proteins_text = implode(', ', $item['combo_proteins']);
-            $combo_details[] = '<strong>🍖 Proteínas (3x250gr):</strong> ' . $proteins_text;
+            $combo_details[] = '<strong>Proteínas (3x250gr):</strong> ' . $proteins_text;
         }
         
         // Agregar salsas
         if (isset($item['combo_sauces']) && is_array($item['combo_sauces'])) {
             $sauces_text = implode(', ', $item['combo_sauces']);
-            $combo_details[] = '<strong>🌶️ Salsas (6x250gr):</strong> ' . $sauces_text;
+            $combo_details[] = '<strong>Salsas (6x250gr):</strong> ' . $sauces_text;
         }
         
         if (!empty($combo_details)) {
             $product_name .= '<div class="combo-order-details" style="margin-top: 10px; padding: 10px; background: #f8f9fa; border-left: 4px solid #007bff; border-radius: 4px;">';
-            $product_name .= '<div style="font-weight: bold; margin-bottom: 8px; color: #333;">📋 Detalles del Combo:</div>';
+            $product_name .= '<div style="font-weight: bold; margin-bottom: 8px; color: #333;">Detalles del Combo:</div>';
             $product_name .= '<div style="font-size: 0.9em; line-height: 1.4;">';
             $product_name .= implode('<br>', $combo_details);
             $product_name .= '</div>';
@@ -459,7 +662,7 @@ function add_combo_details_to_cart_js() {
                             response.data.forEach(function(item) {
                                 if (item.combo_details) {
                                     var detailsHtml = '<div class="combo-cart-details" style="margin-top: 10px; padding: 12px 15px; background: #f8f9fa; border-radius: 8px;">';
-                                    detailsHtml += '<div style="font-weight: bold; margin-bottom: 8px; color: #333;">📋 Detalles del Combo:</div>';
+                                    detailsHtml += '<div style="font-weight: bold; margin-bottom: 8px; color: #333;">Detalles del Combo:</div>';
                                     detailsHtml += '<div style="font-size: 0.9em; line-height: 1.4;">';
                                     detailsHtml += item.combo_details;
                                     detailsHtml += '</div>';
@@ -514,24 +717,24 @@ function get_combo_cart_details_handler() {
             
             // Agregar totopos
             if (isset($cart_item['combo_totopos'])) {
-                $combo_details[] = '<strong>🥨 Totopos:</strong> ' . $cart_item['combo_totopos'];
+                $combo_details[] = '<strong>Totopos:</strong> ' . $cart_item['combo_totopos'];
             }
             
             // Agregar tortillas
             if (isset($cart_item['combo_tortillas'])) {
-                $combo_details[] = '<strong>🌮 Tortillas:</strong> ' . $cart_item['combo_tortillas'];
+                $combo_details[] = '<strong>Tortillas:</strong> ' . $cart_item['combo_tortillas'];
             }
             
             // Agregar proteínas
             if (isset($cart_item['combo_proteins']) && is_array($cart_item['combo_proteins'])) {
                 $proteins_text = implode(', ', $cart_item['combo_proteins']);
-                $combo_details[] = '<strong>🍖 Proteínas (3x250gr):</strong> ' . $proteins_text;
+                $combo_details[] = '<strong>Proteínas (3x250gr):</strong> ' . $proteins_text;
             }
             
             // Agregar salsas
             if (isset($cart_item['combo_sauces']) && is_array($cart_item['combo_sauces'])) {
                 $sauces_text = implode(', ', $cart_item['combo_sauces']);
-                $combo_details[] = '<strong>🌶️ Salsas (6x250gr):</strong> ' . $sauces_text;
+                $combo_details[] = '<strong>Salsas (6x250gr):</strong> ' . $sauces_text;
             }
             
             if (!empty($combo_details)) {
@@ -2205,10 +2408,35 @@ add_action('woocommerce_add_to_cart', 'force_combo_price_on_add', 10, 6);
 
 // Function to get correct combo price based on product title
 function get_combo_correct_price($product_title) {
+    // Buscar el producto por título para obtener su precio real
+    $products = get_posts(array(
+        'post_type' => 'product',
+        'posts_per_page' => 1,
+        's' => $product_title,
+        'meta_query' => array(
+            array(
+                'key' => '_price',
+                'value' => '',
+                'compare' => '!='
+            )
+        )
+    ));
+    
+    if (!empty($products)) {
+        $product = wc_get_product($products[0]->ID);
+        if ($product) {
+            $price = $product->get_price();
+            if ($price && $price > 0) {
+                return floatval($price);
+            }
+        }
+    }
+    
+    // Fallback a precios hardcodeados si no se encuentra el producto
     if (strpos($product_title, '1 a 3') !== false) {
         return 134800;
     } elseif (strpos($product_title, '4 a 6') !== false) {
-        return 198900;
+        return 200000; // Actualizado a $200,000
     } elseif (strpos($product_title, '7 a 10') !== false) {
         return 284600;
     }
@@ -2472,6 +2700,97 @@ function modify_adiciones_cart_item_subtotal($subtotal, $cart_item, $cart_item_k
     return $subtotal;
 }
 
+// Hide "Free shipping" when delivery fee is applied
+add_filter('woocommerce_cart_totals_shipping_html', 'hide_free_shipping_when_delivery_fee');
+add_filter('woocommerce_checkout_shipping_html', 'hide_free_shipping_when_delivery_fee');
+add_action('woocommerce_review_order_before_shipping', 'hide_shipping_section_when_delivery_fee');
+
+function hide_shipping_section_when_delivery_fee() {
+    // Check if delivery fee is applied
+    $has_delivery_fee = false;
+    foreach (WC()->cart->get_fees() as $fee) {
+        if (strpos($fee->name, 'Costo de Domicilio') !== false) {
+            $has_delivery_fee = true;
+            break;
+        }
+    }
+    
+    // If delivery fee is applied, hide the shipping section
+    if ($has_delivery_fee) {
+        echo '<style>.woocommerce-shipping { display: none !important; }</style>';
+    }
+}
+
+function hide_free_shipping_when_delivery_fee($shipping_html) {
+    // Check if delivery fee is applied
+    $has_delivery_fee = false;
+    foreach (WC()->cart->get_fees() as $fee) {
+        if (strpos($fee->name, 'Costo de Domicilio') !== false) {
+            $has_delivery_fee = true;
+            break;
+        }
+    }
+    
+    // If delivery fee is applied, hide the shipping line
+    if ($has_delivery_fee) {
+        return '';
+    }
+    
+    return $shipping_html;
+}
+
+// Clear delivery session data after order completion
+add_action('woocommerce_thankyou', 'clear_delivery_session_data');
+
+function clear_delivery_session_data($order_id) {
+    if (WC()->session) {
+        WC()->session->__unset('delivery_time_slot');
+    }
+}
+
+// Save delivery time slot to order meta
+add_action('woocommerce_checkout_update_order_meta', 'save_delivery_time_slot');
+
+function save_delivery_time_slot($order_id) {
+    if (isset($_POST['delivery_time_slot']) && !empty($_POST['delivery_time_slot'])) {
+        $delivery_time_slot = sanitize_text_field($_POST['delivery_time_slot']);
+        update_post_meta($order_id, '_delivery_time_slot', $delivery_time_slot);
+        
+        // Add delivery time slot to order notes
+        $order = wc_get_order($order_id);
+        if ($order) {
+            $order->add_order_note('Horario de entrega seleccionado: ' . $delivery_time_slot);
+        }
+    }
+}
+
+function add_delivery_fee($cart) {
+    // Check if we're on checkout page
+    if (!is_checkout()) {
+        return;
+    }
+    
+    // Check if delivery time slot is selected (from POST or session)
+    $delivery_time_slot = '';
+    
+    // First check POST data (AJAX requests)
+    if (isset($_POST['delivery_time_slot']) && !empty($_POST['delivery_time_slot'])) {
+        $delivery_time_slot = sanitize_text_field($_POST['delivery_time_slot']);
+        // Store in session for persistence
+        WC()->session->set('delivery_time_slot', $delivery_time_slot);
+    }
+    // Then check session data (page refreshes)
+    elseif (WC()->session && WC()->session->get('delivery_time_slot')) {
+        $delivery_time_slot = WC()->session->get('delivery_time_slot');
+    }
+    
+    // Add delivery fee if time slot is selected
+    if (!empty($delivery_time_slot)) {
+        $delivery_fee = 6000; // $6,000 COP
+        $cart->add_fee(__('Costo de Domicilio', 'chicanos-theme'), $delivery_fee);
+    }
+}
+
 // Function to modify combo product price in cart
 function modify_combo_product_price($cart) {
     // Allow execution for AJAX requests (including our combo AJAX)
@@ -2580,3 +2899,14 @@ function validate_adiciones_cart_item($data, $cart_item) {
     // Solo retornar los datos sin modificar
     return $data;
 }
+
+/**
+ * Add custom favicon using flower-red.webp
+ */
+function chicanos_add_favicon() {
+    $favicon_url = get_template_directory_uri() . '/img/flower-red.webp';
+    echo '<link rel="icon" type="image/webp" href="' . esc_url($favicon_url) . '">' . "\n";
+    echo '<link rel="shortcut icon" type="image/webp" href="' . esc_url($favicon_url) . '">' . "\n";
+    echo '<link rel="apple-touch-icon" href="' . esc_url($favicon_url) . '">' . "\n";
+}
+add_action('wp_head', 'chicanos_add_favicon');

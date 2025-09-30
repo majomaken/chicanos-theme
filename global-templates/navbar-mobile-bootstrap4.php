@@ -27,7 +27,7 @@ $container = get_theme_mod( 'understrap_container_type' );
 		<!-- Logo -->
 		<div class="navbar-brand-container">
 			<a class="navbar-brand" rel="home" href="<?php echo esc_url( home_url( '/' ) ); ?>" itemprop="url">
-				<img src="<?php echo get_template_directory_uri(); ?>/img/Logochicanos%201.png" alt="<?php bloginfo( 'name' ); ?>" class="navbar-logo">
+				<img src="<?php echo get_template_directory_uri(); ?>/img/Logochicanos%201.webp" alt="<?php bloginfo( 'name' ); ?>" class="navbar-logo">
 			</a>
 		</div>
 

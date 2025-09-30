@@ -52,38 +52,51 @@ get_header(); ?>
                             <div class="combo-includes">
                                 <p class="includes-title">Incluye:</p>
                                 <ul class="includes-list">
-                                    <li>2 bolsas de totopos crujientes</li>
+                                    <li>1 bolsa de totopos crujientes</li>
                                     <li>2 paquetes de tortillas frescas</li>
                                     <li>2.000 g de proteína a elección</li>
-                                    <li>3.500 g de salsa</li>
+                                    <li>2.000 g de salsas y acompañamientos</li>
                                 </ul>
                             </div>
                             <div class="combo-price">
-                                <span class="price-amount" id="combo-total-price">$198,900</span>
+                                <span class="price-amount" id="combo-total-price">
+                                    <?php 
+                                    if ($combo_product_id && $combo_product) {
+                                        $product_price = $combo_product->get_price();
+                                        if ($product_price && $product_price > 0) {
+                                            echo '$' . number_format($product_price, 0, ',', '.');
+                                        } else {
+                                            echo '$200,000'; // Fallback actualizado
+                                        }
+                                    } else {
+                                        echo '$200,000'; // Fallback actualizado
+                                    }
+                                    ?>
+                                </span>
                             </div>
                         </div>
                         <div class="portion-sizes">
                             <div class="portion-size-item">
                                 <img src="<?php echo get_template_directory_uri(); ?>/img/size-small.svg" alt="250 Gramos" class="portion-svg">
-                                <div class="portion-dimensions">250</div>
-                                <span class="portion-label">Gramos</span>
+                                <div class="portion-weight">250 Gramos</div>
+                                <div class="portion-size-label">Pequeño</div>
                             </div>
                             <div class="portion-size-item">
                                 <img src="<?php echo get_template_directory_uri(); ?>/img/size-medium.svg" alt="500 Gramos" class="portion-svg">
-                                <div class="portion-dimensions">500</div>
-                                <span class="portion-label">Gramos</span>
+                                <div class="portion-weight">500 Gramos</div>
+                                <div class="portion-size-label">Mediano</div>
                             </div>
                             <div class="portion-size-item active">
                                 <img src="<?php echo get_template_directory_uri(); ?>/img/size-large.svg" alt="2000 Gramos" class="portion-svg">
-                                <div class="portion-dimensions">2000</div>
-                                <span class="portion-label">Gramos</span>
+                                <div class="portion-weight">2000 Gramos</div>
+                                <div class="portion-size-label">Grande</div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="combo-banner-image">
-                        <img src="<?php echo get_template_directory_uri(); ?>/img/combos-para-llevar-banner-4-6.jpg" alt="Combos para Llevar 4-6 Personas - Comida Mexicana" class="img-fluid">
+                        <img src="<?php echo get_template_directory_uri(); ?>/img/combos-para-llevar-banner-4-6.webp" alt="Combos para Llevar 4-6 Personas - Comida Mexicana" class="img-fluid">
                     </div>
                 </div>
             </div>
@@ -140,22 +153,38 @@ get_header(); ?>
                     }
                 } else {
                     echo '<!-- DEBUG: No hay parámetros de combo, buscando combo 4-6 específico -->';
-                    // Opción 3: Si no hay parámetros, buscar específicamente el combo 4-6 personas por slug
-                    $combo_4_6_args = array(
-                        'post_type' => 'product',
-                        'posts_per_page' => 1,
-                        'name' => 'combo-para-llevar-4-a-6-personas'
+                    
+                    // Opción 3: Buscar combo 4-6 por múltiples criterios
+                    $search_terms = array(
+                        'combo-para-llevar-4-a-6-personas',
+                        'combo-para-llevar-4-6-personas',
+                        'combo-4-6-personas',
+                        'combo-4-a-6-personas'
                     );
                     
-                    $combo_4_6_query = new WP_Query($combo_4_6_args);
-                    if ($combo_4_6_query->have_posts()) {
-                        $combo_4_6_query->the_post();
-                        $combo_product_id = get_the_ID();
-                        echo '<!-- DEBUG: Combo 4-6 específico encontrado por slug: ' . $combo_product_id . ' -->';
-                        wp_reset_postdata();
-                    } else {
-                        echo '<!-- DEBUG: No se encontró combo 4-6 por slug, buscando por título -->';
-                        // Fallback: buscar por título que contenga "4-6" o "4 a 6"
+                    $combo_product_id = null;
+                    
+                    // Intentar buscar por slug primero
+                    foreach ($search_terms as $slug) {
+                        $combo_args = array(
+                            'post_type' => 'product',
+                            'posts_per_page' => 1,
+                            'name' => $slug
+                        );
+                        
+                        $combo_query = new WP_Query($combo_args);
+                        if ($combo_query->have_posts()) {
+                            $combo_query->the_post();
+                            $combo_product_id = get_the_ID();
+                            echo '<!-- DEBUG: Combo 4-6 encontrado por slug "' . $slug . '": ' . $combo_product_id . ' -->';
+                            wp_reset_postdata();
+                            break;
+                        }
+                    }
+                    
+                    // Si no se encontró por slug, buscar por título
+                    if (!$combo_product_id) {
+                        echo '<!-- DEBUG: No se encontró por slug, buscando por título -->';
                         $combo_title_args = array(
                             'post_type' => 'product',
                             'posts_per_page' => 1,
@@ -203,6 +232,14 @@ get_header(); ?>
                         // Debug WAPF data en consola
                         $wapf_meta = get_post_meta($combo_product_id, '_wapf_fieldgroup', true);
                         echo 'console.log("WAPF Meta Data:", ' . json_encode($wapf_meta) . ');';
+                        
+                        // Obtener el precio del producto dinámicamente
+                        $product_price = $combo_product->get_price();
+                        $base_price = $product_price && $product_price > 0 ? $product_price : 200000;
+                        echo 'console.log("Product Price:", ' . $base_price . ');';
+                        echo 'console.log("Product Title:", "' . $combo_product->get_name() . '");';
+                        echo 'console.log("Product ID:", ' . $combo_product_id . ');';
+                        echo 'var DYNAMIC_BASE_PRICE = ' . $base_price . ';';
                         echo '</script>';
                         
                         // Inicializar arrays para las opciones
@@ -382,23 +419,22 @@ get_header(); ?>
                             </div>
                         </section>
 
-                        <!-- 4. SALSAS SECTION -->
+                        <!-- 4. SALSAS Y ACOMPAÑAMIENTOS SECTION -->
                         <section class="combo-section mb-5">
                             <div class="row">
                                 <div class="col-12">
                                     <h2 class="section-title">
-                                        Salsas y Más 
-                                        <span class="selection-limit">(escoge 6 de salsas(3500gr))</span>
+                                        Salsas y Acompañamientos 
+                                        <span class="selection-limit">(escoge 4 acompañamientos: 2 de 500g + 2 de 250g, y 2 salsas de 250g = 2000g)</span>
                                     </h2>
                                     <div class="salsas-details">
-                                        <span class="sugerencias-title">Sugerencias:</span><br>
+                                        <span class="sugerencias-title">Sugerimos:</span><br>
                                         <ul class="salsas-list">
-                                            <li>1000 gr de guacamole predeterminadas</li>
-                                            <li>1000 gr de pico de gallo predeterminadas</li>
-                                            <li>500 gramos de frijol predeterminadas</li>
-                                            <li>500 gramos de queso predeterminadas</li>
-                                            <li>250 gramos de lo que quieran</li>
-                                            <li>250 gramos de lo que quieran</li>
+                                            <li>500g de guacamole</li>
+                                            <li>500g de pico de gallo</li>
+                                            <li>250g de frijol refrito</li>
+                                            <li>250g de queso mozzarella rallado</li>
+                                            <li>2 salsas de su preferencia de 250g</li>
                                         </ul>
                                     </div>
                                 </div>
@@ -512,6 +548,9 @@ get_header(); ?>
                                     <p class="add-to-cart-description mt-3">
                                         ¿Ya tienes todo lo que necesitas? Agrega tu combo al carrito ahora.
                                     </p>
+                                    <p class="delivery-cost-info mt-2">
+                                        El domicilio cuesta: $6,000
+                                    </p>
                                 </div>
                             </div>
                         </section>
@@ -521,7 +560,7 @@ get_header(); ?>
                             <div class="row">
                                 <div class="col-12">
                                     <h2 class="section-title">
-                                        ¿Quieres más guacamole?
+                                        ¿Quieres más totopos o salsas?
                                         <span class="selection-limit">(opcional)</span>
                                     </h2>
                                 </div>
@@ -607,29 +646,34 @@ get_header(); ?>
         <!-- Contenido del modal -->
         <div class="confirmation-modal-content">
             <div class="confirmation-icon">
-                <span class="success-icon">✅</span>
+                <span class="success-icon"></span>
             </div>
             <div class="combo-summary">
-                <h4 class="summary-title">📋 Resumen de tu combo:</h4>
+                <h4 class="summary-title">Resumen de tu combo:</h4>
                 <div class="summary-item">
-                    <span class="summary-icon">🥨</span>
+                    <span class="summary-icon"></span>
                     <span class="summary-label">Totopos:</span>
                     <span class="summary-value" id="modal-totopos"></span>
                 </div>
                 <div class="summary-item">
-                    <span class="summary-icon">🌮</span>
+                    <span class="summary-icon"></span>
                     <span class="summary-label">Tortillas:</span>
                     <span class="summary-value" id="modal-tortillas"></span>
                 </div>
                 <div class="summary-item">
-                    <span class="summary-icon">🍖</span>
+                    <span class="summary-icon"></span>
                     <span class="summary-label">Proteínas (3x500gr):</span>
                     <div class="summary-list" id="modal-proteins"></div>
                 </div>
                 <div class="summary-item">
-                    <span class="summary-icon">🌶️</span>
-                    <span class="summary-label">Salsas (6x250gr):</span>
+                    <span class="summary-icon"></span>
+                    <span class="summary-label">Salsas y Acompañamientos (4 acompañamientos + 2 salsas):</span>
                     <div class="summary-list" id="modal-sauces"></div>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-icon"></span>
+                    <span class="summary-label">Costo de Domicilio:</span>
+                    <span class="summary-value">$6,000</span>
                 </div>
             </div>
         </div>
@@ -644,8 +688,8 @@ get_header(); ?>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Base price for combo 4-6
-    const BASE_PRICE = 198900;
+    // Base price for combo 4-6 - obtenido dinámicamente del producto
+    const BASE_PRICE = typeof DYNAMIC_BASE_PRICE !== 'undefined' ? DYNAMIC_BASE_PRICE : 200000;
     const ADDITION_PRICE = 7500;
     
     // Function to update total price
@@ -689,7 +733,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Initialize preselected sauce options
+    // Initialize preselected sauce/acompañamiento options
     const sauceCards = document.querySelectorAll('.sauce-option');
     const preselectedOptions = ['guacamole', 'pico de gallo', 'frijol refrito', 'queso mozzarella'];
     
@@ -700,7 +744,7 @@ document.addEventListener('DOMContentLoaded', function() {
         );
         
         if (isPreselected) {
-            // Las opciones específicas están preseleccionadas
+            // Las opciones específicas están preseleccionadas como acompañamientos
             card.classList.add('selected');
             card.dataset.count = '1'; // Establecer contador inicial
             updateQuantityIndicator(card);
@@ -784,16 +828,22 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Handle clicks on sauce cards
+    // Handle clicks on sauce/acompañamiento cards
     sauceCards.forEach(card => {
         card.addEventListener('click', function() {
             const currentCount = parseInt(this.dataset.count);
             const totalSelected = getTotalSauceSelections();
+            const sauceValue = this.dataset.value.toLowerCase();
+            
+            // Verificar si es una opción preseleccionada (acompañamiento)
+            const isPreselectedOption = preselectedOptions.some(option => 
+                sauceValue.includes(option.toLowerCase())
+            );
             
             if (currentCount === 0) {
                 // Si no está seleccionado, seleccionarlo
                 if (totalSelected >= 6) {
-                    showLimitMessage('Solo puedes seleccionar máximo 6 salsas');
+                    showLimitMessage('Solo puedes seleccionar máximo 6 opciones: 4 acompañamientos + 2 salsas');
                     return;
                 }
                 this.dataset.count = '1';
@@ -809,47 +859,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     this.dataset.count = '2';
                 }
             } else if (currentCount === 2) {
-                // Si está seleccionado dos veces, verificar si puede seleccionarse una tercera vez
-                if (totalSelected >= 6) {
-                    // Si ya hay 6 selecciones, deseleccionar esta
-                    this.dataset.count = '0';
-                    this.classList.remove('selected');
-                } else {
-                    // Si hay menos de 6 selecciones, seleccionarlo una tercera vez
-                    this.dataset.count = '3';
-                }
-            } else if (currentCount === 3) {
-                // Si está seleccionado tres veces, verificar si puede seleccionarse una cuarta vez
-                if (totalSelected >= 6) {
-                    // Si ya hay 6 selecciones, deseleccionar esta
-                    this.dataset.count = '0';
-                    this.classList.remove('selected');
-                } else {
-                    // Si hay menos de 6 selecciones, seleccionarlo una cuarta vez
-                    this.dataset.count = '4';
-                }
-            } else if (currentCount === 4) {
-                // Si está seleccionado cuatro veces, verificar si puede seleccionarse una quinta vez
-                if (totalSelected >= 6) {
-                    // Si ya hay 6 selecciones, deseleccionar esta
-                    this.dataset.count = '0';
-                    this.classList.remove('selected');
-                } else {
-                    // Si hay menos de 6 selecciones, seleccionarlo una quinta vez
-                    this.dataset.count = '5';
-                }
-            } else if (currentCount === 5) {
-                // Si está seleccionado cinco veces, verificar si puede seleccionarse una sexta vez
-                if (totalSelected >= 6) {
-                    // Si ya hay 6 selecciones, deseleccionar esta
-                    this.dataset.count = '0';
-                    this.classList.remove('selected');
-                } else {
-                    // Si hay menos de 6 selecciones, seleccionarlo una sexta vez
-                    this.dataset.count = '6';
-                }
-            } else if (currentCount === 6) {
-                // Si está seleccionado seis veces, deseleccionarlo completamente
+                // Si está seleccionado dos veces, deseleccionarlo completamente
                 this.dataset.count = '0';
                 this.classList.remove('selected');
             }
@@ -1038,11 +1048,11 @@ document.addEventListener('DOMContentLoaded', function() {
             validationErrors.push(`• Selecciona exactamente 3 proteínas (actualmente tienes ${totalProteinSelections})`);
         }
         
-        // Validar Salsas (exactamente 6 selecciones requeridas)
+        // Validar Salsas y Acompañamientos (exactamente 6 selecciones requeridas: 4 acompañamientos + 2 salsas)
         if (totalSauceSelections === 0) {
-            validationErrors.push('• Selecciona 6 salsas de 250gr cada una');
+            validationErrors.push('• Selecciona 4 acompañamientos (2 de 500g + 2 de 250g) y 2 salsas de 250g');
         } else if (totalSauceSelections !== 6) {
-            validationErrors.push(`• Selecciona exactamente 6 salsas (actualmente tienes ${totalSauceSelections})`);
+            validationErrors.push(`• Selecciona exactamente 6 opciones: 4 acompañamientos + 2 salsas (actualmente tienes ${totalSauceSelections})`);
         }
         
         // Si hay errores de validación, mostrarlos
@@ -1086,11 +1096,11 @@ document.addEventListener('DOMContentLoaded', function() {
             validationErrors.push(`• Selecciona exactamente 3 proteínas (actualmente tienes ${totalProteinSelections})`);
         }
         
-        // Validar Salsas (exactamente 6 selecciones requeridas para combo 4-6)
+        // Validar Salsas y Acompañamientos (exactamente 6 selecciones requeridas: 4 acompañamientos + 2 salsas)
         if (totalSauceSelections === 0) {
-            validationErrors.push('• Selecciona 6 salsas de 250gr cada una');
+            validationErrors.push('• Selecciona 4 acompañamientos (2 de 500g + 2 de 250g) y 2 salsas de 250g');
         } else if (totalSauceSelections !== 6) {
-            validationErrors.push(`• Selecciona exactamente 6 salsas (actualmente tienes ${totalSauceSelections})`);
+            validationErrors.push(`• Selecciona exactamente 6 opciones: 4 acompañamientos + 2 salsas (actualmente tienes ${totalSauceSelections})`);
         }
         
         // Si hay errores de validación, mostrarlos

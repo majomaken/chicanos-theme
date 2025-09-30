@@ -16,7 +16,7 @@ $container = get_theme_mod( 'understrap_container_type' );
 <div class="wrapper" id="wrapper-footer">
 
 	<div class="<?php echo esc_attr( $container ); ?> position-relative">
-        <img src="<?php echo get_stylesheet_directory_uri(); ?>/img/pajaro.png" alt="Pájaro decorativo" class="footer-bird">
+        <img src="<?php echo get_stylesheet_directory_uri(); ?>/img/pajaro.webp" alt="Pájaro decorativo" class="footer-bird">
 		<div class="row">
 
 			<div class="col-md-6 footer-section">
@@ -34,16 +34,16 @@ $container = get_theme_mod( 'understrap_container_type' );
                     <p>
                         Carrera 11 #78-70<br>
                         WhatsApp: +57 322 2112325<br>
-                        Teléfono: (601) 312 9667 o (601) 300 2326<br>
-                        Correo: contacto@chicano.com.co
+                        Teléfono: (601)312 9887 o (601)3002326<br>
+                        Correo: contacto@chicanos.com.co
                     </p>
                 </div>
                 <div class="footer-location mt-4" style="margin-top: 40px;">
                     <h4><i class="fas fa-map-marker-alt"></i> Sede Castellana</h4>
                     <p>
                         Carrera 47 #94-56<br>
-                        WhatsApp: +57 310 6878901<br>
-                        Teléfono: (310) 687 8901 o (601) 300 0780<br>
+                        WhatsApp: +57 310 687 8901<br>
+                        Teléfono: 310 687 8901 o (601)3000708<br>
                         Correo: castellana@chicanos.com.co
                     </p>
                 </div>

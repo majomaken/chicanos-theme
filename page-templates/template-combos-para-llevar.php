@@ -14,6 +14,8 @@ get_header(); ?>
 
 <!-- Cargar estilos específicos para combos para llevar -->
 <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/css/combos-para-llevar.css">
+<!-- Cargar estilos del popup de productos -->
+<link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/css/product-popup.css">
 
 <div id="combos-para-llevar-wrapper" class="wrapper">
     <div class="container">
@@ -68,25 +70,25 @@ get_header(); ?>
                         <div class="portion-sizes">
                             <div class="portion-size-item">
                                 <img src="<?php echo get_template_directory_uri(); ?>/img/size-small.svg" alt="250 Gramos" class="portion-svg">
-                                <div class="portion-dimensions">250</div>
-                                <span class="portion-label">Gramos</span>
+                                <div class="portion-weight">250 Gramos</div>
+                                <div class="portion-size-label">Pequeño</div>
                             </div>
                             <div class="portion-size-item">
                                 <img src="<?php echo get_template_directory_uri(); ?>/img/size-medium.svg" alt="500 Gramos" class="portion-svg">
-                                <div class="portion-dimensions">500</div>
-                                <span class="portion-label">Gramos</span>
+                                <div class="portion-weight">500 Gramos</div>
+                                <div class="portion-size-label">Mediano</div>
                             </div>
                             <div class="portion-size-item active">
                                 <img src="<?php echo get_template_directory_uri(); ?>/img/size-large.svg" alt="1000 Gramos" class="portion-svg">
-                                <div class="portion-dimensions">1000</div>
-                                <span class="portion-label">Gramos</span>
+                                <div class="portion-weight">1000 Gramos</div>
+                                <div class="portion-size-label">Grande</div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="combo-banner-image">
-                        <img src="<?php echo get_template_directory_uri(); ?>/img/combos-para-llevar-banner.jpg" alt="Combos para Llevar - Comida Mexicana" class="img-fluid">
+                        <img src="<?php echo get_template_directory_uri(); ?>/img/combos-para-llevar-banner.webp" alt="Combos para Llevar - Comida Mexicana" class="img-fluid">
                     </div>
                 </div>
             </div>
@@ -452,7 +454,7 @@ get_header(); ?>
                                 <div class="col-12">
                                     <h2 class="section-title">
                                         Escoge tu Proteína 
-                                        <span class="selection-limit">(Escoge 2 proteinas (cada una de 250 Gr))</span>
+                                        <span class="selection-limit">(Escoge 2 proteínas: una de 500g y una de 250g)</span>
                                     </h2>
                                 </div>
                             </div>
@@ -475,13 +477,14 @@ get_header(); ?>
                                          data-type="protein" 
                                          data-value="<?php echo esc_attr($protein_text); ?>"
                                          data-price="0.00"
-                                         data-count="0">
+                                         data-count="0"
+                                         data-protein-name="<?php echo esc_attr($main_text); ?>">
                                         <input type="hidden" 
                                                name="protein[]" 
                                                value="<?php echo esc_attr($protein_text); ?>"
                                                class="protein-input">
                                         <div class="option-content">
-                                            <div class="quantity-indicator" style="display: none;">x2</div>
+                                            <div class="quantity-indicator" style="display: none;"></div>
                                             <h3 class="option-title"><?php echo esc_html($main_text); ?></h3>
                                             <?php if ($spec_text): ?>
                                                 <div class="option-spec"><?php echo esc_html($spec_text); ?></div>
@@ -503,17 +506,16 @@ get_header(); ?>
                                 <div class="col-12">
                                     <h2 class="section-title">
                                         Salsas y Más 
-                                        <span class="selection-limit">(escoge 6 de salsas(3500gr))</span>
+                                        <span class="selection-limit">(escoge 6 de salsas(1500gr))</span>
                                     </h2>
                                     <div class="salsas-details">
                                         <span class="sugerencias-title">Sugerencias:</span><br>
                                         <ul class="salsas-list">
-                                            <li>1000 gr de guacamole predeterminadas</li>
-                                            <li>1000 gr de pico de gallo predeterminadas</li>
-                                            <li>500 gramos de frijol predeterminadas</li>
-                                            <li>500 gramos de queso predeterminadas</li>
-                                            <li>250 gramos de lo que quieran</li>
-                                            <li>250 gramos de lo que quieran</li>
+                                            <li>Guacamole</li>
+                                            <li>Pico de Gallo</li>
+                                            <li>Frijol Refrito</li>
+                                            <li>Queso Mozzarella Rallado</li>
+                                            <li>2 salsas de su preferencia de 250g</li>
                                         </ul>
                                     </div>
                                 </div>
@@ -628,6 +630,9 @@ get_header(); ?>
                                     <p class="add-to-cart-description mt-3">
                                         ¿Ya tienes todo lo que necesitas? Agrega tu combo al carrito ahora.
                                     </p>
+                                    <p class="delivery-cost-info mt-2">
+                                        El domicilio cuesta: $6,000
+                                    </p>
                                 </div>
                             </div>
                         </section>
@@ -637,7 +642,7 @@ get_header(); ?>
                             <div class="row">
                                 <div class="col-12">
                                     <h2 class="section-title">
-                                        ¿Quieres más guacamole?
+                                        ¿Quieres más totopos o salsas?
                                         <span class="selection-limit">(opcional)</span>
                                     </h2>
                                 </div>
@@ -723,29 +728,34 @@ get_header(); ?>
         <!-- Contenido del modal -->
         <div class="confirmation-modal-content">
             <div class="confirmation-icon">
-                <span class="success-icon">✅</span>
+                <span class="success-icon"></span>
             </div>
             <div class="combo-summary">
-                <h4 class="summary-title">📋 Resumen de tu combo:</h4>
+                <h4 class="summary-title">Resumen de tu combo:</h4>
                 <div class="summary-item">
-                    <span class="summary-icon">🥨</span>
+                    <span class="summary-icon"></span>
                     <span class="summary-label">Totopos:</span>
                     <span class="summary-value" id="modal-totopos"></span>
                 </div>
                 <div class="summary-item">
-                    <span class="summary-icon">🌮</span>
+                    <span class="summary-icon"></span>
                     <span class="summary-label">Tortillas:</span>
                     <span class="summary-value" id="modal-tortillas"></span>
                 </div>
                 <div class="summary-item">
-                    <span class="summary-icon">🍖</span>
-                    <span class="summary-label">Proteínas (2x250gr):</span>
+                    <span class="summary-icon"></span>
+                    <span class="summary-label">Proteínas (500g + 250g):</span>
                     <div class="summary-list" id="modal-proteins"></div>
                 </div>
                 <div class="summary-item">
-                    <span class="summary-icon">🌶️</span>
+                    <span class="summary-icon"></span>
                     <span class="summary-label">Salsas (6x250gr):</span>
                     <div class="summary-list" id="modal-sauces"></div>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-icon"></span>
+                    <span class="summary-label">Costo de Domicilio:</span>
+                    <span class="summary-value">$6,000</span>
                 </div>
             </div>
         </div>
@@ -764,63 +774,202 @@ document.addEventListener('DOMContentLoaded', function() {
     const BASE_PRICE = 134800;
     const ADDITION_PRICE = 7500;
     
-    // Function to update total price
-    function updateTotalPrice() {
-        let totalPrice = BASE_PRICE;
-        let additionalCount = 0;
+    // Función para extraer precios de adiciones del texto de proteínas
+    function extractAdditionPrices(proteinText) {
+        const prices = {
+            '250g': 0,
+            '500g': 0
+        };
         
-        // Count all selected options that have "(adicion de 7,500)" in their text
-        document.querySelectorAll('.combo-option-card').forEach(card => {
-            const count = parseInt(card.dataset.count) || 0;
-            const optionText = card.dataset.value || '';
-            
-            if (count > 0 && optionText.includes('(adicion de 7,500)')) {
-                additionalCount += count;
+        // Buscar patrones como "adicion de 7,500" o "adicion 7500-15000"
+        const additionMatch = proteinText.match(/adicion.*?(\d+(?:,\d+)?)(?:\s*-\s*(\d+(?:,\d+)?))?/i);
+        
+        if (additionMatch) {
+            if (additionMatch[2]) {
+                // Formato: "adicion 7500-15000" (250g-500g)
+                prices['250g'] = parseInt(additionMatch[1].replace(/,/g, ''));
+                prices['500g'] = parseInt(additionMatch[2].replace(/,/g, ''));
+            } else {
+                // Formato: "adicion de 7,500" (solo un precio, aplicarlo a ambos)
+                const singlePrice = parseInt(additionMatch[1].replace(/,/g, ''));
+                prices['250g'] = singlePrice;
+                prices['500g'] = singlePrice;
+            }
+        }
+        
+        return prices;
+    }
+    
+    // Función para actualizar el precio total considerando las adiciones
+    function updateTotalPriceWithAdditions() {
+        let totalPrice = BASE_PRICE;
+        
+        // Recorrer todas las proteínas seleccionadas y sumar sus precios
+        Object.keys(selectedProteins).forEach(size => {
+            if (selectedProteins[size]) {
+                // Buscar la tarjeta de la proteína seleccionada
+                const proteinCard = Array.from(proteinCards).find(card => 
+                    card.dataset.proteinName === selectedProteins[size]
+                );
+                
+                if (proteinCard) {
+                    const proteinText = proteinCard.dataset.value;
+                    const prices = extractAdditionPrices(proteinText);
+                    totalPrice += prices[size] || 0;
+                }
             }
         });
         
-        totalPrice += (additionalCount * ADDITION_PRICE);
-        
-        // Update the price display
+        // Actualizar el precio en la pantalla
         const priceElement = document.getElementById('combo-total-price');
         if (priceElement) {
             priceElement.textContent = '$' + totalPrice.toLocaleString();
         }
+        
+        return totalPrice;
     }
     
-    // PROTEINAS LOGIC (2 selecciones para combo 1-3)
+    // PROTEINAS LOGIC (2 selecciones: una de 500g y una de 250g)
     const proteinCards = document.querySelectorAll('.protein-option');
+    
+    let selectedProteins = {
+        '500g': null,
+        '250g': null
+    };
+    
     proteinCards.forEach(card => {
         card.addEventListener('click', function() {
+            const proteinName = this.dataset.proteinName;
             const currentCount = parseInt(this.dataset.count);
-            const totalSelected = getTotalProteinSelections();
             
             if (currentCount === 0) {
-                if (totalSelected >= 2) {
-                    showLimitMessage('Solo puedes seleccionar máximo 2 proteínas');
-                    return;
-                }
-                this.dataset.count = '1';
-                this.classList.add('selected');
-            } else if (currentCount === 1) {
-                if (totalSelected >= 2) {
-                    this.dataset.count = '0';
-                    this.classList.remove('selected');
-                } else {
-                    this.dataset.count = '2';
-                }
-            } else if (currentCount === 2) {
-                this.dataset.count = '0';
-                this.classList.remove('selected');
+                // Si no está seleccionado, mostrar popup de selección de tamaño
+                showProteinSizeModal(this);
+            } else {
+                // Si ya está seleccionado, deseleccionar
+                deselectProtein(this);
             }
-            
-            // Update total price after any change
-            updateTotalPrice();
-            
-            updateProteinQuantityIndicators();
-            updateSummary();
         });
     });
+    
+    // Variables para el modal
+    let currentProteinCard = null;
+    
+    function showProteinSizeModal(proteinCard) {
+        currentProteinCard = proteinCard;
+        const proteinName = proteinCard.dataset.proteinName;
+        const proteinText = proteinCard.dataset.value;
+        
+        // Verificar que los elementos existan
+        const popup = document.getElementById('protein-size-popup');
+        const nameElement = document.getElementById('selected-protein-name-popup');
+        const confirmBtn = document.getElementById('protein-size-popup-confirm');
+        
+        if (!popup || !nameElement || !confirmBtn) {
+            console.error('Popup elements not found');
+            return;
+        }
+        
+        // Actualizar el nombre de la proteína en el popup
+        nameElement.textContent = proteinName;
+        
+        // Extraer precios de adiciones
+        const prices = extractAdditionPrices(proteinText);
+        
+        // Actualizar los precios en las opciones de tamaño
+        const size500Element = document.querySelector('#size_500g_popup + label .size-price-popup');
+        const size250Element = document.querySelector('#size_250g_popup + label .size-price-popup');
+        
+        if (size500Element) {
+            size500Element.textContent = prices['500g'] > 0 ? `+$${prices['500g'].toLocaleString()}` : 'Sin costo adicional';
+        }
+        if (size250Element) {
+            size250Element.textContent = prices['250g'] > 0 ? `+$${prices['250g'].toLocaleString()}` : 'Sin costo adicional';
+        }
+        
+        // Limpiar selecciones previas
+        document.querySelectorAll('input[name="protein_size_selection_popup"]').forEach(radio => {
+            radio.checked = false;
+        });
+        
+        // Deshabilitar botón de confirmar
+        confirmBtn.disabled = true;
+        
+        // Mostrar el popup usando la clase existente
+        popup.classList.add('active');
+    }
+    
+    function selectProteinWithSize(proteinCard, size) {
+        const proteinName = proteinCard.dataset.proteinName;
+        
+        // Verificar si ya hay una proteína seleccionada con este tamaño
+        if (selectedProteins[size] && selectedProteins[size] !== proteinName) {
+            // Deseleccionar la proteína anterior con este tamaño
+            const previousCard = Array.from(proteinCards).find(card => 
+                card.dataset.proteinName === selectedProteins[size]
+            );
+            if (previousCard) {
+                deselectProtein(previousCard);
+            }
+        }
+        
+        // Actualizar el estado de selección
+        selectedProteins[size] = proteinName;
+        
+        // Actualizar la tarjeta
+        proteinCard.dataset.count = '1';
+        proteinCard.dataset.selectedSize = size;
+        proteinCard.classList.add('selected');
+        
+        // Actualizar indicador de cantidad
+        const indicator = proteinCard.querySelector('.quantity-indicator');
+        indicator.textContent = `${size}`;
+        indicator.style.display = 'block';
+        
+        // Cerrar el popup
+        document.getElementById('protein-size-popup').classList.remove('active');
+        
+        // Actualizar precio y resumen
+        updateTotalPriceWithAdditions();
+        updateSummary();
+    }
+    
+    function deselectProtein(proteinCard) {
+        const proteinName = proteinCard.dataset.proteinName;
+        const selectedSize = proteinCard.dataset.selectedSize;
+        
+        // Limpiar el estado de selección
+        if (selectedSize && selectedProteins[selectedSize] === proteinName) {
+            selectedProteins[selectedSize] = null;
+        }
+        
+        // Actualizar la tarjeta
+        proteinCard.dataset.count = '0';
+        proteinCard.dataset.selectedSize = '';
+        proteinCard.classList.remove('selected');
+        
+        // Ocultar indicador de cantidad
+        const indicator = proteinCard.querySelector('.quantity-indicator');
+        indicator.style.display = 'none';
+        
+        // Actualizar precio y resumen
+        updateTotalPriceWithAdditions();
+        updateSummary();
+    }
+    
+    function getTotalProteinSelections() {
+        let count = 0;
+        if (selectedProteins['500g']) count++;
+        if (selectedProteins['250g']) count++;
+        return count;
+    }
+    
+    function getProteinSelections() {
+        return {
+            '500g': selectedProteins['500g'],
+            '250g': selectedProteins['250g']
+        };
+    }
 
     // SALSAS LOGIC (6 selecciones)
     const sauceCards = document.querySelectorAll('.sauce-option');
@@ -829,7 +978,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const currentCount = parseInt(this.dataset.count);
             const totalSelected = getTotalSauceSelections();
             
+            console.log('Sauce clicked:', this.dataset.value, 'Current count:', currentCount, 'Total selected:', totalSelected);
+            
             if (currentCount === 0) {
+                // Si no está seleccionado, seleccionarlo
                 if (totalSelected >= 6) {
                     showLimitMessage('Solo puedes seleccionar máximo 6 salsas');
                     return;
@@ -837,47 +989,63 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.dataset.count = '1';
                 this.classList.add('selected');
             } else if (currentCount === 1) {
+                // Si está seleccionado una vez, verificar si puede seleccionarse otra vez
                 if (totalSelected >= 6) {
+                    // Si ya hay 6 selecciones, deseleccionar esta
                     this.dataset.count = '0';
                     this.classList.remove('selected');
                 } else {
+                    // Si hay menos de 6 selecciones, seleccionarlo una segunda vez
                     this.dataset.count = '2';
                 }
             } else if (currentCount === 2) {
+                // Si está seleccionado dos veces, verificar si puede seleccionarse una tercera vez
                 if (totalSelected >= 6) {
+                    // Si ya hay 6 selecciones, deseleccionar esta
                     this.dataset.count = '0';
                     this.classList.remove('selected');
                 } else {
+                    // Si hay menos de 6 selecciones, seleccionarlo una tercera vez
                     this.dataset.count = '3';
                 }
             } else if (currentCount === 3) {
+                // Si está seleccionado tres veces, verificar si puede seleccionarse una cuarta vez
                 if (totalSelected >= 6) {
+                    // Si ya hay 6 selecciones, deseleccionar esta
                     this.dataset.count = '0';
                     this.classList.remove('selected');
                 } else {
+                    // Si hay menos de 6 selecciones, seleccionarlo una cuarta vez
                     this.dataset.count = '4';
                 }
             } else if (currentCount === 4) {
+                // Si está seleccionado cuatro veces, verificar si puede seleccionarse una quinta vez
                 if (totalSelected >= 6) {
+                    // Si ya hay 6 selecciones, deseleccionar esta
                     this.dataset.count = '0';
                     this.classList.remove('selected');
                 } else {
+                    // Si hay menos de 6 selecciones, seleccionarlo una quinta vez
                     this.dataset.count = '5';
                 }
             } else if (currentCount === 5) {
+                // Si está seleccionado cinco veces, verificar si puede seleccionarse una sexta vez
                 if (totalSelected >= 6) {
+                    // Si ya hay 6 selecciones, deseleccionar esta
                     this.dataset.count = '0';
                     this.classList.remove('selected');
                 } else {
+                    // Si hay menos de 6 selecciones, seleccionarlo una sexta vez
                     this.dataset.count = '6';
                 }
             } else if (currentCount === 6) {
+                // Si está seleccionado seis veces, deseleccionarlo completamente
                 this.dataset.count = '0';
                 this.classList.remove('selected');
             }
             
             // Update total price after any change
-            updateTotalPrice();
+            updateTotalPriceWithAdditions();
             
             updateSauceQuantityIndicators();
             updateSummary();
@@ -900,13 +1068,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // FUNCTIONS
-    function getTotalProteinSelections() {
-        let total = 0;
-        document.querySelectorAll('.protein-option').forEach(card => {
-            total += parseInt(card.dataset.count);
-        });
-        return total;
-    }
 
     function getTotalSauceSelections() {
         let total = 0;
@@ -914,20 +1075,6 @@ document.addEventListener('DOMContentLoaded', function() {
             total += parseInt(card.dataset.count);
         });
         return total;
-    }
-
-    function updateProteinQuantityIndicators() {
-        document.querySelectorAll('.protein-option').forEach(card => {
-            const count = parseInt(card.dataset.count);
-            const indicator = card.querySelector('.quantity-indicator');
-            
-            if (count >= 2) {
-                indicator.textContent = `x${count}`;
-                indicator.style.display = 'block';
-            } else {
-                indicator.style.display = 'none';
-            }
-        });
     }
 
     function updateSauceQuantityIndicators() {
@@ -969,10 +1116,19 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Handle add to cart button
     document.getElementById('add-to-cart-btn').addEventListener('click', function() {
+        console.log('Add to cart button clicked');
         const selectedTotopos = document.querySelector('.totopo-option.selected');
         const selectedTortillas = document.querySelector('.tortilla-option.selected');
         const totalProteinSelections = getTotalProteinSelections();
         const totalSauceSelections = getTotalSauceSelections();
+        
+        console.log('Current selections:', {
+            totopos: selectedTotopos ? selectedTotopos.dataset.value : 'none',
+            tortillas: selectedTortillas ? selectedTortillas.dataset.value : 'none',
+            proteins: totalProteinSelections,
+            sauces: totalSauceSelections,
+            proteinDetails: getProteinSelections()
+        });
         
         // Validación específica y detallada
         let validationErrors = [];
@@ -989,13 +1145,16 @@ document.addEventListener('DOMContentLoaded', function() {
             validationErrors.push('• Selecciona 1 tipo de tortillas');
         }
         
-        // Validar Proteínas (exactamente 2 selecciones requeridas si hay opciones disponibles)
+        // Validar Proteínas (exactamente 2 selecciones requeridas: una de 500g y una de 250g)
         const proteinsAvailable = document.querySelectorAll('.protein-option').length > 0;
         if (proteinsAvailable) {
+            const proteinSelections = getProteinSelections();
             if (totalProteinSelections === 0) {
-                validationErrors.push('• Selecciona 2 proteínas (cada una de 250gr)');
+                validationErrors.push('• Selecciona 2 proteínas: una de 500g y una de 250g');
             } else if (totalProteinSelections !== 2) {
-                validationErrors.push(`• Selecciona exactamente 2 proteínas (actualmente tienes ${totalProteinSelections})`);
+                validationErrors.push(`• Selecciona exactamente 2 proteínas: una de 500g y una de 250g (actualmente tienes ${totalProteinSelections})`);
+            } else if (!proteinSelections['500g'] || !proteinSelections['250g']) {
+                validationErrors.push('• Debes seleccionar una proteína de 500g y otra de 250g');
             }
         }
         
@@ -1011,27 +1170,17 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Si hay errores de validación, mostrarlos
         if (validationErrors.length > 0) {
+            console.log('Validation errors:', validationErrors);
             showValidationModal(validationErrors);
             return;
         }
         
-        // Calculate total price
-        let totalPrice = BASE_PRICE;
-        let additionalCount = 0;
+        console.log('Validation passed, proceeding to add to cart...');
         
-        // Count all selected options that have "(adicion de 7,500)" in their text
-        document.querySelectorAll('.combo-option-card').forEach(card => {
-            const count = parseInt(card.dataset.count) || 0;
-            const optionText = card.dataset.value || '';
-            
-            if (count > 0 && optionText.includes('(adicion de 7,500)')) {
-                additionalCount += count;
-            }
-        });
+        // Calculate total price using the new function
+        let totalPrice = updateTotalPriceWithAdditions();
         
-        totalPrice += (additionalCount * ADDITION_PRICE);
-        
-        console.log('DEBUG: Precio calculado - Base:', BASE_PRICE, 'Adiciones:', additionalCount, 'Precio adición:', ADDITION_PRICE, 'Total:', totalPrice);
+        console.log('DEBUG: Precio calculado - Total:', totalPrice);
         
         // Recopilar todas las selecciones
         const comboData = {
@@ -1044,15 +1193,22 @@ document.addEventListener('DOMContentLoaded', function() {
         
         console.log('DEBUG: comboData a enviar:', comboData);
         
-        // Recopilar proteínas seleccionadas
-        document.querySelectorAll('.protein-option').forEach(card => {
-            const count = parseInt(card.dataset.count);
-            if (count > 0) {
-                for (let i = 0; i < count; i++) {
-                    comboData.proteins.push(card.dataset.value);
-                }
-            }
-        });
+        // Recopilar proteínas seleccionadas con sus tamaños y precios
+        const proteinSelections = getProteinSelections();
+        if (proteinSelections['500g']) {
+            const proteinCard = Array.from(proteinCards).find(card => 
+                card.dataset.proteinName === proteinSelections['500g']
+            );
+            const prices = proteinCard ? extractAdditionPrices(proteinCard.dataset.value) : { '500g': 0 };
+            comboData.proteins.push(`${proteinSelections['500g']} (500g) - $${prices['500g'].toLocaleString()}`);
+        }
+        if (proteinSelections['250g']) {
+            const proteinCard = Array.from(proteinCards).find(card => 
+                card.dataset.proteinName === proteinSelections['250g']
+            );
+            const prices = proteinCard ? extractAdditionPrices(proteinCard.dataset.value) : { '250g': 0 };
+            comboData.proteins.push(`${proteinSelections['250g']} (250g) - $${prices['250g'].toLocaleString()}`);
+        }
         
         // Recopilar salsas seleccionadas
         document.querySelectorAll('.sauce-option').forEach(card => {
@@ -1392,21 +1548,8 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        // Calculate total price
-        let totalPrice = BASE_PRICE;
-        let additionalCount = 0;
-        
-        // Count all selected options that have "(adicion de 7,500)" in their text
-        document.querySelectorAll('.combo-option-card').forEach(card => {
-            const count = parseInt(card.dataset.count) || 0;
-            const optionText = card.dataset.value || '';
-            
-            if (count > 0 && optionText.includes('(adicion de 7,500)')) {
-                additionalCount += count;
-            }
-        });
-        
-        totalPrice += (additionalCount * ADDITION_PRICE);
+        // Calculate total price using the new function
+        let totalPrice = updateTotalPriceWithAdditions();
         
         // Recopilar todas las selecciones actuales
         const comboData = {
@@ -1417,15 +1560,22 @@ document.addEventListener('DOMContentLoaded', function() {
             total_price: totalPrice
         };
         
-        // Recopilar proteínas seleccionadas
-        document.querySelectorAll('.protein-option').forEach(card => {
-            const count = parseInt(card.dataset.count);
-            if (count > 0) {
-                for (let i = 0; i < count; i++) {
-                    comboData.proteins.push(card.dataset.value);
-                }
-            }
-        });
+        // Recopilar proteínas seleccionadas con sus tamaños y precios
+        const proteinSelections = getProteinSelections();
+        if (proteinSelections['500g']) {
+            const proteinCard = Array.from(proteinCards).find(card => 
+                card.dataset.proteinName === proteinSelections['500g']
+            );
+            const prices = proteinCard ? extractAdditionPrices(proteinCard.dataset.value) : { '500g': 0 };
+            comboData.proteins.push(`${proteinSelections['500g']} (500g) - $${prices['500g'].toLocaleString()}`);
+        }
+        if (proteinSelections['250g']) {
+            const proteinCard = Array.from(proteinCards).find(card => 
+                card.dataset.proteinName === proteinSelections['250g']
+            );
+            const prices = proteinCard ? extractAdditionPrices(proteinCard.dataset.value) : { '250g': 0 };
+            comboData.proteins.push(`${proteinSelections['250g']} (250g) - $${prices['250g'].toLocaleString()}`);
+        }
         
         // Recopilar salsas seleccionadas
         document.querySelectorAll('.sauce-option').forEach(card => {
@@ -1457,6 +1607,44 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Error al agregar el combo al carrito. Por favor intenta de nuevo.');
         });
     });
+    
+    // Event listeners para el popup de selección de tamaño
+    document.addEventListener('change', function(e) {
+        if (e.target.name === 'protein_size_selection_popup') {
+            // Habilitar botón de confirmar cuando se selecciona un tamaño
+            document.getElementById('protein-size-popup-confirm').disabled = false;
+        }
+    });
+    
+    // Botón de confirmar en el popup
+    document.getElementById('protein-size-popup-confirm').addEventListener('click', function() {
+        const selectedSize = document.querySelector('input[name="protein_size_selection_popup"]:checked');
+        if (selectedSize && currentProteinCard) {
+            selectProteinWithSize(currentProteinCard, selectedSize.value);
+        }
+    });
+    
+    // Botón de cerrar (X) en el popup
+    document.getElementById('protein-size-popup-close').addEventListener('click', function() {
+        document.getElementById('protein-size-popup').classList.remove('active');
+        currentProteinCard = null;
+    });
+    
+    // Cerrar popup al hacer clic en el overlay
+    document.getElementById('protein-size-popup').addEventListener('click', function(e) {
+        if (e.target === this || e.target.classList.contains('popup-overlay')) {
+            this.classList.remove('active');
+            currentProteinCard = null;
+        }
+    });
+    
+    // Cerrar popup con tecla Escape
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && document.getElementById('protein-size-popup').classList.contains('active')) {
+            document.getElementById('protein-size-popup').classList.remove('active');
+            currentProteinCard = null;
+        }
+    });
 });
 </script>
 
@@ -1484,6 +1672,54 @@ document.addEventListener('DOMContentLoaded', function() {
         <!-- Footer del modal -->
         <div class="validation-modal-footer">
             <button class="validation-modal-accept-btn" id="validation-modal-accept-btn">Aceptar</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de selección de tamaño de proteína - Diseño como cards de productos -->
+<div id="protein-size-popup" class="product-popup">
+    <div class="popup-overlay"></div>
+    <div class="popup-content">
+        <!-- Header del popup - Light pink background -->
+        <div class="popup-header">
+            <h3 class="popup-title">Selecciona el tamaño</h3>
+            <button class="popup-close-btn" id="protein-size-popup-close">
+                <span class="close-icon">×</span>
+            </button>
+        </div>
+        
+        <!-- Contenido del popup - White background -->
+        <div class="popup-body">
+            <div class="protein-info-popup">
+                <h4 id="selected-protein-name-popup">Proteína seleccionada</h4>
+            </div>
+            
+            <div class="size-options-popup">
+                <div class="size-option-popup" data-size="500g">
+                    <input type="radio" name="protein_size_selection_popup" value="500g" id="size_500g_popup">
+                    <label for="size_500g_popup">
+                        <div class="size-label-popup">500g</div>
+                        <div class="size-description-popup">Porción grande</div>
+                        <div class="size-price-popup">Cargando precio...</div>
+                    </label>
+                </div>
+                
+                <div class="size-option-popup" data-size="250g">
+                    <input type="radio" name="protein_size_selection_popup" value="250g" id="size_250g_popup">
+                    <label for="size_250g_popup">
+                        <div class="size-label-popup">250g</div>
+                        <div class="size-description-popup">Porción pequeña</div>
+                        <div class="size-price-popup">Cargando precio...</div>
+                    </label>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer del popup - Bright yellow background -->
+        <div class="popup-footer">
+            <button class="popup-add-btn" id="protein-size-popup-confirm" disabled>
+                CONFIRMAR SELECCIÓN
+            </button>
         </div>
     </div>
 </div>

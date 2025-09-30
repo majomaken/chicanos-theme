@@ -35,6 +35,15 @@ get_header();
     text-align: center !important;
     overflow: hidden !important;
     border-radius: 0 !important;
+    position: relative !important;
+    z-index: 10 !important;
+    cursor: pointer !important;
+    pointer-events: auto !important;
+}
+
+/* Ensure the background pattern doesn't interfere with clicks */
+#home-section-1 .home-section-1-background-pattern {
+    pointer-events: none !important;
 }
 
 #home-section-1 .card-link .card-header {
@@ -95,14 +104,14 @@ get_header();
 				<div class="row justify-content-center">
 					<div class="col-12 text-center hero-text-container">
 						<div class="hero-images">
-							<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/bird-left.png" alt="Pájaro Izquierdo" class="bird-left">
-							<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/bird-rigth.png" alt="Pájaro Derecho" class="bird-right">
+							<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/bird-left.webp" alt="Pájaro Izquierdo" class="bird-left">
+							<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/bird-rigth.webp" alt="Pájaro Derecho" class="bird-right">
 						</div>
 						<h1>El auténtico sabor<br>mexicano te espera</h1>
 					</div>
 				</div>
 				<div class="hero-image-container">
-					<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/hero-layer.png" alt="Hero Layer" class="hero-layer">
+					<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/hero-layer.webp" alt="Hero Layer" class="hero-layer">
 				</div>
 		</section>
 
@@ -118,18 +127,18 @@ get_header();
 								<h3>Domicilios</h3>
 								<span class="arrow">→</span>
 							</div>
-							<!-- Image path: <?php echo get_stylesheet_directory_uri(); ?>/img/domicilios.png -->
-							<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/domicilios.jpg" alt="Domicilios Chicanos">
+							<!-- Image path: <?php echo get_stylesheet_directory_uri(); ?>/img/domicilios.webp -->
+							<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/domicilios.webp" alt="Domicilios Chicanos">
 						</a>
 					</div>
 					<div class="col-md-6">
-						<a href="<?php echo site_url('/distribution/'); ?>" class="card-link">
+						<a href="<?php echo home_url('/distribucion/'); ?>" class="card-link">
 							<div class="card-header">
 								<h3>Distribución</h3>
 								<span class="arrow">→</span>
 							</div>
-							<!-- Image path: <?php echo get_stylesheet_directory_uri(); ?>/img/distribucion.png -->
-							<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/distribucion.jpg" alt="Distribución Chicanos">
+							<!-- Image path: <?php echo get_stylesheet_directory_uri(); ?>/img/distribucion.webp -->
+							<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/distribucion.webp" alt="Distribución Chicanos">
 						</a>
 					</div>
 				</div>
@@ -144,19 +153,19 @@ get_header();
 			<div class="scrolling-banner-inner">
 				<div class="scrolling-banner-content">
 					<span>¡de siempre y para siempre!</span>
-					<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/cross-layer.png" alt="Cross">
+					<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/cross-layer.webp" alt="Cross">
 					<span>¡de siempre y para siempre!</span>
-					<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/cross-layer.png" alt="Cross">
+					<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/cross-layer.webp" alt="Cross">
 					<span>¡de siempre y para siempre!</span>
-					<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/cross-layer.png" alt="Cross">
+					<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/cross-layer.webp" alt="Cross">
 				</div>
 				<div class="scrolling-banner-content">
 					<span>¡de siempre y para siempre!</span>
-					<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/cross-layer.png" alt="Cross">
+					<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/cross-layer.webp" alt="Cross">
 					<span>¡de siempre y para siempre!</span>
-					<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/cross-layer.png" alt="Cross">
+					<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/cross-layer.webp" alt="Cross">
 					<span>¡de siempre y para siempre!</span>
-					<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/cross-layer.png" alt="Cross">
+					<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/cross-layer.webp" alt="Cross">
 				</div>
 			</div>
 		</section>
@@ -170,7 +179,7 @@ get_header();
 					</div>
 					<div class="col-md-6">
 						<div class="image-frame">
-							<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/family.png" alt="Lina y Toño">
+							<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/family.webp" alt="Lina y Toño">
 						</div>
 					</div>
 				</div>
@@ -181,7 +190,7 @@ get_header();
 			<div class="container">
 				<div class="row align-items-center">
 					<div class="col-md-4">
-						<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/flor-layer.png" alt="Flor" class="content-flower">
+						<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/flor-layer.webp" alt="Flor" class="content-flower">
 					</div>
 					<div class="col-md-4">
 						<h2>El primer Chicanos</h2>
@@ -189,7 +198,7 @@ get_header();
 					</div>
 					<div class="col-md-4">
 						<div class="image-frame">
-							<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/first-chicanos.png" alt="El primer Chicanos">
+							<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/first-chicanos.webp" alt="El primer Chicanos">
 						</div>
 					</div>
 				</div>
@@ -205,7 +214,7 @@ get_header();
 					</div>
 					<div class="col-md-6">
 						<div class="image-frame">
-							<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/first-menu.png" alt="Primer menú de Chicanos">
+							<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/first-menu.webp" alt="Primer menú de Chicanos">
 						</div>
 					</div>
 				</div>
@@ -214,12 +223,12 @@ get_header();
 
 		<section id="home-section-6" class="homepage-section text-center">
 			<div class="pattern-background-left">
-				<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/Group 20.png" alt="Pattern Background" class="pattern-bg">
+				<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/Group 20.webp" alt="Pattern Background" class="pattern-bg">
 			</div>
 			<div class="container">
 				<div class="row justify-content-center">
 					<div class="col-md-10">
-						<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/tacos-cart.png" alt="Carrito de Tacos" class="tacos-cart-img">
+						<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/tacos-cart.webp" alt="Carrito de Tacos" class="tacos-cart-img">
 						<h2>Nuestro carrito de <br> tacos para eventos</h2>
 						<p>Lleva la auténtica experiencia Chicanos a donde tú quieras.<br>
 						Contamos con un carrito de tacos diseñado para cualquier tipo de<br>
@@ -234,19 +243,19 @@ get_header();
 				<h3 class="ideal-for-title">Ideal para:</h3>
 				<div class="row justify-content-center">
 					<div class="col-md-3 event-item">
-						<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/marry-item.png" alt="Matrimonios">
+						<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/marry-item.webp" alt="Matrimonios">
 						<p>Matrimonios</p>
 					</div>
 					<div class="col-md-3 event-item">
-						<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/private-party-item.png" alt="Fiestas Privadas">
+						<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/private-party-item.webp" alt="Fiestas Privadas">
 						<p>Fiestas Privadas</p>
 					</div>
 					<div class="col-md-3 event-item">
-						<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/corporative-item.png" alt="Eventos Corporativos">
+						<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/corporative-item.webp" alt="Eventos Corporativos">
 						<p>Eventos<br>Corporativos</p>
 					</div>
 					<div class="col-md-3 event-item">
-						<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/party-item.png" alt="Celebraciones Especiales">
+						<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/party-item.webp" alt="Celebraciones Especiales">
 						<p>Celebraciones<br>Especiales</p>
 					</div>
 				</div>
@@ -262,44 +271,158 @@ get_header();
                     <div class="row no-gutters">
                         <div class="col-lg-6 form-text-col">
                             <h2>¿Quieres tenerlo en<br>tu próximo evento?</h2>
-                            <p class="form-intro-text">Contáctanos para <br> cotizar y asegurar tu <br>fecha.</p>
+                            <p class="form-intro-text">Contáctanos para<br>cotizar y asegurar tu<br>fecha.</p>
+                            <div class="contact-emails">
+                                <p>Felipe@chicanos.com.co</p>
+                            </div>
                         </div>
                         <div class="col-lg-6 form-fields-col">
                             <?php
-                            /*
-                             * Para un formulario como este, te recomiendo usar el plugin "Contact Form 7".
-                             * Es gratuito y te permite crear todos estos campos de forma sencilla.
-                             * Una vez lo instales, solo tienes que crear el formulario en el panel de WordPress
-                             * y pegar el shortcode que te genere para reemplazar el bloque .form-mockup.
-                             * Ejemplo: echo do_shortcode('[contact-form-7 id="TU_ID" title="Formulario Eventos"]');
-                             */
+                            // Procesar el formulario cuando se envía
+                            if ($_POST['submit_event_form']) {
+                                // Validar que todos los campos estén presentes
+                                $required_fields = ['nombre', 'correo', 'telefono', 'tipo_evento', 'mensaje', 'fecha_evento'];
+                                $missing_fields = [];
+                                
+                                foreach ($required_fields as $field) {
+                                    if (empty($_POST[$field])) {
+                                        $missing_fields[] = $field;
+                                    }
+                                }
+                                
+                                if (!empty($missing_fields)) {
+                                    echo '<div class="form-error" style="background: #f8d7da; color: #721c24; padding: 15px; margin-bottom: 20px; border: 1px solid #f5c6cb; border-radius: 4px;">';
+                                    echo '<strong>Error:</strong> Por favor completa todos los campos requeridos.';
+                                    echo '</div>';
+                                } else {
+                                    // Todos los campos están presentes, procesar el formulario
+                                    $nombre = sanitize_text_field($_POST['nombre']);
+                                    $correo = sanitize_email($_POST['correo']);
+                                    $telefono = sanitize_text_field($_POST['telefono']);
+                                    $tipo_evento = sanitize_text_field($_POST['tipo_evento']);
+                                    $mensaje = sanitize_textarea_field($_POST['mensaje']);
+                                    $fecha_evento = sanitize_text_field($_POST['fecha_evento']);
+                                    
+                                    // Preparar el email
+                                    $to = 'Felipe@chicanos.com.co';
+                                    $subject = 'Nueva solicitud de evento - ' . $tipo_evento;
+                                    
+                                    $email_message = "Nueva solicitud de evento recibida:\n\n";
+                                    $email_message .= "Nombre: " . $nombre . "\n";
+                                    $email_message .= "Correo: " . $correo . "\n";
+                                    $email_message .= "Teléfono: " . $telefono . "\n";
+                                    $email_message .= "Tipo de evento: " . $tipo_evento . "\n";
+                                    $email_message .= "Fecha del evento: " . $fecha_evento . "\n";
+                                    $email_message .= "Mensaje: " . $mensaje . "\n";
+                                    
+                                    $headers = array(
+                                        'Content-Type: text/plain; charset=UTF-8',
+                                        'From: ' . $nombre . ' <' . $correo . '>',
+                                        'Reply-To: ' . $correo
+                                    );
+                                    
+                                    // Enviar el email
+                                    $sent = wp_mail($to, $subject, $email_message, $headers);
+                                    
+                                    if ($sent) {
+                                        echo '<div class="form-success" style="background: #d4edda; color: #155724; padding: 15px; margin-bottom: 20px; border: 1px solid #c3e6cb; border-radius: 4px;">';
+                                        echo '<strong>¡Mensaje enviado exitosamente!</strong> Te contactaremos pronto.';
+                                        echo '</div>';
+                                    } else {
+                                        echo '<div class="form-error" style="background: #f8d7da; color: #721c24; padding: 15px; margin-bottom: 20px; border: 1px solid #f5c6cb; border-radius: 4px;">';
+                                        echo '<strong>Error al enviar el mensaje.</strong> Por favor intenta nuevamente.';
+                                        echo '</div>';
+                                    }
+                                }
+                            }
                             ?>
 
-                            <div class="form-mockup">
+                            <form class="event-form" method="post" action="">
+                                <input type="hidden" name="submit_event_form" value="1">
                                 <div class="form-group">
-                                    <label>Nombre</label>
-                                    <input type="text" disabled />
+                                    <label for="nombre">Nombre</label>
+                                    <input type="text" id="nombre" name="nombre" required />
                                 </div>
                                 <div class="form-group">
-                                    <label>Correo</label>
-                                    <input type="email" disabled />
+                                    <label for="correo">Correo</label>
+                                    <input type="email" id="correo" name="correo" required />
                                 </div>
                                 <div class="form-group">
-                                    <label>¿Qué tipo de evento?</label>
-                                    <select disabled>
-                                        <option>Selecciona una opción</option>
+                                    <label for="telefono">Teléfono</label>
+                                    <input type="tel" id="telefono" name="telefono" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="tipo_evento">¿Qué tipo de evento?</label>
+                                    <select id="tipo_evento" name="tipo_evento" required>
+                                        <option value="">Selecciona una opción</option>
+                                        <option value="matrimonios">Matrimonios</option>
+                                        <option value="fiesta_privada">Fiesta privada</option>
+                                        <option value="eventos_corporativos">Eventos Corporativos</option>
+                                        <option value="celebraciones_especiales">Celebraciones Especiales</option>
+                                        <option value="otros">Otros</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label>Escribe tu mensaje abajo</label>
-                                    <textarea rows="3" disabled placeholder="Por favor incluir la mayor cantidad de informacion para el evento y te responderemos lo mas pronto posible."></textarea>
+                                    <label for="mensaje">Escribe tu mensaje abajo</label>
+                                    <textarea id="mensaje" name="mensaje" rows="3" placeholder="Por favor incluir la mayor cantidad de informacion para el evento y te responderemos lo mas pronto posible." required></textarea>
                                 </div>
                                 <div class="form-group">
-                                    <label>¿Cuándo es el evento?</label>
-                                    <input type="text" placeholder="DD/MM/YYYY" disabled />
+                                    <label for="fecha_evento">¿Cuándo es el evento?</label>
+                                    <input type="date" id="fecha_evento" name="fecha_evento" required />
                                 </div>
-                                <button type="submit" class="btn" disabled>Enviar</button>
-                            </div>
+                                <button type="submit" class="btn">Enviar</button>
+                            </form>
+                            
+                            <script>
+                            // Validación y manejo del formulario
+                            document.addEventListener('DOMContentLoaded', function() {
+                                const form = document.querySelector('.event-form');
+                                const successMessage = document.querySelector('.form-success');
+                                const errorMessage = document.querySelector('.form-error');
+                                
+                                // Validación adicional antes del envío
+                                if (form) {
+                                    form.addEventListener('submit', function(e) {
+                                        const requiredFields = form.querySelectorAll('[required]');
+                                        let allFieldsValid = true;
+                                        
+                                        requiredFields.forEach(function(field) {
+                                            if (!field.value.trim()) {
+                                                allFieldsValid = false;
+                                                field.style.borderColor = '#dc3545';
+                                                
+                                                // Remover el estilo de error después de 3 segundos
+                                                setTimeout(function() {
+                                                    field.style.borderColor = '#000';
+                                                }, 3000);
+                                            } else {
+                                                field.style.borderColor = '#000';
+                                            }
+                                        });
+                                        
+                                        if (!allFieldsValid) {
+                                            e.preventDefault();
+                                            alert('Por favor completa todos los campos requeridos.');
+                                            return false;
+                                        }
+                                    });
+                                }
+                                
+                                // Limpiar formulario después del envío exitoso
+                                if (successMessage && form) {
+                                    // Limpiar el formulario
+                                    form.reset();
+                                    
+                                    // Scroll hacia arriba para mostrar el mensaje de éxito
+                                    successMessage.scrollIntoView({ behavior: 'smooth' });
+                                }
+                                
+                                // Scroll hacia arriba para mostrar mensajes de error
+                                if (errorMessage) {
+                                    errorMessage.scrollIntoView({ behavior: 'smooth' });
+                                }
+                            });
+                            </script>
                         </div>
                     </div>
                 </div>

@@ -38,7 +38,7 @@ if ( ! function_exists( 'understrap_custom_header_setup' ) ) {
 			apply_filters(
 				'understrap_custom_header_args',
 				array(
-					'default-image' => get_parent_theme_file_uri( '/img/header.jpg' ),
+					'default-image' => get_parent_theme_file_uri( '/img/header.webp' ),
 					'width'         => 2000,
 					'height'        => 1200,
 					'flex-height'   => true,
@@ -49,8 +49,8 @@ if ( ! function_exists( 'understrap_custom_header_setup' ) ) {
 		register_default_headers(
 			array(
 				'default-image' => array(
-					'url'           => '%s/img/header.jpg',
-					'thumbnail_url' => '%s/img/header.jpg',
+				'url'           => '%s/img/header.webp',
+				'thumbnail_url' => '%s/img/header.webp',
 					'description'   => __( 'Default Header Image', 'understrap' ),
 				),
 			)

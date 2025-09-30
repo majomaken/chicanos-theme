@@ -19,7 +19,7 @@ get_header();
     <div class="construction-card">
         <!-- Logo de CHICANOS -->
         <div class="logo-container">
-            <img src="<?php echo get_stylesheet_directory_uri(); ?>/img/Logochicanos 1.png" alt="Logo de Chicanos" class="logo">
+            <img src="<?php echo get_stylesheet_directory_uri(); ?>/img/Logochicanos 1.webp" alt="Logo de Chicanos" class="logo">
         </div>
         
         <h1>Hola 👋🏼</h1>

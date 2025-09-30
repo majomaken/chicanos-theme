@@ -40,7 +40,7 @@
     background-color: #FBF5ED;
     background-image: 
         linear-gradient(rgba(251, 245, 237, 0.8), rgba(251, 245, 237, 0.8)),
-        url('../img/combo-flores-back.png');
+        url('../img/combo-flores-back.webp');
     
     background-repeat: no-repeat;
     background-size: 800px auto;
@@ -200,16 +200,17 @@
     border-width: 2px;
 }
 
-.portion-dimensions {
-    font-size: 0.8rem;
+.portion-weight {
+    font-size: 0.9rem;
     color: #5B5B5B;
     font-weight: 600;
     margin: 0;
     line-height: 1;
+    margin-bottom: 4px;
 }
 
-.portion-label {
-    font-size: 0.9rem;
+.portion-size-label {
+    font-size: 0.8rem;
     color: #5B5B5B;
     font-weight: 500;
     margin: 0;
@@ -236,7 +237,6 @@
     font-size: 1.2rem;
     font-weight: 400;
     color: #666;
-    font-style: italic;
 }
 
 /* Products Grid */
@@ -303,9 +303,7 @@
 }
 
 .combo-option-card .option-price {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #007bff;
+    display: none;
 }
 
 /* Quantity Indicator for x2 display */
@@ -362,7 +360,6 @@
     padding: 15px;
     background: #f8f9fa;
     border-radius: 8px;
-    border-left: 4px solid #007bff;
 }
 
 .summary-item strong {
@@ -371,19 +368,18 @@
 }
 
 .summary-item span {
-    color: #007bff;
+    color: #000;
     font-weight: 500;
 }
 
 .summary-item.total-row {
     background: #e3f2fd;
-    border-left-color: #2196f3;
     font-weight: 700;
 }
 
 .summary-item.total-row strong,
 .summary-item.total-row span {
-    color: #1976d2;
+    color: #000;
     font-size: 1.1rem;
 }
 
@@ -423,16 +419,13 @@
     box-shadow: none;
 }
 
-/* Burritos Template Specific Styles */
+/* All combo option cards styling - left aligned and vertically centered */
 #combos-para-llevar-wrapper .combo-option-card {
     min-height: 100px;
     display: flex;
     align-items: center;
-    justify-content: center;
-}
-
-#combos-para-llevar-wrapper .combo-option-card.selected {
-    background-color: #F9CB38 !important;
+    justify-content: flex-start;
+    padding-left: 20px;
 }
 
 #combos-para-llevar-wrapper .combo-option-card .option-content {
@@ -448,13 +441,16 @@
 #combos-para-llevar-wrapper .combo-option-card .option-title {
     font-size: 1rem;
     line-height: 1.2;
-    margin-bottom: 8px;
+    margin-bottom: 0;
+    text-align: left;
 }
 
 #combos-para-llevar-wrapper .combo-option-card .option-price {
-    font-size: 1rem;
-    font-weight: 700;
     display: none;
+}
+
+#combos-para-llevar-wrapper .combo-option-card.selected {
+    background-color: #F9CB38 !important;
 }
 
 /* Tortillas Note Styling */
@@ -470,7 +466,6 @@
     font-size: 1.1rem;
     color: #495057;
     margin: 0;
-    font-style: italic;
 }
 
 
@@ -701,6 +696,10 @@
     .add-to-cart-description {
         font-size: 0.9rem;
     }
+    
+    .delivery-cost-info {
+        font-size: 0.9rem;
+    }
 }
 
 /* Animation for option selection */
@@ -836,8 +835,15 @@ a.add-to-cart-button:hover {
     font-family: "Oswald", sans-serif;
     font-size: 1rem;
     color: #666;
-    font-style: italic;
     margin-top: 15px;
+    margin-bottom: 0;
+}
+
+.delivery-cost-info {
+    font-family: "Oswald", sans-serif;
+    font-size: 1rem;
+    color: #666;
+    margin-top: 8px;
     margin-bottom: 0;
 }
 
@@ -942,7 +948,6 @@ a.add-to-cart-button:hover {
     padding: 12px;
     background: #f8f9fa;
     border-radius: 8px;
-    border-left: 4px solid #007bff;
 }
 
 .summary-icon {
@@ -1086,7 +1091,6 @@ a.add-to-cart-button:hover {
     margin-top: 10px !important;
     padding: 12px !important;
     background: #f8f9fa !important;
-    border-left: 4px solid #007bff !important;
     border-radius: 6px !important;
     font-family: "Oswald", sans-serif !important;
 }
@@ -1114,7 +1118,6 @@ a.add-to-cart-button:hover {
     margin-top: 10px !important;
     padding: 12px !important;
     background: #f8f9fa !important;
-    border-left: 4px solid #007bff !important;
     border-radius: 6px !important;
     font-family: "Oswald", sans-serif !important;
 }
@@ -1409,14 +1412,14 @@ a.add-to-cart-button:hover {
 .summary-label {
     font-family: "Oswald", sans-serif;
     font-weight: 600;
-    color: #333;
+    color: #000;
     margin-right: 10px;
     min-width: 120px;
 }
 
 .summary-value {
     font-family: "Oswald", sans-serif;
-    color: #007bff;
+    color: #000;
     font-weight: 500;
 }
 
@@ -1426,8 +1429,15 @@ a.add-to-cart-button:hover {
 
 .summary-list-item {
     font-family: "Oswald", sans-serif;
-    color: #007bff;
+    color: #000;
     font-size: 0.9rem;
+}
+
+/* Force remove all blue borders from summary items */
+.confirmation-modal .summary-item,
+.combo-summary .summary-item,
+.summary-item {
+    border-left: none !important;
 }
 
 /* Footer del modal - Bright yellow background */
@@ -1472,5 +1482,369 @@ a.add-to-cart-button:hover {
 .confirmation-modal-accept-btn:hover {
     background: #218838;
     border-color: #218838;
+}
+
+/* Estilos para opciones de tamaño de proteínas */
+.protein-size-options {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    border: 2px solid #E8C547;
+}
+
+.size-option {
+    display: inline-block;
+    margin-right: 15px;
+}
+
+.size-option input[type="radio"] {
+    margin-right: 5px;
+}
+
+.size-option label {
+    font-weight: 600;
+    color: #2C3E50;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.size-option input[type="radio"]:checked + label {
+    background-color: #E8C547;
+    color: #2C3E50;
+}
+
+.combo-option-card.selecting-size {
+    border-color: #E8C547;
+    box-shadow: 0 0 15px rgba(232, 197, 71, 0.3);
+    transform: scale(1.02);
+}
+
+.combo-option-card.selected .quantity-indicator {
+    background-color: #E8C547;
+    color: #2C3E50;
+    font-weight: bold;
+}
+
+/* Estilos para el modal de selección de tamaño de proteína */
+.protein-size-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+}
+
+.protein-size-modal {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    max-width: 500px;
+    width: 90%;
+    max-height: 90vh;
+    overflow: hidden;
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8) translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.protein-size-modal-header {
+    background: linear-gradient(135deg, #E8C547, #F9CB38);
+    padding: 20px;
+    border-bottom: 2px solid #000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.protein-size-modal-title {
+    font-family: "Oswald", sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #2C3E50;
+    margin: 0;
+}
+
+.protein-size-modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #2C3E50;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+}
+
+.protein-size-modal-close:hover {
+    background-color: rgba(44, 62, 80, 0.1);
+}
+
+.close-icon {
+    font-weight: bold;
+}
+
+.protein-size-modal-content {
+    padding: 30px;
+}
+
+.protein-info {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.protein-info h4 {
+    font-family: "Oswald", sans-serif;
+    font-size: 1.3rem;
+    color: #2C3E50;
+    margin: 0;
+    padding: 15px;
+    background-color: #F8F9FA;
+    border-radius: 8px;
+    border: 2px solid #E8C547;
+}
+
+.size-options-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.size-option-card {
+    flex: 1;
+    position: relative;
+}
+
+.size-option-card input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.size-option-card label {
+    display: block;
+    padding: 25px 20px;
+    background-color: #F8F9FA;
+    border: 3px solid #E8C547;
+    border-radius: 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: "Oswald", sans-serif;
+}
+
+.size-option-card label:hover {
+    background-color: #E8C547;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(232, 197, 71, 0.3);
+}
+
+.size-option-card input[type="radio"]:checked + label {
+    background-color: #E8C547;
+    color: #2C3E50;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(232, 197, 71, 0.4);
+}
+
+.size-label {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.size-description {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.protein-size-modal-footer {
+    background-color: #F9CB38;
+    padding: 20px;
+    border-top: 2px solid #000;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.protein-size-modal-cancel-btn,
+.protein-size-modal-confirm-btn {
+    background: #fff;
+    border: 2px solid #000;
+    border-radius: 6px;
+    padding: 12px 25px;
+    font-family: "Oswald", sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 120px;
+}
+
+.protein-size-modal-cancel-btn:hover {
+    background: #f8f9fa;
+    transform: translateY(-1px);
+}
+
+.protein-size-modal-confirm-btn {
+    background: #28a745;
+    color: #fff;
+    border-color: #28a745;
+}
+
+.protein-size-modal-confirm-btn:hover:not(:disabled) {
+    background: #218838;
+    border-color: #218838;
+    transform: translateY(-1px);
+}
+
+.protein-size-modal-confirm-btn:disabled {
+    background: #6c757d;
+    border-color: #6c757d;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* Responsive adjustments para el modal */
+@media (max-width: 768px) {
+    .protein-size-modal {
+        width: 95%;
+        margin: 20px;
+    }
+    
+    .protein-size-modal-content {
+        padding: 20px;
+    }
+    
+    .size-options-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .size-option-card label {
+        padding: 20px 15px;
+    }
+    
+    .size-label {
+        font-size: 1.2rem;
+    }
+    
+    .protein-size-modal-footer {
+        flex-direction: column;
+    }
+    
+    .protein-size-modal-cancel-btn,
+    .protein-size-modal-confirm-btn {
+        width: 100%;
+    }
+}
+
+/* Estilos para las opciones de tamaño dentro del popup existente */
+.protein-info-popup {
+    text-align: center;
+    margin-bottom: 25px;
+    padding: 0 20px;
+}
+
+.protein-info-popup h4 {
+    font-family: "Oswald", sans-serif;
+    font-size: 1.2rem;
+    color: #2C3E50;
+    margin: 0;
+    padding: 15px;
+    background-color: #F8F9FA;
+    border-radius: 8px;
+    border: 2px solid #E8C547;
+}
+
+.size-options-popup {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    padding: 0 20px;
+}
+
+.size-option-popup {
+    flex: 1;
+    position: relative;
+}
+
+.size-option-popup input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.size-option-popup label {
+    display: block;
+    padding: 20px 15px;
+    background-color: #F8F9FA;
+    border: 3px solid #E8C547;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: "Oswald", sans-serif;
+}
+
+.size-option-popup label:hover {
+    background-color: #E8C547;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(232, 197, 71, 0.3);
+}
+
+.size-option-popup input[type="radio"]:checked + label {
+    background-color: #E8C547;
+    color: #2C3E50;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(232, 197, 71, 0.4);
+}
+
+.size-label-popup {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.size-price-popup {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #28a745;
+    margin-top: 5px;
+    padding: 3px 8px;
+    background-color: rgba(40, 167, 69, 0.1);
+    border-radius: 4px;
+    border: 1px solid rgba(40, 167, 69, 0.3);
+}
+
+/* Responsive adjustments para las opciones de tamaño en popup */
+@media (max-width: 768px) {
+    .size-options-popup {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .size-option-popup label {
+        padding: 15px 10px;
+    }
+    
+    .size-label-popup {
+        font-size: 1.1rem;
+    }
 }
 /*# sourceMappingURL=combos-para-llevar.css.map */

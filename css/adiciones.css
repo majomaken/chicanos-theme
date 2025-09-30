@@ -3,16 +3,30 @@
  * Basado en el diseño de combos para llevar
  */
 
+/* Flower Icon Styles */
+.flower-icon {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.flower-image {
+    max-width: 105px;
+    height: auto;
+    width: auto;
+    display: block;
+    margin: 0 auto;
+}
+
 /* Background - usar el color de página existente con green flowers repetidas verticalmente */
 #adiciones-wrapper {
-    background-color: #f5f5dc; /* Light beige background */
+    background-color: #FBF5ED; /* Light beige background */
     min-height: 100vh;
     padding: 40px 0;
 }
 
 /* Banner Section - fondo limpio */
 .combo-banner-section {
-    background-color: #f5f5dc; /* Fondo limpio sin imagen */
+    background-color: #FBF5ED; /* Fondo limpio sin imagen */
     margin-bottom: 60px;
     position: relative;
     z-index: 2;
@@ -37,12 +51,13 @@
 
 /* Contenido principal con imagen de fondo */
 .combo-content-main {
-    background-color: #f5f5dc;
+    background-color: #FBF5ED;
     background-image: 
-        linear-gradient(rgba(245, 245, 220, 0.8), rgba(245, 245, 220, 0.8)),
-        url('../img/green-flowers.png');
-    background-repeat: repeat-y;
-    background-size: 300px 200px;
+        linear-gradient(rgba(251, 245, 237, 0.8), rgba(251, 245, 237, 0.8)),
+        url('../img/combo-flores-back.webp');
+    
+    background-repeat: no-repeat;
+    background-size: 800px auto;
     background-position: center top;
     position: relative;
     padding: 40px 0;
@@ -91,7 +106,7 @@
 
 .serving-size {
     font-weight: 600;
-    color: #333;
+    color: #000;
 }
 
 /* Combo Details */
@@ -128,7 +143,7 @@
 .includes-list li {
     font-family: "Oswald", sans-serif;
     font-size: 1.1rem;
-    color: #333;
+    color: #000;
     margin-bottom: 8px;
     position: relative;
     padding-left: 20px;
@@ -199,16 +214,16 @@
     border-width: 2px;
 }
 
-.portion-dimensions {
-    font-size: 0.8rem;
-    color: #666;
+.portion-weight {
+    font-size: 0.9rem;
+    color: #000;
     font-weight: 600;
     margin-bottom: 4px;
 }
 
-.portion-label {
-    font-size: 0.9rem;
-    color: #333;
+.portion-size-label {
+    font-size: 0.8rem;
+    color: #000;
     font-weight: 500;
 }
 
@@ -231,7 +246,7 @@
 .selection-limit {
     font-size: 1.2rem;
     font-weight: 400;
-    color: #666;
+    color: #000;
     font-style: italic;
 }
 
@@ -293,7 +308,7 @@
     font-family: "Oswald", sans-serif;
     font-size: 0.85rem;
     font-weight: 400;
-    color: #666;
+    color: #000;
     margin: 0 0 8px 0;
     line-height: 1.2;
 }
@@ -301,7 +316,7 @@
 .combo-option-card .option-price {
     font-size: 1.1rem;
     font-weight: 700;
-    color: #007bff;
+    color: #000;
 }
 
 /* Summary Card */
@@ -336,28 +351,26 @@
     padding: 15px;
     background: #f8f9fa;
     border-radius: 8px;
-    border-left: 4px solid #007bff;
 }
 
 .summary-item strong {
     font-weight: 600;
-    color: #333;
+    color: #000;
 }
 
 .summary-item span {
-    color: #007bff;
+    color: #000;
     font-weight: 500;
 }
 
 .summary-item.total-row {
     background: #e3f2fd;
-    border-left-color: #2196f3;
     font-weight: 700;
 }
 
 .summary-item.total-row strong,
 .summary-item.total-row span {
-    color: #1976d2;
+    color: #000;
     font-size: 1.1rem;
 }
 
@@ -423,7 +436,7 @@
 #adiciones-wrapper .combo-option-card .option-price {
     font-size: 1rem;
     font-weight: 700;
-    color: #28a745; /* Green color for prices in adiciones */
+    color: #000; /* Black color for prices in adiciones */
 }
 
 /* Contador de cantidad en las tarjetas */
@@ -491,7 +504,7 @@
 
 .adiciones-text {
     font-size: 1.1rem;
-    color: #495057;
+    color: #000;
     margin: 0;
     font-style: italic;
 }
@@ -743,7 +756,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(245, 245, 220, 0.8); /* Light beige background with transparency */
+    background-color: rgba(251, 245, 237, 0.8); /* Light beige background with transparency */
     z-index: 10000;
     display: flex;
     align-items: center;
@@ -841,12 +854,12 @@
     font-family: "Oswald", sans-serif;
     font-size: 1rem;
     font-weight: 600;
-    color: #495057;
+    color: #000;
     margin: 0;
 }
 
 #current-quantity-number {
-    color: #007bff;
+    color: #000;
     font-weight: 700;
 }
 

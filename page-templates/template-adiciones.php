@@ -19,31 +19,34 @@ get_header(); ?>
             <div class="row align-items-center">
                 <div class="col-md-6">
                     <div class="combo-info-content">
+                        <div class="flower-icon">
+                            <img src="<?php echo get_template_directory_uri(); ?>/img/pixel-flower-red.webp" alt="Flor" class="flower-image">
+                        </div>
                          <h1 class="combo-main-title">Todo Para Llevar a la Casa</h1>
                          <div class="combo-details">
                         </div>
                         <div class="portion-sizes">
                             <div class="portion-size-item">
                                 <img src="<?php echo get_template_directory_uri(); ?>/img/size-small.svg" alt="250 Gramos" class="portion-svg">
-                                <div class="portion-dimensions">250</div>
-                                <span class="portion-label">Gramos</span>
+                                <div class="portion-weight">250 Gramos</div>
+                                <div class="portion-size-label">Pequeño</div>
                             </div>
                             <div class="portion-size-item">
                                 <img src="<?php echo get_template_directory_uri(); ?>/img/size-medium.svg" alt="500 Gramos" class="portion-svg">
-                                <div class="portion-dimensions">500</div>
-                                <span class="portion-label">Gramos</span>
+                                <div class="portion-weight">500 Gramos</div>
+                                <div class="portion-size-label">Mediano</div>
                             </div>
                             <div class="portion-size-item active">
                                 <img src="<?php echo get_template_directory_uri(); ?>/img/size-large.svg" alt="1000 Gramos" class="portion-svg">
-                                <div class="portion-dimensions">1000</div>
-                                <span class="portion-label">Gramos</span>
+                                <div class="portion-weight">1000 Gramos</div>
+                                <div class="portion-size-label">Grande</div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="combo-banner-image">
-                        <img src="<?php echo get_template_directory_uri(); ?>/img/todo-para-llevar-banner.jpg" alt="Adiciones Extra - Comida Mexicana" class="img-fluid">
+                        <img src="<?php echo get_template_directory_uri(); ?>/img/todo-para-llevar-banner.webp" alt="Adiciones Extra - Comida Mexicana" class="img-fluid">
                     </div>
                 </div>
             </div>

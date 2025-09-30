@@ -342,7 +342,7 @@ function load_ensalada_options($product_id) {
                 </div>
                 <div class="col-md-6">
                     <div class="ensaladas-image-container">
-                        <img src="<?php echo get_template_directory_uri(); ?>/img/ensaladas.banner.jpg" alt="Ensalada con chiles frescos" class="img-fluid">
+                        <img src="<?php echo get_template_directory_uri(); ?>/img/ensaladas.banner.webp" alt="Ensalada con chiles frescos" class="img-fluid">
                     </div>
                 </div>
             </div>

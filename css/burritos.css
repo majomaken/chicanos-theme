@@ -41,7 +41,7 @@
     background-color: #f5f5dc;
     background-image: 
         linear-gradient(rgba(245, 245, 220, 0.8), rgba(245, 245, 220, 0.8)),
-        url('../img/green-flowers.png');
+        url('../img/green-flowers.webp');
     background-repeat: repeat-y;
     background-size: 300px 200px;
     background-position: center top;

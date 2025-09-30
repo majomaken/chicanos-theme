@@ -59,31 +59,31 @@ get_header(); ?>
                                 </ul>
                             </div>
                             <div class="combo-price">
-                                <span class="price-amount" id="combo-total-price">$284,600</span>
+                                <span class="price-amount" id="combo-total-price">$302,000</span>
                             </div>
                         </div>
                         <div class="portion-sizes">
                             <div class="portion-size-item">
                                 <img src="<?php echo get_template_directory_uri(); ?>/img/size-small.svg" alt="250 Gramos" class="portion-svg">
-                                <div class="portion-dimensions">250</div>
-                                <span class="portion-label">Gramos</span>
+                                <div class="portion-weight">250 Gramos</div>
+                                <div class="portion-size-label">Pequeño</div>
                             </div>
                             <div class="portion-size-item">
                                 <img src="<?php echo get_template_directory_uri(); ?>/img/size-medium.svg" alt="500 Gramos" class="portion-svg">
-                                <div class="portion-dimensions">500</div>
-                                <span class="portion-label">Gramos</span>
+                                <div class="portion-weight">500 Gramos</div>
+                                <div class="portion-size-label">Mediano</div>
                             </div>
                             <div class="portion-size-item active">
-                                <img src="<?php echo get_template_directory_uri(); ?>/img/size-large.svg" alt="2000 Gramos" class="portion-svg">
-                                <div class="portion-dimensions">2000</div>
-                                <span class="portion-label">Gramos</span>
+                                <img src="<?php echo get_template_directory_uri(); ?>/img/size-large.svg" alt="1000 Gramos" class="portion-svg">
+                                <div class="portion-weight">1000 Gramos</div>
+                                <div class="portion-size-label">Grande</div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="combo-banner-image">
-                        <img src="<?php echo get_template_directory_uri(); ?>/img/combos-para-llevar-banner-7-10.jpg" alt="Combos para Llevar 7-10 Personas - Comida Mexicana" class="img-fluid">
+                        <img src="<?php echo get_template_directory_uri(); ?>/img/combos-para-llevar-banner-7-10.webp" alt="Combos para Llevar 7-10 Personas - Comida Mexicana" class="img-fluid">
                     </div>
                 </div>
             </div>
@@ -347,6 +347,12 @@ get_header(); ?>
                                         Escoge tu Proteína 
                                         <span class="selection-limit">(Escoge 4 proteinas de 500G)</span>
                                     </h2>
+                                    <div class="protein-details">
+                                        <span class="sugerencias-title">Sugerencia:</span><br>
+                                        <span class="protein-suggestion-text">
+                                            Escoge 4 proteínas una de 500g = 2000g. Sugerimos escoger 1000g de solo una receta y 2 de 500g.
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                             
@@ -393,18 +399,17 @@ get_header(); ?>
                             <div class="row">
                                 <div class="col-12">
                                     <h2 class="section-title">
-                                        Salsas y Más 
-                                        <span class="selection-limit">(escoge 6 de salsas(3500gr))</span>
+                                        Salsas y Acompañamientos 
+                                        <span class="selection-limit">(Escoge 4 acompañamientos de 250 cada uno y 2 salsas de 250 cada una= 3500g)</span>
                                     </h2>
                                     <div class="salsas-details">
                                         <span class="sugerencias-title">Sugerencias:</span><br>
                                         <ul class="salsas-list">
-                                            <li>1000 gr de guacamole predeterminadas</li>
-                                            <li>1000 gr de pico de gallo predeterminadas</li>
-                                            <li>500 gramos de frijol predeterminadas</li>
-                                            <li>500 gramos de queso predeterminadas</li>
-                                            <li>250 gramos de lo que quieran</li>
-                                            <li>250 gramos de lo que quieran</li>
+                                            <li>1000g de guacamole *predeterminado</li>
+                                            <li>1000g de pico de gallo *predeterminado</li>
+                                            <li>500g de frijol refrito *predeterminado</li>
+                                            <li>500g de queso mozzarella rallado *predeterminado</li>
+                                            <li>2 salsas de su preferencia de 250g</li>
                                         </ul>
                                     </div>
                                 </div>
@@ -516,6 +521,9 @@ get_header(); ?>
                                     <p class="add-to-cart-description mt-3">
                                         ¿Ya tienes todo lo que necesitas? Agrega tu combo al carrito ahora.
                                     </p>
+                                    <p class="delivery-cost-info mt-2">
+                                        El domicilio cuesta: $6,000
+                                    </p>
                                 </div>
                             </div>
                         </section>
@@ -525,7 +533,7 @@ get_header(); ?>
                             <div class="row">
                                 <div class="col-12">
                                     <h2 class="section-title">
-                                        ¿Quieres más guacamole?
+                                        ¿Quieres más totopos o salsas?
                                         <span class="selection-limit">(opcional)</span>
                                     </h2>
                                 </div>
@@ -611,29 +619,34 @@ get_header(); ?>
         <!-- Contenido del modal -->
         <div class="confirmation-modal-content">
             <div class="confirmation-icon">
-                <span class="success-icon">✅</span>
+                <span class="success-icon"></span>
             </div>
             <div class="combo-summary">
-                <h4 class="summary-title">📋 Resumen de tu combo:</h4>
+                <h4 class="summary-title">Resumen de tu combo:</h4>
                 <div class="summary-item">
-                    <span class="summary-icon">🥨</span>
+                    <span class="summary-icon"></span>
                     <span class="summary-label">Totopos:</span>
                     <span class="summary-value" id="modal-totopos"></span>
                 </div>
                 <div class="summary-item">
-                    <span class="summary-icon">🌮</span>
+                    <span class="summary-icon"></span>
                     <span class="summary-label">Tortillas:</span>
                     <span class="summary-value" id="modal-tortillas"></span>
                 </div>
                 <div class="summary-item">
-                    <span class="summary-icon">🍖</span>
+                    <span class="summary-icon"></span>
                     <span class="summary-label">Proteínas (4x500gr):</span>
                     <div class="summary-list" id="modal-proteins"></div>
                 </div>
                 <div class="summary-item">
-                    <span class="summary-icon">🌶️</span>
+                    <span class="summary-icon"></span>
                     <span class="summary-label">Salsas (6x250gr):</span>
                     <div class="summary-list" id="modal-sauces"></div>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-icon"></span>
+                    <span class="summary-label">Costo de Domicilio:</span>
+                    <span class="summary-value">$6,000</span>
                 </div>
             </div>
         </div>
@@ -649,7 +662,7 @@ get_header(); ?>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Base price for combo 7-10
-    const BASE_PRICE = 284600;
+    const BASE_PRICE = 302000;
     const ADDITION_PRICE = 7500;
     
     // Function to update total price
