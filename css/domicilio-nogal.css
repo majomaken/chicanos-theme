@@ -201,6 +201,16 @@
     padding-left: 15px; /* Match title padding */
 }
 
+/* Specific styling for subtitle within section title */
+.section-title .section-subtitle {
+    font-size: 24px; /* Larger size for better readability */
+    margin-top: 5px; /* Minimal space between title and subtitle */
+    margin-bottom: 0; /* No bottom margin when inside title */
+    padding-left: 0; /* No padding when inside title */
+    display: block; /* Ensure it's on its own line */
+    font-style: normal; /* Remove italic styling */
+}
+
 .products-grid {
     display: grid !important;
     grid-template-columns: repeat(3, 350px) !important;

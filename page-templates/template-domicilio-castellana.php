@@ -459,7 +459,7 @@ get_header();
         <!-- Para que arme su taco Section -->
         <section id="para-que-arme-su-taco" class="products-section">
             <div class="container">
-                <h2 class="section-title">Para que arme su taco</h2>
+                <h2 class="section-title">FAJITAS<br><span class="section-subtitle">Para que arme su taco</span></h2>
                 <div class="products-grid">
                     <?php
                     // Query for para-que-arme-su-taco products
