@@ -159,16 +159,19 @@ if ($is_combo) {
         </div>
 
         <div class="combo-imagen">
-            <a href="<?php echo esc_url( $link_url ); ?>" class="product-link">
-                <?php
-                // Muestra la imagen destacada del producto.
-                echo woocommerce_get_product_thumbnail();
-                ?>
-            </a>
-            <!-- Botón para abrir popup de descripción -->
-            <button class="product-description-btn" data-product-id="<?php echo $product->get_id(); ?>">
-                <i class="fas fa-info-circle"></i>
-            </button>
+            <?php if ($is_combo): ?>
+                <!-- Para combos, mantener el enlace al template de personalización pero agregar evento de popup -->
+                <div class="product-link" data-product-id="<?php echo $product->get_id(); ?>" style="cursor: pointer;">
+                    <a href="<?php echo esc_url($link_url); ?>">
+                        <?php echo woocommerce_get_product_thumbnail(); ?>
+                    </a>
+                </div>
+            <?php else: ?>
+                <!-- Para productos normales, usar el popup -->
+                <div class="product-link" data-product-id="<?php echo $product->get_id(); ?>" style="cursor: pointer;">
+                    <?php echo woocommerce_get_product_thumbnail(); ?>
+                </div>
+            <?php endif; ?>
         </div>
         
         <div class="combo-footer">

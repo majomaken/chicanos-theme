@@ -175,6 +175,9 @@
     margin-bottom: 30px;
     border-radius: 0 !important;
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 /* Solo ajustar border-radius, mantener los bordes */
@@ -217,6 +220,10 @@
 
 .location-card .card-body {
     padding: 20px;
+    display: grid; /* Use grid to force exact row alignment across cards */
+    /* Generous heights to avoid any overflow while staying aligned */
+    grid-template-rows: 72px 120px 140px 144px 190px 72px; /* rows per section */
+    row-gap: 16px;
 }
 
 .location-card.nogal .card-header,
@@ -231,10 +238,36 @@
 
 .location-card .card-body p {
     color: #fff;
-    margin-bottom: 1rem;
+    margin: 0; /* remove margins to rely on grid gaps */
     font-size: 0.9rem;
     font-family: "Oswald", sans-serif;
     font-weight: 500;
+    line-height: 24px; /* Fixed line-height to guarantee exact vertical alignment */
+}
+
+/* Add a subtle breathing space between "Zona de distribución" and "Barrios" */
+.location-card .card-body p:nth-of-type(3) {
+    padding-top: 25px;
+}
+
+p.barrios {
+    font-size: 20px !important;
+}
+
+/* Equalize card heights in the two columns */
+#locations .row > [class*="col-"] { display: flex; }
+#locations .row > [class*="col-"] .location-card-link { display: flex; width: 100%; }
+#locations .row > [class*="col-"] .location-card { width: 100%; }
+
+/* Alignment is handled by the grid row sizes above; keep selectors for clarity if needed later */
+/* (No per-paragraph min-heights required) */
+
+/* On small screens, let sections be auto-height for better stacking */
+@media (max-width: 991.98px) {
+    .location-card .card-body {
+        display: block; /* stack naturally on mobile */
+    }
+    .location-card .card-body p { margin-bottom: 1rem; }
 }
 
 #locations .delivery-background-pattern {

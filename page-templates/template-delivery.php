@@ -71,7 +71,7 @@ get_header();
 								<div class="card-body">
 									<p><strong>Dirección:</strong><br>Carrera 11 #78-70</p>
 									<p><strong>Zona de distribución:</strong><br>Desde la calle 45 hasta la calle 150<br>y desde la Carrera 0 hasta la Carrera 30</p>
-									<p><strong>Barrios:</strong><br>• El retiro • Nogal • Chapinero • Chico<br>• Rosales • Parkway • Nicolas de Federman<br>• Gallerias • Cedritos • Santa Bárbara y Santa Ana</p>
+									<p class="barrios"><strong>Barrios:</strong><br>• El retiro • Nogal • Chapinero • Chico<br>• Rosales • Parkway • Nicolas de Federman<br>• Gallerias • Cedritos • Santa Bárbara y Santa Ana</p>
 									<p><strong>Horarios:</strong><br>11am a 6:00pm de lunes a jueves<br>11am a 7:00pm viernes y sábado<br>11am a 4:00 domingo</p>
 									<p><strong>Contacto:</strong><br>WhatsApp: +57 322 2112325<br>Teléfono: (601) 312 9887 o (601) 300 2326<br>Correo: contacto@chicanos.com.co</p>
 									<p><strong>Rango de entrega:</strong><br>2 horas (pedir con 2 horas de anticipación)</p>
@@ -90,7 +90,7 @@ get_header();
 								<div class="card-body">
 									<p><strong>Dirección:</strong><br>Carrera 47 #94-56</p>
 									<p><strong>Zona de distribución:</strong><br>Desde la Calle 94 hasta la Calle 170<br>y desde la Carrera 30 hasta la Avenida Boyacá</p>
-									<p><strong>Barrios:</strong><br>• Suba • Cedritos • San José de Babaria<br>• La floresta • Colina Campestre • Lagos de Córdoba<br>• Salitre • Santa Bárbara y Santa Ana • El Batán</p>
+									<p class="barrios"><strong>Barrios:</strong><br>• Suba • Cedritos • San José de Babaria<br>• La floresta • Colina Campestre • Lagos de Córdoba<br>• Salitre • Santa Bárbara y Santa Ana • El Batán</p>
 									<p><strong>Horarios:</strong><br>11am a 6:00pm de lunes a jueves<br>10am a 6:00pm viernes y sábado<br>10am a 3:00 domingo</p>
 									<p><strong>Contacto:</strong><br>WhatsApp: +57 310 6878901<br>Teléfono: (310) 687 8901 o (601) 300 0780<br>Correo: castellana@chicanos.com.co</p>
 									<p><strong>Rango de entrega:</strong><br>2 horas (pedir con 2 horas de anticipación)</p>

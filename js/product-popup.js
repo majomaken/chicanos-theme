@@ -25,14 +25,16 @@ jQuery(document).ready(function($) {
         $('body').css('overflow', '');
     }
 
-    // Event listener para botón de información del producto
-    $(document).on('click', '.product-description-btn', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        
+    // Event listener para la imagen del producto
+    $(document).on('click', '.product-link', function(e) {
         const productId = $(this).data('product-id');
         if (productId) {
             openProductPopup(productId);
+            // Si es un combo, permitir que el enlace funcione después de mostrar el popup
+            if (!$(this).find('a').length) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
         }
     });
 

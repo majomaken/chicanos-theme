@@ -4,7 +4,7 @@
   position: relative;
   overflow: visible; /* Allow overflow to see the hero-layer */
   z-index: 10;
-  min-height: 800px;
+  min-height: 700px;
 }
 
 /* Video Background */
@@ -334,7 +334,6 @@ p {
 #home-section-7 .ideal-for-title {
     font-weight: 800;
     margin-bottom: 40px;
-    font-style: italic;
 }
 
 #home-section-7 .event-item img {

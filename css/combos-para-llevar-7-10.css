@@ -245,7 +245,7 @@
 }
 
 h2.section-title span.selection-limit {
-    font-size: 1rem !important;
+    font-size: 1.8rem !important;
     font-weight: 400 !important;
     color: #666 !important;
     font-family: "Oswald", sans-serif !important;
@@ -315,6 +315,16 @@ h2.section-title span.selection-limit {
     line-height: 1.2;
 }
 
+/* Nota debajo (texto después del asterisco): mismo estilo que option-spec pero más pequeño */
+.combo-option-card .option-note {
+    font-family: "Oswald", sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    color: #666;
+    margin: 0;
+    line-height: 1.2;
+}
+
 .combo-option-card .option-price {
     display: none;
 }
@@ -352,11 +362,11 @@ h2.section-title span.selection-limit {
 
 .summary-title {
     font-family: "Bebas Neue", sans-serif;
-    font-size: 2rem;
+    font-size: 1.3rem;
     font-weight: 900;
     color: #000;
     text-align: center;
-    margin-bottom: 25px;
+    margin-bottom: 15px;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
@@ -666,6 +676,45 @@ h2.section-title span.selection-limit {
     .portion-sizes {
         flex-direction: column;
         gap: 10px;
+    }
+    
+    /* Reducir tamaños de fuente del modal de resumen para pantallas pequeñas */
+    .summary-title {
+        font-size: 1rem;
+        margin-bottom: 15px;
+    }
+    
+    .summary-label {
+        font-size: 0.8rem;
+        min-width: 100px;
+    }
+    
+    .summary-value {
+        font-size: 0.8rem;
+    }
+    
+    .summary-list-item {
+        font-size: 0.75rem;
+        margin-bottom: 2px;
+    }
+    
+    .confirmation-modal-title {
+        font-size: 1.1rem;
+    }
+    
+    .confirmation-modal-content {
+        padding: 20px 15px;
+    }
+    
+    .confirmation-modal-footer {
+        padding: 15px;
+    }
+    
+    .confirmation-modal-cancel-btn,
+    .confirmation-modal-accept-btn {
+        font-size: 0.85rem;
+        padding: 10px 20px;
+        min-width: 100px;
         align-items: center;
     }
     
@@ -937,7 +986,7 @@ h2.section-title span.selection-limit {
 
 .confirmation-modal-title {
     font-family: "Oswald", sans-serif;
-    font-size: 1.3rem;
+    font-size: 1rem;
     font-weight: 600;
     color: #000;
     margin: 0;
@@ -971,7 +1020,7 @@ h2.section-title span.selection-limit {
 /* Contenido del modal - White background */
 .confirmation-modal-content {
     background: #fff;
-    padding: 25px 20px;
+    padding: 20px 15px;
     text-align: center;
 }
 
@@ -990,25 +1039,25 @@ h2.section-title span.selection-limit {
 
 .summary-title {
     font-family: "Oswald", sans-serif;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     font-weight: 600;
     color: #000;
-    margin: 0 0 20px 0;
+    margin: 0 0 15px 0;
     text-align: center;
 }
 
 .summary-item {
     display: flex;
     align-items: flex-start;
-    margin-bottom: 15px;
-    padding: 12px 15px;
+    margin-bottom: 10px;
+    padding: 8px 12px;
     background: #f8f9fa;
     border-radius: 8px;
 }
 
 .summary-icon {
-    font-size: 1.2rem;
-    margin-right: 12px;
+    font-size: 1rem;
+    margin-right: 10px;
     flex-shrink: 0;
 }
 
@@ -1018,12 +1067,14 @@ h2.section-title span.selection-limit {
     color: #000;
     margin-right: 10px;
     min-width: 120px;
+    font-size: 1rem;
 }
 
 .summary-value {
     font-family: "Oswald", sans-serif;
     color: #000;
     font-weight: 500;
+    font-size: 1rem;
 }
 
 .summary-list {
@@ -1033,7 +1084,8 @@ h2.section-title span.selection-limit {
 .summary-list-item {
     font-family: "Oswald", sans-serif;
     color: #000;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
+    margin-bottom: 2px;
 }
 
 /* Force remove all blue borders from summary items */

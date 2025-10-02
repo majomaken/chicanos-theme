@@ -255,15 +255,24 @@ get_header(); ?>
                                     $selected_class = $first ? 'selected' : '';
                                     $first = false;
                                     
-                                    // Separar el texto principal de las especificaciones
+                                    // Separar el texto principal, especificaciones entre paréntesis y nota con asterisco al final
                                     $totopo_text = trim($totopo);
                                     $main_text = $totopo_text;
                                     $spec_text = '';
+                                    $note_text = '';
                                     
-                                    // Buscar especificaciones entre paréntesis
-                                    if (preg_match('/^(.+?)\s*\((.+?)\)$/', $totopo_text, $matches)) {
+                                    // Capturar nota con asterisco al final: "*Texto"
+                                    if (preg_match('/^(.*?)(?:\s*\*(.+))$/u', $totopo_text, $starMatches)) {
+                                        $totopo_text = trim($starMatches[1]);
+                                        $note_text = trim($starMatches[2]);
+                                    }
+                                    
+                                    // Buscar especificaciones entre paréntesis, permitiendo texto ya limpiado del asterisco
+                                    if (preg_match('/^(.+?)\s*\((.+?)\)\s*$/u', $totopo_text, $matches)) {
                                         $main_text = trim($matches[1]);
                                         $spec_text = '(' . trim($matches[2]) . ')';
+                                    } else {
+                                        $main_text = $totopo_text;
                                     }
                                     ?>
                                     <div class="combo-option-card totopo-option <?php echo $selected_class; ?>" 
@@ -282,6 +291,9 @@ get_header(); ?>
                                                 <div class="option-spec"><?php echo esc_html($spec_text); ?></div>
                                             <?php endif; ?>
                                             <div class="option-price">$0.00</div>
+                                            <?php if ($note_text): ?>
+                                                <div class="option-note">*<?php echo esc_html($note_text); ?></div>
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                     <?php
@@ -429,15 +441,10 @@ get_header(); ?>
                                         $spec_text = '(' . trim($matches[2]) . ')';
                                     }
                                     
-                                    // Preseleccionar las opciones específicas de la lista de sugerencias
-                                    $preselected_options = ['guacamole', 'pico de gallo', 'frijol refrito', 'queso mozzarella'];
-                                    $is_preselected = false;
-                                    foreach ($preselected_options as $preselected_option) {
-                                        if (stripos($sauce_text, $preselected_option) !== false) {
-                                            $is_preselected = true;
-                                            break;
-                                        }
-                                    }
+                                    // Preseleccionar únicamente las opciones exactas (coincidencia exacta por nombre principal)
+                                    $exact_preselected = ['guacamole', 'pico de gallo', 'frijol refrito', 'queso mozzarella rallado'];
+                                    $normalized_main = strtolower(trim($main_text));
+                                    $is_preselected = in_array($normalized_main, $exact_preselected, true);
                                     $initial_count = $is_preselected ? '1' : '0';
                                     $selected_class = $is_preselected ? ' selected' : '';
                                     ?>
@@ -706,20 +713,19 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Initialize preselected sauce options
+    // Initialize preselected sauce options (exact match on main label)
     const sauceCards = document.querySelectorAll('.sauce-option');
-    const preselectedOptions = ['guacamole', 'pico de gallo', 'frijol refrito', 'queso mozzarella'];
+    const preselectedOptions = ['guacamole', 'pico de gallo', 'frijol refrito', 'queso mozzarella rallado'];
     
     sauceCards.forEach(card => {
-        const sauceValue = card.dataset.value.toLowerCase();
-        const isPreselected = preselectedOptions.some(option => 
-            sauceValue.includes(option.toLowerCase())
-        );
+        const rawValue = (card.dataset.value || '').toLowerCase().trim();
+        const mainMatch = rawValue.match(/^(.+?)\s*\(/);
+        const mainOnly = mainMatch ? mainMatch[1].trim() : rawValue;
+        const isPreselected = preselectedOptions.includes(mainOnly);
         
         if (isPreselected) {
-            // Las opciones específicas están preseleccionadas
             card.classList.add('selected');
-            card.dataset.count = '1'; // Establecer contador inicial
+            card.dataset.count = '1';
             updateQuantityIndicator(card);
         }
     });
